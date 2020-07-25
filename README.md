@@ -36,7 +36,7 @@ Put key value in `APP_KEY` and `JWT_APP_SECRET`.
 
 **You can use `/health/key` uri to generate this keys or use another value if you want.**
 
-Using (Postman)[https://www.postman.com/downloads/] to consulting the routes created throw this two files.
+Using [Postman](https://www.postman.com/downloads/) to consulting the routes created throw this two files.
 
 `lumen_ala.postman_collection.json` 
 `lumen_ala.postman_environment.json` 
@@ -65,7 +65,7 @@ All your test unit and feature about you new domain already created to.
 
 ### Ulid
 
-When you use the add (insert) route, for default this project use (Ulid)[https://github.com/kiwfy/ulid-php] value in ID.
+When you use the add (insert) route, for default this project use [Ulid](https://github.com/kiwfy/ulid-php) value in ID.
 
 You can use the validate reserved word `ulid` to validate if the value pass is correct in validator folder.
 
@@ -86,11 +86,11 @@ public function getRules(): array
 
 ### JWT
 
-In auth route this projet use (JWT)[https://github.com/kiwfy/jwt-manager-php] lib.
+In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib.
 
 ### Response
 
-The pattern used to return all request is json and the layout is configure in your (Response)[https://github.com/kiwfy/response-json-php] lib.
+The pattern used to return all request is json and the layout is configure in your [Response](https://github.com/kiwfy/response-json-php) lib.
 
 ### Filters
 
@@ -164,11 +164,11 @@ After you can send this param in url query, for example:
 
 ### Recomendations
 
-Use this project with (MySql)[https://www.mysql.com/] with no relationship keys and NOT use JOIN.
+Use this project with [MySql](https://www.mysql.com/) with no relationship keys and NOT use JOIN.
 
 In this way you can use all database maturity with as fast as possible.
 
-Use (Clear Linux)[https://clearlinux.org/] image in your PHP container to get more 50% speed and 50% less memory.
+Use [Clear Linux](https://clearlinux.org/) image in your PHP container to get more 50% speed and 50% less memory.
 
 ### Production
 
