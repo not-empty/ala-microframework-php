@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Businesses\BaseBusiness;
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}DeadListRepository;
+
+class {{domainCaps}}DeadListBusiness extends BaseBusiness
+{
+    private ${{domain}}DeadListRepository;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}DeadListRepository ${{domain}}DeadListRepository
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}DeadListRepository ${{domain}}DeadListRepository
+    ) {
+        $this->{{domain}}DeadListRepository = ${{domain}}DeadListRepository;
+    }
+
+    /**
+     * process the request with business rules
+     * @param array $fields
+     * @param string $order
+     * @param string $class
+     * @param array|null $filters
+     * @param array $query
+     * @return array
+     */
+    public function process(
+        array $fields,
+        string $order,
+        string $class,
+        ? array $filters,
+        array $query
+    ): array {
+        return $this->{{domain}}DeadListRepository->getDeadList(
+            $fields,
+            $order,
+            $class,
+            $filters,
+            $query
+        );
+    }
+}

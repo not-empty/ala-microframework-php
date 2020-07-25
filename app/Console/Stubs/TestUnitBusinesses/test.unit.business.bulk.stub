@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}BulkRepository;
+use Mockery;
+use PHPUnit\Framework\TestCase;
+
+class {{domainCaps}}BulkBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
+     */
+    public function testCreateBusiness()
+    {
+        ${{domain}}BulkRepositorySpy = Mockery::spy(
+            {{domainCaps}}BulkRepository::class
+        );
+
+        ${{domain}}BulkBusiness = new {{domainCaps}}BulkBusiness(
+            ${{domain}}BulkRepositorySpy
+        );
+
+        $this->assertInstanceOf(
+            {{domainCaps}}BulkBusiness::class,
+            ${{domain}}BulkBusiness
+        );
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
+     */
+    public function testProcess()
+    {
+        ${{domain}}BulkRepositoryMock = Mockery::mock(
+            {{domainCaps}}BulkRepository::class
+        )->shouldReceive('getBulk')
+            ->with(
+                [
+                    '01E4E622FPAKTD2T7YNNWPPYPN',
+                    '01E4E6293KGGR7P6EYWZY79A27',
+                    '01E4E62JN67PXCSAMW7Z1D4XYP',
+                    '01E4E62TR8CZ64C7JTQXYEK3BY',
+                ],
+                ['id', 'field'],
+                '',
+                '',
+                []
+            )
+            ->andReturn([])
+            ->getMock();
+
+        ${{domain}}BulkBusiness = new {{domainCaps}}BulkBusiness(
+            ${{domain}}BulkRepositoryMock
+        );
+        $business = ${{domain}}BulkBusiness->process(
+            [
+                '01E4E622FPAKTD2T7YNNWPPYPN',
+                '01E4E6293KGGR7P6EYWZY79A27',
+                '01E4E62JN67PXCSAMW7Z1D4XYP',
+                '01E4E62TR8CZ64C7JTQXYEK3BY',
+            ],
+            ['id', 'field'],
+            '',
+            '',
+            []
+        );
+
+        $this->assertEquals(
+            [],
+            $business
+        );
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+}

@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Businesses\BaseBusiness;
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}AddRepository;
+
+class {{domainCaps}}AddBusiness extends BaseBusiness
+{
+    private ${{domain}}AddRepository;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}AddRepository ${{domain}}AddRepository
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}AddRepository ${{domain}}AddRepository
+    ) {
+        $this->{{domain}}AddRepository = ${{domain}}AddRepository;
+    }
+
+    /**
+     * process the request with business rules
+     * @param array $data
+     * @return array
+     */
+    public function process(
+        array $data
+    ): array {
+        $id = $this->{{domain}}AddRepository->insert(
+            $data
+        );
+
+        return $this->{{domain}}AddRepository->getById(
+            $id
+        );
+    }
+}

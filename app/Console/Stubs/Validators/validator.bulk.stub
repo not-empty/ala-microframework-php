@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Http\Validators;
+
+use App\Http\Validators\BaseValidator;
+
+class {{domainCaps}}BulkValidator extends BaseValidator
+{
+    /**
+     * get rules for this request
+     * @return array
+     */
+    public function getRules(): array
+    {
+        return [
+            'ids' => 'required|array',
+            'ids.*' => 'required|string|ulid',
+            'page' => 'integer|min:1',
+        ];
+    }
+}

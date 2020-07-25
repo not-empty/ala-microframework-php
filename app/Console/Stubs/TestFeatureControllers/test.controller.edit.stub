@@ -1,0 +1,62 @@
+<?php
+
+namespace Tests\Feature\Domains\{{domainCaps}};
+
+use Illuminate\Support\Facades\Config;
+use Laravel\Lumen\Testing\DatabaseMigrations;
+use Tests\Feature\TestCaseFeature;
+
+class {{domainCaps}}EditControllerTest extends TestCaseFeature
+{
+    use DatabaseMigrations;
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}EditController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}EditController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness::process
+     */
+    public function testEdit{{domainCaps}}()
+    {
+        $data = [
+            'field' => 'test',
+        ];
+
+        $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);
+        $response = json_decode($this->response->getContent(), true);
+
+        sleep(1);
+        $this->json(
+            'PATCH',
+            '/{{domainOriginal}}/edit/' . $response['data']['id'],
+            ['field' => 'test 2'],
+            $this->header
+        );
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertEquals('test 2', $response['data']['field']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}EditController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}EditController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness::process
+     */
+    public function testEdit{{domainCaps}}NotFound()
+    {
+        $this->json(
+            'PATCH',
+            '/{{domainOriginal}}/edit/01E492KQX6BW62YEA45SGWRXYQ',
+            ['field' => 'test 2'],
+            $this->header
+        );
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(404, $this->response->getStatusCode());
+        $this->assertEquals('Data not found', $response['message']);
+    }
+}

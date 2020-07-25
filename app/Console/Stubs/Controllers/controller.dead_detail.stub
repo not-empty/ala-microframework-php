@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Http\Controllers;
+
+use App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness;
+use App\Http\Controllers\BaseController;
+use Illuminate\Http\Request;
+use ResponseJson\ResponseJson;
+
+class {{domainCaps}}DeadDetailController extends BaseController
+{
+    private ${{domain}}DeadDetailBusiness;
+    private $response;
+
+     /**
+     * constructor
+     * @param {{domainCaps}}DeadDetailBusiness ${{domain}}DeadDetailBusiness
+     * @param ResponseJson $response
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}DeadDetailBusiness ${{domain}}DeadDetailBusiness,
+        ResponseJson $response
+    ) {
+        $this->{{domain}}DeadDetailBusiness = ${{domain}}DeadDetailBusiness;
+        $this->response = $response;
+    }
+
+    /**
+     * process the request
+     * @param string $id
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(
+        string $id,
+        Request $request
+    ) {
+        $dataResponse = $this->{{domain}}DeadDetailBusiness->process(
+            $id
+        );
+
+        $result = $this->response->response(
+            $request->requestId,
+            $request->startProfile,
+            $request->jwtToken,
+            $dataResponse
+        );
+
+        return response()->json($result, 200);
+    }
+}

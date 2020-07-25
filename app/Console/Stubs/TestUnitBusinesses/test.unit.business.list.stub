@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}ListRepository;
+use Mockery;
+use PHPUnit\Framework\TestCase;
+
+class {{domainCaps}}ListBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}ListBusiness::__construct
+     */
+    public function testCreateBusiness()
+    {
+        ${{domain}}ListRepositorySpy = Mockery::spy(
+            {{domainCaps}}ListRepository::class
+        );
+
+        ${{domain}}ListBusiness = new {{domainCaps}}ListBusiness(
+            ${{domain}}ListRepositorySpy
+        );
+
+        $this->assertInstanceOf(
+            {{domainCaps}}ListBusiness::class,
+            ${{domain}}ListBusiness
+        );
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}ListBusiness::process
+     */
+    public function testProcess()
+    {
+        $data = [
+            'id' => '01E4E7RTJ3C11B6Z0H0QTJCW04',
+            'field' => 'teste',
+        ];
+
+        ${{domain}}DeadDetailRepositoryMock = Mockery::mock(
+            {{domainCaps}}ListRepository::class
+        )->shouldReceive('getList')
+            ->withAnyArgs()
+            ->andReturn($data)
+            ->getMock();
+
+        ${{domain}}ListBusiness = new {{domainCaps}}ListBusiness(
+            ${{domain}}DeadDetailRepositoryMock
+        );
+
+        $process = ${{domain}}ListBusiness->process(
+            ['id', 'field'],
+            '',
+            '',
+            null,
+            []
+        );
+
+        $this->assertEquals($data, $process);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+}

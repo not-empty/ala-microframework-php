@@ -1,0 +1,126 @@
+#!/bin/sh
+
+echo "Checking PHP Lint in app..."
+find ./app -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in bootstrap..."
+find ./bootstrap -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in config..."
+find ./config -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in public..."
+find ./public -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in resources..."
+find ./resources -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in routes..."
+find ./routes -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in tests..."
+find ./tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+
+if [ $? != 0 ]
+then
+    echo "Fix the PHP sintax errors before commit."
+    exit 1
+fi
+
+echo "Running Code Sniffer..."
+./vendor/bin/phpcs
+
+if [ $? != 0 ]
+then
+    echo "Fix the Code Sniffers errors before commit."
+    exit 1
+fi
+
+echo "Running Mess Detector..."
+./vendor/bin/phpmd ./app text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+./vendor/bin/phpmd ./bootstrap text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+./vendor/bin/phpmd ./config text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+./vendor/bin/phpmd ./database text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+./vendor/bin/phpmd ./public text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+./vendor/bin/phpmd ./resources text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+./vendor/bin/phpmd ./routes text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+echo "Running Unit Tests..."
+phpdbg -qrr vendor/bin/phpunit --configuration unit-config/phpunit-unit-cover.xml -d memory_limit=1024M
+
+if [ $? != 0 ]
+then
+    echo "Fix the Unit Tests errors before commit."
+    exit 1
+fi
+
+echo "Running Feature Tests..."
+phpdbg -qrr vendor/bin/phpunit --configuration unit-config/phpunit-feat-cover.xml -d memory_limit=1024M
+
+if [ $? != 0 ]
+then
+    echo "Fix the Unit Tests errors before commit."
+    exit 1
+fi
+
+echo "Checking Unit Coverage..."
+php contrib/coverage-checker.php coverage/coverage-unit/coverage.xml 100
+
+if [ $? != 0 ]
+then
+    echo "Raise the Unit Coverage to 100% before commit."
+    exit 1
+fi
+
+echo "Checking Feature Coverage..."
+php contrib/coverage-checker.php coverage/coverage-feature/coverage.xml 100
+
+if [ $? != 0 ]
+then
+    echo "Raise the Feature Coverage to 100% before commit."
+    exit 1
+fi
+
+exit $?

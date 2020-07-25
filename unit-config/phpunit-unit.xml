@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="../bootstrap/app.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">../tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../app</directory>
+            <exclude>
+                <directory suffix=".php">../app/Console</directory>
+                <directory suffix=".php">../app/Constants</directory>
+                <directory suffix=".php">../app/Domains/*/Http</directory>
+                <directory suffix=".php">../app/Domains/*/Repositories</directory>
+                <directory suffix=".php">../app/Domains/Doc</directory>
+                <directory suffix=".php">../app/Exceptions</directory>
+                <directory suffix=".php">../app/Http/Controllers</directory>
+                <directory suffix=".php">../app/Http/Requests</directory>
+                <directory suffix=".php">../app/Providers</directory>
+                <directory suffix=".php">../app/Seeds</directory>
+                <directory suffix=".php">../app/Templates</directory>
+                <directory suffix=".php">../app/TestFiles</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+    </php>
+</phpunit>

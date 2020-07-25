@@ -1,0 +1,11 @@
+/coverage
+/nbproject
+/storage/.db
+/storage/.elastic
+/storage/logs/*
+/vendor
+/.idea
+/.vscode
+.env
+.phpunit.result.cache
+!/**/.gitkeep

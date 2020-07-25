@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}AddRepository;
+use Mockery;
+use PHPUnit\Framework\TestCase;
+
+class {{domainCaps}}AddBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::__construct
+     */
+    public function testCreateBusiness()
+    {
+        ${{domain}}AddRepositorySpy = Mockery::spy(
+            {{domainCaps}}AddRepository::class
+        );
+
+        ${{domain}}AddBusiness = new {{domainCaps}}AddBusiness(
+            ${{domain}}AddRepositorySpy
+        );
+
+        $this->assertInstanceOf(
+            {{domainCaps}}AddBusiness::class,
+            ${{domain}}AddBusiness
+        );
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::process
+     */
+    public function testProcess()
+    {
+        $id = '01E4E7RTJ3C11B6Z0H0QTJCW04';
+        
+        $data = [
+            'field' => 'test',
+        ];
+
+        ${{domain}}AddRepositoryMock = Mockery::mock(
+            {{domainCaps}}AddRepository::class
+        )->shouldReceive('insert')
+            ->with($data)
+            ->once()
+            ->andReturn($id)
+            ->shouldReceive('getById')
+            ->with($id)
+            ->once()
+            ->andReturn($data)
+            ->getMock();
+
+        ${{domain}}AddBusiness = new {{domainCaps}}AddBusiness(
+            ${{domain}}AddRepositoryMock
+        );
+
+        $process = ${{domain}}AddBusiness->process($data);
+
+        $this->assertEquals($data, $process);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+}

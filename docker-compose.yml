@@ -1,0 +1,17 @@
+version: '2'
+services:
+  lumen-ala-nginx:
+    build: ./docker/dev/nginx
+    container_name: lumen-ala-nginx
+    depends_on:
+      - lumen-ala-php
+    ports:
+      - 8102:80
+    volumes:
+      - ./:/var/www/html
+
+  lumen-ala-php:
+    build: ./docker/dev/php-clear
+    container_name: lumen-ala-php
+    volumes:
+      - ./:/var/www/html

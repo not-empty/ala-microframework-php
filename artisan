@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+/*
+|--------------------------------------------------------------------------
+| Create The Application
+|--------------------------------------------------------------------------
+*/
+
+$app = require __DIR__.'/bootstrap/app.php';
+
+/*
+|--------------------------------------------------------------------------
+| Run The Artisan Application
+|--------------------------------------------------------------------------
+*/
+
+$kernel = $app->make(
+    'Illuminate\Contracts\Console\Kernel'
+);
+
+exit($kernel->handle(new ArgvInput, new ConsoleOutput));

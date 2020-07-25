@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Businesses\BaseBusiness;
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}DeleteRepository;
+use App\Exceptions\Custom\DataNotFoundException;
+
+class {{domainCaps}}DeleteBusiness extends BaseBusiness
+{
+    private ${{domain}}DeleteRepository;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}DeleteRepository ${{domain}}DeleteRepository
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}DeleteRepository ${{domain}}DeleteRepository
+    ) {
+        $this->{{domain}}DeleteRepository = ${{domain}}DeleteRepository;
+    }
+
+    /**
+     * process the request with business rules
+     * @param string $id
+     * @throws DataNotFoundException
+     * @return bool
+     */
+    public function process(
+        string $id
+    ) : bool {
+        $exists = $this->{{domain}}DeleteRepository->getById(
+            $id
+        );
+
+        if (empty($exists)) {
+            throw new DataNotFoundException;
+        }
+
+        $this->{{domain}}DeleteRepository->delete(
+            $id
+        );
+
+        return true;
+    }
+}

@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}DeadListRepository;
+use Mockery;
+use PHPUnit\Framework\TestCase;
+
+class {{domainCaps}}DeadListBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadListBusiness::__construct
+     */
+    public function testCreateBusiness()
+    {
+        ${{domain}}DeadListRepositorySpy = Mockery::spy(
+            {{domainCaps}}DeadListRepository::class
+        );
+
+        ${{domain}}DeadListBusiness = new {{domainCaps}}DeadListBusiness(
+            ${{domain}}DeadListRepositorySpy
+        );
+
+        $this->assertInstanceOf(
+            {{domainCaps}}DeadListBusiness::class,
+            ${{domain}}DeadListBusiness
+        );
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadListBusiness::process
+     */
+    public function testProcess()
+    {
+        $data = [
+            'id' => '01E4E7RTJ3C11B6Z0H0QTJCW04',
+            'field' => 'teste',
+        ];
+
+        ${{domain}}DeadDetailRepositoryMock = Mockery::mock(
+            {{domainCaps}}DeadListRepository::class
+        )->shouldReceive('getDeadList')
+            ->withAnyArgs()
+            ->once()
+            ->andReturn($data)
+            ->getMock();
+
+        ${{domain}}DeadListBusiness = new {{domainCaps}}DeadListBusiness(
+            ${{domain}}DeadDetailRepositoryMock
+        );
+
+        $process = ${{domain}}DeadListBusiness->process(
+            ['id', 'field'],
+            '',
+            '',
+            null,
+            []
+        );
+
+        $this->assertEquals($data, $process);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+}

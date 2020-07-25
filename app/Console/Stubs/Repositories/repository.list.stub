@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Repositories;
+
+use App\Repositories\BaseRepository;
+
+class {{domainCaps}}ListRepository extends BaseRepository
+{
+    protected $table = '{{domainOriginal}}';
+}

@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}EditRepository;
+use App\Exceptions\Custom\DataNotFoundException;
+use Mockery;
+use PHPUnit\Framework\TestCase;
+
+class {{domainCaps}}EditBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness::__construct
+     */
+    public function testCreateBusiness()
+    {
+        ${{domain}}EditRepositorySpy = Mockery::spy(
+            {{domainCaps}}EditRepository::class
+        );
+
+        ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
+            ${{domain}}EditRepositorySpy
+        );
+
+        $this->assertInstanceOf({{domainCaps}}EditBusiness::class, ${{domain}}EditBusiness);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness::process
+     */
+    public function testProcess()
+    {
+        $id = '01E4E7RTJ3C11B6Z0H0QTJCW04';
+
+        $data = [
+            'field' => 'test',
+        ];
+
+        ${{domain}}EditRepositoryMock = Mockery::mock(
+            {{domainCaps}}EditRepository::class
+        )->shouldReceive('getById')
+            ->with($id)
+            ->twice()
+            ->andReturn($data)
+            ->shouldReceive('update')
+            ->with($data, $id)
+            ->once()
+            ->andReturn(true)
+            ->getMock();
+
+        ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
+            ${{domain}}EditRepositoryMock
+        );
+
+        $process = ${{domain}}EditBusiness->process(
+            $data,
+            $id
+        );
+
+        $this->assertEquals($data, $process);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness::process
+     */
+    public function testProcessAndNotFound()
+    {
+        $id = '01E4E7RTJ3C11B6Z0H0QTJCW04';
+
+        $data = [
+            'field' => 'test',
+        ];
+
+        ${{domain}}EditRepositoryMock = Mockery::mock(
+            {{domainCaps}}EditRepository::class
+        )->shouldReceive('getById')
+            ->with($id)
+            ->once()
+            ->andReturn([])
+            ->shouldReceive('update')
+            ->never()
+            ->andReturn(true)
+            ->getMock();
+
+        ${{domain}}EditElasticRepositorySpy = Mockery::spy(
+            {{domainCaps}}EditElasticRepository::class
+        );
+
+        ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
+            ${{domain}}EditRepositoryMock
+        );
+
+        $this->expectExceptionObject(
+            new DataNotFoundException(
+                'Data not found',
+                404
+            )
+        );
+
+        ${{domain}}EditBusiness->process($data, $id);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+}
