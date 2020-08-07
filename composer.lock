@@ -1624,16 +1624,16 @@
         },
         {
             "name": "kiwfy/ulid-php",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kiwfy/ulid-php.git",
-                "reference": "1923a4309705433c2adbff26c34cf62cf1153cbc"
+                "reference": "4c9a0ace7d70661f603c182d9102ce45eea97004"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kiwfy/ulid-php/zipball/1923a4309705433c2adbff26c34cf62cf1153cbc",
-                "reference": "1923a4309705433c2adbff26c34cf62cf1153cbc",
+                "url": "https://api.github.com/repos/kiwfy/ulid-php/zipball/4c9a0ace7d70661f603c182d9102ce45eea97004",
+                "reference": "4c9a0ace7d70661f603c182d9102ce45eea97004",
                 "shasum": ""
             },
             "require": {
@@ -1662,7 +1662,7 @@
                 }
             ],
             "description": "PHP Universally Unique Lexicographically Sortable Identifier (ULID)",
-            "time": "2020-07-21T18:49:57+00:00"
+            "time": "2020-08-07T00:41:19+00:00"
         },
         {
             "name": "laravel/lumen-framework",
