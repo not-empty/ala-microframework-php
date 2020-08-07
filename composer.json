@@ -5,7 +5,7 @@
     "license": "GPL-3.0-only",
     "type": "project",
     "require": {
-        "php": "^7.2.5",
+        "php": "^7.3.0",
         "kiwfy/jwt-manager-php": "^1.0",
         "kiwfy/response-json-php": "^1.0",
         "kiwfy/ulid-php": "^1.0",
