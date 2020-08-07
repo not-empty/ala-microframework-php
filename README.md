@@ -1,6 +1,7 @@
 # Lumen ALA
 
 [![Latest Version](https://img.shields.io/github/v/release/kiwfy/lumen-ala.svg?style=flat-square)](https://github.com/kiwfy/lumen-ala/releases)
+[![codecov](https://codecov.io/gh/kiwfy/lumen-ala/branch/master/graph/badge.svg)](https://codecov.io/gh/kiwfy/lumen-ala)
 [![Build Status](https://img.shields.io/github/workflow/status/kiwfy/lumen-ala/CI?label=ci%20build&style=flat-square)](https://github.com/kiwfy/lumen-ala/actions?query=workflow%3ACI)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
