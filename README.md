@@ -89,6 +89,10 @@ public function getRules(): array
 
 In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib.
 
+### Request Service
+
+To make request between two or more services, this project use [Request Service](https://github.com/kiwfy/request-service-php) lib.
+
 ### Response
 
 The pattern used to return all request is json and the layout is configure in your [Response](https://github.com/kiwfy/response-json-php) lib.

@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.3.0",
         "kiwfy/jwt-manager-php": "^1.0",
+        "kiwfy/request-service-php": "^1.0",
         "kiwfy/response-json-php": "^1.0",
         "kiwfy/ulid-php": "^1.0",
         "laravel/lumen-framework": "^7.0"
