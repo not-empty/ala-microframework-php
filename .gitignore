@@ -3,6 +3,7 @@
 /storage/.db
 /storage/.elastic
 /storage/logs/*
+/unit-config/.phpunit.result.cache
 /vendor
 /.idea
 /.vscode
