@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Constants\FiltersTypesConstants;
+use DatabaseCache\Repository;
 use Illuminate\Database\DatabaseManager;
 use Ulid\Ulid;
 
@@ -11,6 +12,7 @@ abstract class BaseRepository
     protected $table;
     protected $db;
     protected $ulid;
+    private $cacheRepository;
 
     /**
      * constructor
@@ -34,9 +36,22 @@ abstract class BaseRepository
     public function getById(
         string $id
     ): array {
-        return (array) $this->db->table($this->table)
+        $identifier = $this->table . ':' . $id;
+        $cache = $this->getQuery($identifier);
+        if ($cache) {
+            return $cache;
+        }
+
+        $result = (array) $this->db->table($this->table)
             ->whereNull('deleted')
             ->find($id);
+
+        if (empty($result)) {
+            return $result;
+        }
+
+        $this->setQuery($identifier, $result);
+        return $result;
     }
 
     /**
@@ -47,9 +62,22 @@ abstract class BaseRepository
     public function getDeadById(
         string $id
     ): array {
-        return (array) $this->db->table($this->table)
+        $identifier = $this->table . ':' . $id;
+        $cache = $this->getQuery($identifier);
+        if ($cache) {
+            return $cache;
+        }
+
+        $result = (array) $this->db->table($this->table)
             ->whereNotNull('deleted')
             ->find($id);
+
+        if (empty($result)) {
+            return $result;
+        }
+
+        $this->setQuery($identifier, $result);
+        return $result;
     }
 
     /**
@@ -73,6 +101,12 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
+        $identifier = $this->table . $this->generateIdentifierByArray($query) . $page;
+        $cache = $this->getQuery($identifier);
+        if ($cache) {
+            return $cache;
+        }
+
         $list = $this->db->table($this->table)
             ->select($fields);
 
@@ -91,7 +125,14 @@ abstract class BaseRepository
         $list->appends($query)
             ->links();
 
-        return $list->toArray();
+        $result = $list->toArray();
+
+        if (empty($result['data'])) {
+            return $result;
+        }
+
+        $this->setQuery($identifier, $result);
+        return $result;
     }
 
     /**
@@ -129,6 +170,12 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
+        $identifier = $this->table . $this->generateIdentifierByArray($query) . $page;
+        $cache = $this->getQuery($identifier);
+        if ($cache) {
+            return $cache;
+        }
+
         $list = $this->db->table($this->table)
             ->select($fields);
 
@@ -147,7 +194,14 @@ abstract class BaseRepository
         $list->appends($query)
             ->links();
 
-        return $list->toArray();
+        $result = $list->toArray();
+
+        if (empty($result['data'])) {
+            return $result;
+        }
+
+        $this->setQuery($identifier, $result);
+        return $result;
     }
 
     /**
@@ -166,6 +220,12 @@ abstract class BaseRepository
         string $class,
         array $query
     ): array {
+        $identifier = $this->table . ':bulk' . $this->generateIdentifierByArray($ids['*']);
+        $cache = $this->getQuery($identifier);
+        if ($cache) {
+            return $cache;
+        }
+
         $list = $this->db->table($this->table)
             ->select($fields)
             ->whereNull('deleted')
@@ -177,7 +237,14 @@ abstract class BaseRepository
         $list->appends($query)
             ->links();
 
-        return $list->toArray();
+        $result = $list->toArray();
+
+        if (empty($result['data'])) {
+            return $result;
+        }
+
+        $this->setQuery($identifier, $result);
+        return $result;
     }
 
     /**
@@ -217,6 +284,9 @@ abstract class BaseRepository
         array $data,
         string $id
     ): bool {
+        $identifier = $this->table . ':' . $id;
+        $this->delQuery($identifier);
+
         $data = $this->arrayToJson(
             $data
         );
@@ -236,6 +306,9 @@ abstract class BaseRepository
     public function delete(
         string $id
     ): bool {
+        $identifier = $this->table . ':' . $id;
+        $this->delQuery($identifier);
+
         $data = [];
         $data['modified'] = date('Y-m-d H:i:s');
         $data['deleted'] = date('Y-m-d H:i:s');
@@ -324,5 +397,89 @@ abstract class BaseRepository
     {
         $this->db->commit();
         return true;
+    }
+
+    /**
+     * generate identifier using values in array
+     * @param array $array
+     * @return string
+     */
+    public function generateIdentifierByArray(
+        array $array
+    ): string {
+        if (!$this->cacheRepository) {
+            $this->cacheRepository = $this->newCacheRepository();
+        }
+
+        return $this->cacheRepository->generateIdentifierByArray($array);
+    }
+
+    /**
+     * get database data in cache
+     * @param string $identifier
+     * @return string
+     */
+    public function getQuery(
+        string $identifier
+    ): ?array {
+        if (!$this->cacheRepository) {
+            $this->cacheRepository = $this->newCacheRepository();
+        }
+
+        $getQuery = $this->cacheRepository->getQuery($identifier);
+        return json_decode($getQuery, true);
+    }
+
+    /**
+     * remove database cache from redis
+     * @param string $identifier
+     * @return bool
+     */
+    public function delQuery(
+        string $identifier
+    ): bool {
+        if (!$this->cacheRepository) {
+            $this->cacheRepository = $this->newCacheRepository();
+        }
+
+        return $this->cacheRepository->delQuery($identifier);
+    }
+
+    /**
+     * put database result in cache
+     * @param string $identifier
+     * @param array $data
+     * @return bool
+     */
+    public function setQuery(
+        string $identifier,
+        array $data
+    ): bool {
+        if (!$this->cacheRepository) {
+            $this->cacheRepository = $this->newCacheRepository();
+        }
+
+        return $this->cacheRepository->setQuery($identifier, json_encode($data));
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * get redis config
+     * @return array
+     */
+    public function getCacheConfig(): array
+    {
+        return config('database_cache');
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * return cache repository class
+     * @return array
+     */
+    public function newCacheRepository(): Repository
+    {
+        $config = $this->getCacheConfig();
+        return new Repository($config);
     }
 }

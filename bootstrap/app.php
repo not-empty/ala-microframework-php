@@ -43,6 +43,7 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('database_cache');
 $app->configure('token');
 $app->configure('version');
 
