@@ -9,10 +9,11 @@ use Ulid\Ulid;
 
 abstract class BaseRepository
 {
+    public $cacheRepository;
+
     protected $table;
     protected $db;
     protected $ulid;
-    private $cacheRepository;
 
     /**
      * constructor
@@ -36,10 +37,12 @@ abstract class BaseRepository
     public function getById(
         string $id
     ): array {
+        $cacheRepository = $this->newCacheRepository();
+
         $identifier = $this->table . ':' . $id;
-        $cache = $this->getQuery($identifier);
+        $cache = $cacheRepository->getQuery($identifier);
         if ($cache) {
-            return $cache;
+            return json_decode($cache, true);
         }
 
         $result = (array) $this->db->table($this->table)
@@ -50,7 +53,7 @@ abstract class BaseRepository
             return $result;
         }
 
-        $this->setQuery($identifier, $result);
+        $cacheRepository->setQuery($identifier, json_encode($result));
         return $result;
     }
 
@@ -62,10 +65,12 @@ abstract class BaseRepository
     public function getDeadById(
         string $id
     ): array {
+        $cacheRepository = $this->newCacheRepository();
+
         $identifier = $this->table . ':' . $id;
-        $cache = $this->getQuery($identifier);
+        $cache = $cacheRepository->getQuery($identifier);
         if ($cache) {
-            return $cache;
+            return json_decode($cache, true);
         }
 
         $result = (array) $this->db->table($this->table)
@@ -76,7 +81,7 @@ abstract class BaseRepository
             return $result;
         }
 
-        $this->setQuery($identifier, $result);
+        $cacheRepository->setQuery($identifier, json_encode($result));
         return $result;
     }
 
@@ -101,10 +106,12 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
-        $identifier = $this->table . $this->generateIdentifierByArray($query) . $page;
-        $cache = $this->getQuery($identifier);
+        $cacheRepository = $this->newCacheRepository();
+
+        $identifier = $this->table . $cacheRepository->generateIdentifierByArray($query) . $page;
+        $cache = $cacheRepository->getQuery($identifier);
         if ($cache) {
-            return $cache;
+            return json_decode($cache, true);
         }
 
         $list = $this->db->table($this->table)
@@ -131,7 +138,7 @@ abstract class BaseRepository
             return $result;
         }
 
-        $this->setQuery($identifier, $result);
+        $cacheRepository->setQuery($identifier, json_encode($result));
         return $result;
     }
 
@@ -170,10 +177,12 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
-        $identifier = $this->table . $this->generateIdentifierByArray($query) . $page;
-        $cache = $this->getQuery($identifier);
+        $cacheRepository = $this->newCacheRepository();
+
+        $identifier = $this->table . $cacheRepository->generateIdentifierByArray($query) . $page;
+        $cache = $cacheRepository->getQuery($identifier);
         if ($cache) {
-            return $cache;
+            return json_decode($cache, true);
         }
 
         $list = $this->db->table($this->table)
@@ -200,7 +209,7 @@ abstract class BaseRepository
             return $result;
         }
 
-        $this->setQuery($identifier, $result);
+        $cacheRepository->setQuery($identifier, json_encode($result));
         return $result;
     }
 
@@ -220,10 +229,12 @@ abstract class BaseRepository
         string $class,
         array $query
     ): array {
-        $identifier = $this->table . ':bulk' . $this->generateIdentifierByArray($ids['*']);
-        $cache = $this->getQuery($identifier);
+        $cacheRepository = $this->newCacheRepository();
+
+        $identifier = $this->table . ':bulk' . $cacheRepository->generateIdentifierByArray($ids['*']);
+        $cache = $cacheRepository->getQuery($identifier);
         if ($cache) {
-            return $cache;
+            return json_decode($cache, true);
         }
 
         $list = $this->db->table($this->table)
@@ -243,7 +254,7 @@ abstract class BaseRepository
             return $result;
         }
 
-        $this->setQuery($identifier, $result);
+        $cacheRepository->setQuery($identifier, json_encode($result));
         return $result;
     }
 
@@ -265,9 +276,10 @@ abstract class BaseRepository
 
         $data['id'] = $id;
         if (!isset($data['created']) || empty($data['created'])) {
-            $data['created'] = date('Y-m-d H:i:s');
+            $data['created'] = $this->returnNow();
         }
-        $data['modified'] = date('Y-m-d H:i:s');
+
+        $data['modified'] = $this->returnNow();
 
         $this->db->table($this->table)
             ->insert($data);
@@ -285,16 +297,18 @@ abstract class BaseRepository
         string $id
     ): bool {
         $identifier = $this->table . ':' . $id;
-        $this->delQuery($identifier);
+        $this->newCacheRepository()->delQuery($identifier);
 
         $data = $this->arrayToJson(
             $data
         );
-        $data['modified'] = date('Y-m-d H:i:s');
+        $data['modified'] = $this->returnNow();
+
         $this->db->table($this->table)
             ->where('id', $id)
             ->whereNull('deleted')
             ->update($data);
+
         return true;
     }
 
@@ -307,15 +321,17 @@ abstract class BaseRepository
         string $id
     ): bool {
         $identifier = $this->table . ':' . $id;
-        $this->delQuery($identifier);
+        $this->newCacheRepository()->delQuery($identifier);
 
         $data = [];
-        $data['modified'] = date('Y-m-d H:i:s');
-        $data['deleted'] = date('Y-m-d H:i:s');
+        $data['modified'] = $this->returnNow();
+        $data['deleted'] = $this->returnNow();
+
         $this->db->table($this->table)
             ->where('id', $id)
             ->whereNull('deleted')
             ->update($data);
+
         return true;
     }
 
@@ -325,7 +341,7 @@ abstract class BaseRepository
      * @param array|null $filters
      * @return DatabaseManager
      */
-    protected function setFilters(
+    public function setFilters(
         $list,
         ?array $filters
     ) {
@@ -358,7 +374,7 @@ abstract class BaseRepository
      * @param array $data
      * @return array
      */
-    protected function arrayToJson(
+    public function arrayToJson(
         array $data
     ): array {
         foreach ($data as $field => $value) {
@@ -400,66 +416,13 @@ abstract class BaseRepository
     }
 
     /**
-     * generate identifier using values in array
-     * @param array $array
+     * @codeCoverageIgnore
+     * return now date
      * @return string
      */
-    public function generateIdentifierByArray(
-        array $array
-    ): string {
-        if (!$this->cacheRepository) {
-            $this->cacheRepository = $this->newCacheRepository();
-        }
-
-        return $this->cacheRepository->generateIdentifierByArray($array);
-    }
-
-    /**
-     * get database data in cache
-     * @param string $identifier
-     * @return string
-     */
-    public function getQuery(
-        string $identifier
-    ): ?array {
-        if (!$this->cacheRepository) {
-            $this->cacheRepository = $this->newCacheRepository();
-        }
-
-        $getQuery = $this->cacheRepository->getQuery($identifier);
-        return json_decode($getQuery, true);
-    }
-
-    /**
-     * remove database cache from redis
-     * @param string $identifier
-     * @return bool
-     */
-    public function delQuery(
-        string $identifier
-    ): bool {
-        if (!$this->cacheRepository) {
-            $this->cacheRepository = $this->newCacheRepository();
-        }
-
-        return $this->cacheRepository->delQuery($identifier);
-    }
-
-    /**
-     * put database result in cache
-     * @param string $identifier
-     * @param array $data
-     * @return bool
-     */
-    public function setQuery(
-        string $identifier,
-        array $data
-    ): bool {
-        if (!$this->cacheRepository) {
-            $this->cacheRepository = $this->newCacheRepository();
-        }
-
-        return $this->cacheRepository->setQuery($identifier, json_encode($data));
+    public function returnNow(): string
+    {
+        return date('Y-m-d H:i:s');
     }
 
     /**
