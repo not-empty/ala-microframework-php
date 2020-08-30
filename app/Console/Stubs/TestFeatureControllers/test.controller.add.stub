@@ -2,7 +2,9 @@
 
 namespace Tests\Feature\Domains\{{domainCaps}};
 
+use DatabaseCache\Repository;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Mockery;
 use Tests\Feature\TestCaseFeature;
 use Illuminate\Support\Facades\Config;
 
@@ -31,6 +33,7 @@ class {{domainCaps}}AddControllerTest extends TestCaseFeature
         $this->assertEquals(422, $this->response->getStatusCode());
         $this->assertArrayHasKey('message', $result);
         $this->assertEquals('A validation error occurrs', $result['message']);
+
         $fields = [
             'field',
         ];
@@ -44,12 +47,55 @@ class {{domainCaps}}AddControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}AddController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::process
+     * @covers \App\Repositories\BaseRepository::__construct
+     * @covers \App\Repositories\BaseRepository::insert
+     * @covers \App\Repositories\BaseRepository::getById
      */
     public function testAdd{{domainCaps}}()
     {
         $data = [
             'field' => 'test',
         ];
+
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(null)
+            ->shouldReceive('setQuery')
+            ->once()
+            ->andReturn(true);
+
+        $this->call('options', '/{{domainOriginal}}/add', [], $this->header);
+        $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(201, $this->response->getStatusCode());
+        $this->assertEquals($data['field'], $response['data']['field']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}AddController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}AddController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::process
+     * @covers \App\Repositories\BaseRepository::__construct
+     * @covers \App\Repositories\BaseRepository::insert
+     * @covers \App\Repositories\BaseRepository::getById
+     */
+    public function testAdd{{domainCaps}}WithCache()
+    {
+        $data = [
+            'field' => 'test',
+        ];
+
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(json_encode($data))
+            ->shouldReceive('setQuery')
+            ->never()
+            ->andReturn(true);
 
         $this->call('options', '/{{domainOriginal}}/add', [], $this->header);
         $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);

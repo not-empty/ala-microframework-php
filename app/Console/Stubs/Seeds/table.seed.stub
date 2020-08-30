@@ -1,0 +1,21 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+
+class {{domainCaps}} extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        DB::table('{{domainCaps}}')->insert([
+        	'id' => '01EGZYN9E3FJDG7PZ1HD1ETJFG',
+            'field' => Str::random(10),
+        ]);
+    }
+}

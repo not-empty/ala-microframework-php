@@ -35,7 +35,6 @@
                 <directory suffix=".php">../app/Http/Validators</directory>
                 <directory suffix=".php">../app/Jobs</directory>
                 <directory suffix=".php">../app/Providers</directory>
-                <directory suffix=".php">../app/Repositories</directory>
                 <directory suffix=".php">../app/Seeds</directory>
                 <directory suffix=".php">../app/Templates</directory>
                 <directory suffix=".php">../app/TestFiles</directory>

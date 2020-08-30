@@ -112,6 +112,12 @@ class CreateDomainCommand extends BaseCommand
                 '{{dateTime}}create_{{domainOriginal}}_table' => 'table.create',
             ],
         ],
+        'Seeds' => [
+            'url' => '/database/seeds/',
+            'files' => [
+                '{{domainCaps}}' => 'table.seed',
+            ],
+        ],
     ];
     protected $fromRoot = [
         'TestUnitBusinesses' => 'Unit',
