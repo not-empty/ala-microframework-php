@@ -220,7 +220,7 @@ class CreateDomainCommand extends BaseCommand
         string $name
     ) {
         $holePath = base_path('app') . '/Domains/' . $domainCaps . $path . $nameStub;
-        if ($name == 'Routes' || $name == 'Migrations') {
+        if ($name == 'Routes' || $name == 'Migrations' || $name == 'Seeds') {
             $holePath = base_path() . $path . $nameStub;
         }
         if (array_key_exists($name, $this->fromRoot)) {
