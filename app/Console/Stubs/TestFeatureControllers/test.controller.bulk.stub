@@ -87,7 +87,7 @@ class {{domainCaps}}BulkControllerTest extends TestCaseFeature
                     'field' => '52pcohKvfh',
                     'created' => '2020-08-31 13:29:53',
                     'modified' => '2020-08-31 13:29:53',
-                    'deleted' => NULL,
+                    'deleted' => null,
                 ],
             ],
         ];
