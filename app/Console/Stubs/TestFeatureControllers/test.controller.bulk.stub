@@ -2,12 +2,20 @@
 
 namespace Tests\Feature\Domains\{{domainCaps}};
 
+use DatabaseCache\Repository;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Mockery;
 use Tests\Feature\TestCaseFeature;
 
 class {{domainCaps}}BulkControllerTest extends TestCaseFeature
 {
     use DatabaseMigrations;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('db:seed', ['--class' => '{{domainCaps}}']);
+    }
 
     /**
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::__construct
@@ -37,29 +45,111 @@ class {{domainCaps}}BulkControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
+     * @covers \App\Repositories\BaseRepository::__construct
+     * @covers \App\Repositories\BaseRepository::getBulk
      */
     public function testBulk()
     {
-        $data = [
-            'field' => 'test',
-        ];
-        
-        $this->call('options', '/{{domainOriginal}}/add', [], $this->header);
-        $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('generateIdentifierByArray')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(null)
+            ->shouldReceive('setQuery')
+            ->once()
+            ->andReturn(true);
 
-        $response = json_decode($this->response->getContent(), true);
-        $id = $response['data']['id'];
         $ids = [
-            $id
+            $this->id,
         ];
 
-        sleep(1);
         $this->json('POST', '/{{domainOriginal}}/bulk', ['ids' => $ids], $this->header);
 
         $response = json_decode($this->response->getContent(), true);
 
         $this->assertEquals(200, $this->response->getStatusCode());
         $this->assertArrayHasKey(0, $response['data']['data']);
-        $this->assertEquals($id, $response['data']['data'][0]['id']);
+        $this->assertEquals($this->id, $response['data']['data'][0]['id']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
+     * @covers \App\Repositories\BaseRepository::__construct
+     * @covers \App\Repositories\BaseRepository::getBulk
+     */
+    public function testBulkWithCache()
+    {
+        $response = [
+            'data' => [
+                [
+                    'id' => '01EH2AZRMHDCRKNEAZ4GZ3F8A0',
+                    'field' => '52pcohKvfh',
+                    'created' => '2020-08-31 13:29:53',
+                    'modified' => '2020-08-31 13:29:53',
+                    'deleted' => NULL,
+                ],
+            ],
+        ];
+
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('generateIdentifierByArray')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(json_encode($response))
+            ->shouldReceive('setQuery')
+            ->never()
+            ->andReturn(true);
+
+        $ids = [
+            $this->id,
+        ];
+
+        $this->json('POST', '/{{domainOriginal}}/bulk', ['ids' => $ids], $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertArrayHasKey(0, $response['data']['data']);
+        $this->assertEquals($this->id, $response['data']['data'][0]['id']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
+     * @covers \App\Repositories\BaseRepository::__construct
+     * @covers \App\Repositories\BaseRepository::getBulk
+     */
+    public function testBulkEmptyAndNotMakeCache()
+    {
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('generateIdentifierByArray')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(null)
+            ->shouldReceive('setQuery')
+            ->never()
+            ->andReturn(true);
+
+        $ids = [
+            '01EH2CBM90QRATXDQA3ZKTRT4M',
+        ];
+
+        $this->json('POST', '/{{domainOriginal}}/bulk', ['ids' => $ids], $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertArrayNotHasKey(0, $response['data']['data']);
     }
 }

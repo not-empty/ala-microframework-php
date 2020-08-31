@@ -32,6 +32,8 @@ class TestCaseFeature extends TestCase
             'Authorization' => $token,
             'Context' => 'app-test',
         ];
+
+        $this->id = env('ID_FEAT_TEST', null);
     }
 
     protected function tearDown(): void
