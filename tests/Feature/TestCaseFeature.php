@@ -34,6 +34,7 @@ class TestCaseFeature extends TestCase
         ];
 
         $this->id = env('ID_FEAT_TEST', null);
+        $this->idDead = env('ID_DEAD_FEAT_TEST', null);
     }
 
     protected function tearDown(): void

@@ -16,12 +16,21 @@ class {{domainCaps}} extends Seeder
     {
         $ulid = new Ulid();
         $id = env('ID_FEAT_TEST', $ulid->generate());
+        $idDead = env('ID_DEAD_FEAT_TEST', $ulid->generate());
 
         DB::table('{{domainOriginal}}')->insert([
             'id' => $id,
             'field' => Str::random(10),
             'created' => date('Y-m-d H:i:s'),
             'modified' => date('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('{{domainOriginal}}')->insert([
+            'id' => $idDead,
+            'field' => Str::random(10),
+            'created' => date('Y-m-d H:i:s'),
+            'modified' => date('Y-m-d H:i:s'),
+            'deleted' => date('Y-m-d H:i:s'),
         ]);
     }
 }

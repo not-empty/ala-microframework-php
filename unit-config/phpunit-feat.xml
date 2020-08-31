@@ -50,5 +50,6 @@
         <env name="JWT_APP_SECRET" value="iaFweS8EyzrxvrVc2VQisLKRnGReTrEt"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="ID_FEAT_TEST" value="01EH2AZRMHDCRKNEAZ4GZ3F8A0"/>
+        <env name="ID_DEAD_FEAT_TEST" value="01EH2AZRMHDCRKNEAZ4GZ3F8A0"/>
     </php>
 </phpunit>
