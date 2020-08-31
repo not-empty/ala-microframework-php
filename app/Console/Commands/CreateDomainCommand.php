@@ -125,7 +125,6 @@ class CreateDomainCommand extends BaseCommand
     ];
     protected $fromApp = [
         'Templates' => 'Templates',
-        'Seeds' => 'Seeds',
     ];
 
     /**
