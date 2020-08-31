@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Ulid\Ulid;
 
 class {{domainCaps}} extends Seeder
 {
@@ -13,9 +14,13 @@ class {{domainCaps}} extends Seeder
      */
     public function run()
     {
-        DB::table('{{domainCaps}}')->insert([
-        	'id' => '01EGZYN9E3FJDG7PZ1HD1ETJFG',
+        $ulid = new Ulid();
+
+        DB::table('{{domainOriginal}}')->insert([
+            'id' => $this->ulid->generate(),
             'field' => Str::random(10),
+            'created' => date('Y-m-d H:i:s'),
+            'modified' => date('Y-m-d H:i:s'),
         ]);
     }
 }
