@@ -47,9 +47,6 @@ class {{domainCaps}}AddControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}AddController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::insert
-     * @covers \App\Repositories\BaseRepository::getById
      */
     public function testAdd{{domainCaps}}()
     {
@@ -79,9 +76,6 @@ class {{domainCaps}}AddControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}AddController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}AddBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::insert
-     * @covers \App\Repositories\BaseRepository::getById
      */
     public function testAdd{{domainCaps}}WithCache()
     {

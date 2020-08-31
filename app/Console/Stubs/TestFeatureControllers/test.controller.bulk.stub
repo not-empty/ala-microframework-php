@@ -45,8 +45,6 @@ class {{domainCaps}}BulkControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::getBulk
      */
     public function testBulk()
     {
@@ -79,8 +77,6 @@ class {{domainCaps}}BulkControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::getBulk
      */
     public function testBulkWithCache()
     {
@@ -125,8 +121,6 @@ class {{domainCaps}}BulkControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::getBulk
      */
     public function testBulkEmptyAndNotMakeCache()
     {

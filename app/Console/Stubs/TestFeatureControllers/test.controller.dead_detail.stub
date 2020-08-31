@@ -22,8 +22,6 @@ class {{domainCaps}}DeadDetailControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadDetailController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::getDeadById
      */
     public function testDetail()
     {
@@ -48,23 +46,19 @@ class {{domainCaps}}DeadDetailControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadDetailController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::getDeadById
      */
     public function testDetailCache()
     {
-        $response = [
-            'data' => [
-                'field' => 'test',
-            ],
+        $result = [
+            'field' => 'test',
         ];
 
         $repositoryeMock = Mockery::mock('overload:' . Repository::class);
         $repositoryeMock->shouldReceive('getQuery')
             ->once()
-            ->andReturn(json_encode($response))
+            ->andReturn(json_encode($result))
             ->shouldReceive('setQuery')
-            ->once()
+            ->never()
             ->andReturn(true);
 
         $this->json('GET', '/{{domainOriginal}}/dead_detail/' . $this->idDead, [], $this->header);
@@ -72,7 +66,7 @@ class {{domainCaps}}DeadDetailControllerTest extends TestCaseFeature
         $response = json_decode($this->response->getContent(), true);
 
         $this->assertEquals(200, $this->response->getStatusCode());
-        $this->assertEquals($response['data']['field'], $response['data']['field']);
+        $this->assertEquals($result['field'], $response['data']['field']);
     }
 
     /**
@@ -80,8 +74,6 @@ class {{domainCaps}}DeadDetailControllerTest extends TestCaseFeature
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadDetailController::process
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::__construct
      * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::process
-     * @covers \App\Repositories\BaseRepository::__construct
-     * @covers \App\Repositories\BaseRepository::getDeadById
      */
     public function testDetailNotFound()
     {

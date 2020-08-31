@@ -33,6 +33,7 @@
                 <directory suffix=".php">../app/Http/Parameters</directory>
                 <directory suffix=".php">../app/Http/Requests</directory>
                 <directory suffix=".php">../app/Http/Validators</directory>
+                <directory suffix=".php">../app/Repositories</directory>
                 <directory suffix=".php">../app/Jobs</directory>
                 <directory suffix=".php">../app/Providers</directory>
                 <directory suffix=".php">../app/Seeds</directory>

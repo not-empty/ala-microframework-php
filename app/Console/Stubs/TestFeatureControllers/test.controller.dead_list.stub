@@ -2,12 +2,20 @@
 
 namespace Tests\Feature\Domains\{{domainCaps}};
 
+use DatabaseCache\Repository;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Mockery;
 use Tests\Feature\TestCaseFeature;
 
 class {{domainCaps}}DeadListControllerTest extends TestCaseFeature
 {
     use DatabaseMigrations;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->artisan('db:seed', ['--class' => '{{domainCaps}}']);
+    }
 
     /**
      * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadListController::__construct
@@ -17,25 +25,83 @@ class {{domainCaps}}DeadListControllerTest extends TestCaseFeature
      */
     public function testList()
     {
-        $data = [
-            'field' => 'test',
-        ];
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('generateIdentifierByArray')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(null)
+            ->shouldReceive('setQuery')
+            ->once()
+            ->andReturn(true);
 
-        $this->call('options', '/{{domainOriginal}}/add', [], $this->header);
-        $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);
-
-        $response = json_decode($this->response->getContent(), true);
-
-        sleep(1);
-        $this->json('DELETE', '/{{domainOriginal}}/delete/' . $response['data']['id'], [], $this->header);
-        $response = json_decode($this->response->getContent(), true);
-
-        sleep(1);
         $this->json('GET', '/{{domainOriginal}}/dead_list?page=1', [], $this->header);
 
         $response = json_decode($this->response->getContent(), true);
 
         $this->assertEquals(200, $this->response->getStatusCode());
         $this->assertArrayHasKey(0, $response['data']['data']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadListController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadListController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadListBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadListBusiness::process
+     */
+    public function testListWithCache()
+    {
+        $result = [
+            'data' => [
+                [
+                    'field' => 'test',
+                ],
+            ],
+        ];
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('generateIdentifierByArray')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(json_encode($result))
+            ->shouldReceive('setQuery')
+            ->never()
+            ->andReturn(true);
+
+        $this->json('GET', '/{{domainOriginal}}/dead_list?page=1', [], $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertArrayHasKey(0, $response['data']['data']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadListController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadListController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadListBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadListBusiness::process
+     */
+    public function testListAndNotMakeCache()
+    {
+        $repositoryeMock = Mockery::mock('overload:' . Repository::class);
+        $repositoryeMock->shouldReceive('generateIdentifierByArray')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('getQuery')
+            ->once()
+            ->andReturn(null)
+            ->shouldReceive('setQuery')
+            ->never()
+            ->andReturn(true);
+
+        $this->json('GET', '/{{domainOriginal}}/dead_list?page=2', [], $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertArrayNotHasKey(0, $response['data']['data']);
     }
 }
