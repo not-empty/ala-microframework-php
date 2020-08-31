@@ -309,6 +309,8 @@ class CreateDomainCommand extends BaseCommand
                 );
             }
         }
+
+        exec('composer dump-autoload');
         $this->info('');
         $this->info('All done!');
     }
