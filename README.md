@@ -190,6 +190,8 @@ DB_CACHE_PORT=6379
 
 Don't forget to change `APP_ENV` to `production` value. Don't use that in develop mode because this parameter cache all your project.
 
+The production docker is located in `docker/prod` and you can change the Nginx config or PHP if you want.
+
 ### Development
 
 Want to contribute? Great!
