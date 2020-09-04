@@ -9,7 +9,7 @@ use Ulid\Ulid;
 
 abstract class BaseRepository
 {
-    public $cacheRepository;
+    public $cacheConfig;
 
     protected $table;
     protected $db;
@@ -37,19 +37,23 @@ abstract class BaseRepository
     public function getById(
         string $id
     ): array {
-        $cacheRepository = $this->newCacheRepository();
+        $cacheConfig = $this->getCacheConfig();
 
-        $identifier = $this->table . ':' . $id;
-        $cache = $cacheRepository->getQuery($identifier);
-        if ($cache) {
-            return json_decode($cache, true);
+        if ($cacheConfig['enable']) {
+            $cacheRepository = $this->newCacheRepository();
+
+            $identifier = $this->table . ':' . $id;
+            $cache = $cacheRepository->getQuery($identifier);
+            if ($cache) {
+                return json_decode($cache, true);
+            }
         }
 
         $result = (array) $this->db->table($this->table)
             ->whereNull('deleted')
             ->find($id);
 
-        if (empty($result)) {
+        if (empty($result) || !$cacheConfig['enable']) {
             return $result;
         }
 
@@ -65,19 +69,23 @@ abstract class BaseRepository
     public function getDeadById(
         string $id
     ): array {
-        $cacheRepository = $this->newCacheRepository();
+        $cacheConfig = $this->getCacheConfig();
 
-        $identifier = $this->table . ':' . $id;
-        $cache = $cacheRepository->getQuery($identifier);
-        if ($cache) {
-            return json_decode($cache, true);
+        if ($cacheConfig['enable']) {
+            $cacheRepository = $this->newCacheRepository();
+
+            $identifier = $this->table . ':' . $id;
+            $cache = $cacheRepository->getQuery($identifier);
+            if ($cache) {
+                return json_decode($cache, true);
+            }
         }
 
         $result = (array) $this->db->table($this->table)
             ->whereNotNull('deleted')
             ->find($id);
 
-        if (empty($result)) {
+        if (empty($result) || !$cacheConfig['enable']) {
             return $result;
         }
 
@@ -106,12 +114,16 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
-        $cacheRepository = $this->newCacheRepository();
+        $cacheConfig = $this->getCacheConfig();
 
-        $identifier = $this->table . $cacheRepository->generateIdentifierByArray($query) . $page;
-        $cache = $cacheRepository->getQuery($identifier);
-        if ($cache) {
-            return json_decode($cache, true);
+        if ($cacheConfig['enable']) {
+            $cacheRepository = $this->newCacheRepository();
+
+            $identifier = $this->table . $cacheRepository->generateIdentifierByArray($query) . $page;
+            $cache = $cacheRepository->getQuery($identifier);
+            if ($cache) {
+                return json_decode($cache, true);
+            }
         }
 
         $list = $this->db->table($this->table)
@@ -134,7 +146,7 @@ abstract class BaseRepository
 
         $result = $list->toArray();
 
-        if (empty($result['data'])) {
+        if (empty($result['data']) || !$cacheConfig['enable']) {
             return $result;
         }
 
@@ -177,12 +189,16 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
-        $cacheRepository = $this->newCacheRepository();
+        $cacheConfig = $this->getCacheConfig();
 
-        $identifier = $this->table . $cacheRepository->generateIdentifierByArray($query) . $page;
-        $cache = $cacheRepository->getQuery($identifier);
-        if ($cache) {
-            return json_decode($cache, true);
+        if ($cacheConfig['enable']) {
+            $cacheRepository = $this->newCacheRepository();
+
+            $identifier = $this->table . $cacheRepository->generateIdentifierByArray($query) . $page;
+            $cache = $cacheRepository->getQuery($identifier);
+            if ($cache) {
+                return json_decode($cache, true);
+            }
         }
 
         $list = $this->db->table($this->table)
@@ -205,7 +221,7 @@ abstract class BaseRepository
 
         $result = $list->toArray();
 
-        if (empty($result['data'])) {
+        if (empty($result['data']) || !$cacheConfig['enable']) {
             return $result;
         }
 
@@ -229,12 +245,16 @@ abstract class BaseRepository
         string $class,
         array $query
     ): array {
-        $cacheRepository = $this->newCacheRepository();
+        $cacheConfig = $this->getCacheConfig();
 
-        $identifier = $this->table . ':bulk' . $cacheRepository->generateIdentifierByArray($ids['*']);
-        $cache = $cacheRepository->getQuery($identifier);
-        if ($cache) {
-            return json_decode($cache, true);
+        if ($cacheConfig['enable']) {
+            $cacheRepository = $this->newCacheRepository();
+
+            $identifier = $this->table . ':bulk' . $cacheRepository->generateIdentifierByArray($ids['*']);
+            $cache = $cacheRepository->getQuery($identifier);
+            if ($cache) {
+                return json_decode($cache, true);
+            }
         }
 
         $list = $this->db->table($this->table)
@@ -250,7 +270,7 @@ abstract class BaseRepository
 
         $result = $list->toArray();
 
-        if (empty($result['data'])) {
+        if (empty($result['data']) || !$cacheConfig['enable']) {
             return $result;
         }
 
@@ -296,12 +316,14 @@ abstract class BaseRepository
         array $data,
         string $id
     ): bool {
-        $identifier = $this->table . ':' . $id;
-        $this->newCacheRepository()->delQuery($identifier);
+        $cacheConfig = $this->getCacheConfig();
 
-        $data = $this->arrayToJson(
-            $data
-        );
+        if ($cacheConfig['enable']) {
+            $identifier = $this->table . ':' . $id;
+            $this->newCacheRepository()->delQuery($identifier);
+        }
+
+        $data = $this->arrayToJson($data);
         $data['modified'] = $this->returnNow();
 
         $this->db->table($this->table)
@@ -320,8 +342,12 @@ abstract class BaseRepository
     public function delete(
         string $id
     ): bool {
-        $identifier = $this->table . ':' . $id;
-        $this->newCacheRepository()->delQuery($identifier);
+        $cacheConfig = $this->getCacheConfig();
+
+        if ($cacheConfig['enable']) {
+            $identifier = $this->table . ':' . $id;
+            $this->newCacheRepository()->delQuery($identifier);
+        }
 
         $data = [];
         $data['modified'] = $this->returnNow();
@@ -442,7 +468,6 @@ abstract class BaseRepository
      */
     public function newCacheRepository(): Repository
     {
-        $config = $this->getCacheConfig();
-        return new Repository($config);
+        return new Repository($this->cacheConfig);
     }
 }

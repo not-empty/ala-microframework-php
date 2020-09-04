@@ -9,7 +9,7 @@ API Rest Full created in lumen using query builder that auto generate base code 
 
 ### Installation
 
-Requires [PHP](https://php.net) 7.2.
+Requires [PHP](https://php.net) 7.3.
 
 Run [Composer](https://getcomposer.org/) to install all dependencies.
 
@@ -37,7 +37,7 @@ Put key value in `APP_KEY` and `JWT_APP_SECRET`.
 
 **You can use `/health/key` uri to generate this keys or use another value if you want.**
 
-Using [Postman](https://www.postman.com/downloads/) to consulting the routes created throw this two files.
+Using [Postman](https://www.postman.com/downloads/) to consulting the routes created and put the new routes.
 
 `lumen_ala.postman_collection.json` 
 `lumen_ala.postman_environment.json` 
@@ -50,29 +50,29 @@ For create a new Domain with a complete CRUD use the command:
 php artisan create:domain {YOU_DOMAIN_NAME_HERE}
 ```
 
-This command create another folder in `app/Domains`, new file in routes folder and `database/migrations`
+This command create another folder in `app/Domains`, new file in `routes`, `database/migrations` and `database/seeds` folder.
 
 **If your domain name has 2 words use underline (_) to separate.**
 
-All your test unit and feature about you new domain already created to.
+All your test unit and feature about your new domain already created to.
 
 ### Configure new Domain
 
-- You need to configure your new migrate with your fields and remove de default field created.
-- Open your domain and configure your fields and field ordenations in `app/Domains/YOUR_DOMAIN/Http/Parameters`
+- Configure your migration file in `database/migrations`.
+- Open your domain and configure your fields and the ordenations in `app/Domains/YOUR_DOMAIN/Http/Parameters`
 - Your validator rules in `app/Domains/YOUR_DOMAIN/Http/Validators`
 - All your businesses you put in `app/Domains/YOUR_DOMAIN/Businesses`
-- Your route is put in `bootstrap/list_routes` folder
+- Your routes in `bootstrap/{YOUR_DOMAIN}_routes` folder
 
 ### Ulid
 
-When you use the add (insert) route, for default this project use [Ulid](https://github.com/kiwfy/ulid-php) value in ID.
+For primary key value, this project using [Ulid](https://github.com/kiwfy/ulid-php) value, but you can pass other pattern in Insert route if you don't want to use this type of value.
 
-You can use the validate reserved word `ulid` to validate if the value pass is correct in validator folder.
+You can use the validate reserved word `ulid` in `app/Domains/YOUR_DOMAIN/Http/Validators` folder. Config in `app/Providers/AppServiceProvider.php`
 
 For example:
 
-```
+```php
 /**
  * get rules for this request
  * @return array
@@ -104,7 +104,8 @@ Follow this steps to configure a new field to accepted a filter in list route
 - In validator folder `app/Domains/YOUR_DOMAIN/Http/Validators` configure de list rules `{YOU_DOMAIN_NAME}ListValidator`. For example:
 
 Configure a `name` field.
-```
+
+```php
 /**
  * get rules for this request
  * @return array
@@ -127,7 +128,7 @@ The parameter accept equal, not equal and like query.
 
 **To see another types look at `FiltersTypesConstants` class in `app/Constants`.**
 
-```
+```php
 /**
  * set filter rules for this domain
  */
@@ -161,11 +162,9 @@ public $filter = [
 ];
 ```
 
-After you can send this param in url query, for example:
+After that you can send this param in url query, for example:
 
-`/{YOUR_DOMAIN}/list?filter_name=lik,fred` OR `/{YOUR_DOMAIN}/list?filter_name=eql,fred`.
-
-**To see the reservate works look at `FiltersTypesConstants` class in `app/Constants`.**
+`/{YOUR_DOMAIN}/list?filter_name=lik,vitor` OR `/{YOUR_DOMAIN}/list?filter_name=eql,vitor`.
 
 ### Recomendations
 
@@ -174,6 +173,18 @@ Use this project with [MySql](https://www.mysql.com/) with no relationship keys 
 In this way you can use all database maturity with as fast as possible.
 
 Use [Clear Linux](https://clearlinux.org/) image in your PHP container to get more 50% speed and 50% less memory.
+
+### Database Cache (Beta)
+
+For more speed you can use this beta function and cache all database results. This feature reduced by an average of 5ms per request (using little database).
+
+For that you need to configure and enable cache flag `DB_CACHE`
+
+```
+DB_CACHE=true
+DB_CACHE_HOST=lumen-ala-redis
+DB_CACHE_PORT=6379
+```
 
 ### Production
 
