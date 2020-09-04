@@ -9,8 +9,6 @@ use Ulid\Ulid;
 
 abstract class BaseRepository
 {
-    public $cacheConfig;
-
     protected $table;
     protected $db;
     protected $ulid;
@@ -468,6 +466,7 @@ abstract class BaseRepository
      */
     public function newCacheRepository(): Repository
     {
-        return new Repository($this->cacheConfig);
+        $cacheConfig = $this->getCacheConfig();
+        return new Repository($cacheConfig);
     }
 }
