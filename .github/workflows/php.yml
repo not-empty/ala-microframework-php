@@ -34,6 +34,7 @@ jobs:
       run: composer checkallcover
 
     - name: export coverage
+      if: github.event_name == 'push'
       run: |
         export CODECOV_TOKEN="${{ secrets.CODECOV_TOKEN }}"
         bash <(curl -s https://codecov.io/bash)
