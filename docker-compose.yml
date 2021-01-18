@@ -30,3 +30,11 @@ services:
       - ./storage/.db:/var/lib/mysql
     security_opt:
       - seccomp:unconfined
+
+  lumen-ala-redis:
+    container_name: lumen-ala-redis
+    image: redis:latest
+    sysctls:
+      net.core.somaxconn: 1024
+    ports:
+      - 6379:6379

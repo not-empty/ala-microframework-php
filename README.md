@@ -176,6 +176,18 @@ In this way you can use all database maturity with as fast as possible.
 
 Use [Clear Linux](https://clearlinux.org/) image in your PHP container to get more 50% speed and 50% less memory.
 
+### Database Cache (Beta)
+
+For more speed you can use this beta function and cache all database results. This feature reduced by an average of 5ms per request (using little database).
+
+To using this feature it's necessary to change de Base repository for `BaseRepositoryCache.php` (`app/Repositories/BaseRepositoryCache.php`)
+
+```
+DB_CACHE=true
+DB_CACHE_HOST=lumen-ala-redis
+DB_CACHE_PORT=6379
+```
+
 ### Production
 
 Don't forget to change `APP_ENV` to `production` value. Don't use that in develop mode because this parameter cache all your project.
