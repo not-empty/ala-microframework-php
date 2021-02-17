@@ -89,7 +89,7 @@ public function getRules(): array
 
 ### JWT
 
-In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib. This token will be generate if you secret, token and context is correct. This configuration stay in [Config](https://github.com/kiwfy/lumen-ala/blob/master/config/token.php) folder.
+In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib. This token will be generate if your secret, token and context is correct. This configuration stay in [Config](https://github.com/kiwfy/lumen-ala/blob/master/config/token.php) folder.
 
 ```php
 return [
