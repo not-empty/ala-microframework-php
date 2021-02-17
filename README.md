@@ -40,7 +40,9 @@ Put key value in `APP_KEY` and `JWT_APP_SECRET`.
 Using [Postman](https://www.postman.com/downloads/) to consulting the routes created and put the new routes.
 
 `lumen_ala.postman_collection.json` 
-`lumen_ala.postman_environment.json` 
+`lumen_ala.postman_environment.json`
+
+Or you can access [Here](http://localhost:8102).
 
 ### Automatic CRUD
 
