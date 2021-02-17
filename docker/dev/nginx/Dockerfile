@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/kiwfy/nginx-alpine/nginx-alpine:latest
+FROM kiwfydev/nginx-alpine:latest
 
 COPY ./default.conf /etc/nginx/conf.d/default.conf
 
