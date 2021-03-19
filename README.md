@@ -11,6 +11,18 @@ API Rest Full created in lumen using query builder that auto generate base code 
 
 Requires [PHP](https://php.net) 7.3.
 
+First you need to building a correct environment to install dependences
+
+```sh
+docker build -t kiwfy/lumen-ala -f docker/dev/php-clear/Dockerfile .
+```
+
+Access the container
+
+```sh
+docker run -v ${PWD}/:/var/www/html -it kiwfy/lumen-ala:latest bash
+```
+
 Run [Composer](https://getcomposer.org/) to install all dependencies.
 
 ```sh
