@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/github/v/release/kiwfy/lumen-ala.svg?style=flat-square)](https://github.com/kiwfy/lumen-ala/releases)
 [![codecov](https://codecov.io/gh/kiwfy/lumen-ala/branch/master/graph/badge.svg)](https://codecov.io/gh/kiwfy/lumen-ala)
-[![Build Status](https://img.shields.io/github/workflow/status/kiwfy/lumen-ala/CI?label=ci%20build&style=flat-square)](https://github.com/kiwfy/lumen-ala/actions?query=workflow%3ACI)
+[![Build Status](https://img.shields.io/circleci/build/github/kiwfy/lumen-ala/master?label=CI%20Build&token=34d8b3820b7229d742897f0a6982ced5bf6a99c8)](https://github.com/kiwfy/lumen-ala)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
 API Rest Full created in lumen using query builder that auto generate base code for simple crud (with unit tests and feature tests)
@@ -10,6 +10,18 @@ API Rest Full created in lumen using query builder that auto generate base code 
 ### Installation
 
 Requires [PHP](https://php.net) 7.3.
+
+First you need to building a correct environment to install dependences
+
+```sh
+docker build -t kiwfy/lumen-ala -f docker/dev/php-clear/Dockerfile .
+```
+
+Access the container
+
+```sh
+docker run -v ${PWD}/:/var/www/html -it kiwfy/lumen-ala:latest bash
+```
 
 Run [Composer](https://getcomposer.org/) to install all dependencies.
 
@@ -40,7 +52,9 @@ Put key value in `APP_KEY` and `JWT_APP_SECRET`.
 Using [Postman](https://www.postman.com/downloads/) to consulting the routes created and put the new routes.
 
 `lumen_ala.postman_collection.json` 
-`lumen_ala.postman_environment.json` 
+`lumen_ala.postman_environment.json`
+
+Or you can access [Here](http://localhost:8102).
 
 ### Automatic CRUD
 
@@ -87,7 +101,21 @@ public function getRules(): array
 
 ### JWT
 
-In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib.
+In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib. This token will be generate if your secret, token and context is correct. This configuration stay in [Config](https://github.com/kiwfy/lumen-ala/blob/master/config/token.php) folder.
+
+```php
+return [
+    'data' => [
+        //Token
+        '32c5a206ee876f4c6e1c483457561dbed02a531a89b380c3298bb131a844ac3c' => [
+            // Context
+            'name' => 'app-test',
+            // Secret
+            'secret' => 'a1c5930d778e632c6684945ca15bcf3c752d17502d4cfbd1184024be6de14540',
+        ],
+    ],
+];
+```
 
 ### Request Service
 

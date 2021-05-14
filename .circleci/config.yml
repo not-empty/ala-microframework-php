@@ -1,0 +1,40 @@
+version: 2.1
+orbs:
+  codecov: codecov/codecov@1.0.2
+jobs:
+  build:
+    docker:
+      - image: cimg/base:2021.03
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build -t $CIRCLE_PROJECT_REPONAME:latest -f docker/dev/php-clear/Dockerfile .
+      - run:
+          name: Create volume
+          command: docker create -v /var/www/html --name project $CIRCLE_PROJECT_REPONAME:latest /bin/true
+      - run:
+          name: Copy project
+          command: docker cp ${PWD} project:/var/www/html
+      - run:
+          name: Composer install
+          command: docker run --volumes-from project $CIRCLE_PROJECT_REPONAME:latest composer --working-dir=project install --prefer-dist
+      - run:
+          name: Validate code
+          command: docker run --name project_container --volumes-from project $CIRCLE_PROJECT_REPONAME:latest composer --working-dir=project checkallcover
+      - run:
+          name: Get coverage report
+          command: docker cp project_container:/var/www/html/project/coverage/coverage-unit/coverage.xml coverage.xml
+      - codecov/upload:
+          file: coverage.xml
+
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master

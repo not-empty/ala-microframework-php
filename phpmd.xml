@@ -48,5 +48,6 @@
     <exclude-pattern>app/Console/Commands/*</exclude-pattern>
     <exclude-pattern>app/Providers/*</exclude-pattern>
     <exclude-pattern>app/Seeds/*</exclude-pattern>
+    <exclude-pattern>app/Providers/*</exclude-pattern>
     <exclude-pattern>app/Templates/*</exclude-pattern>
 </ruleset>

@@ -4,7 +4,6 @@ namespace Tests\Feature\Domains\{{domainCaps}};
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\Feature\TestCaseFeature;
-use Illuminate\Support\Facades\Config;
 
 class {{domainCaps}}AddControllerTest extends TestCaseFeature
 {

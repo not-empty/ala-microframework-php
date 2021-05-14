@@ -13,13 +13,6 @@
         "kiwfy/ulid-php": "^1.0",
         "laravel/lumen-framework": "^8.2"
     },
-    "require-dev": {
-        "fzaninotto/faker": "^1.9",
-        "mockery/mockery": "^1.4",
-        "phpmd/phpmd": "^2.9",
-        "phpunit/phpunit": "^9.5",
-        "squizlabs/php_codesniffer": "^3.5"
-    },
     "autoload": {
         "classmap": [
             "database/seeds"
@@ -116,5 +109,12 @@
         ],
         "ccu" : "php contrib/coverage-checker.php coverage/coverage-unit/coverage.xml 100",
         "ccf" : "php contrib/coverage-checker.php coverage/coverage-feature/coverage.xml 100"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.9",
+        "mockery/mockery": "^1.4",
+        "phpmd/phpmd": "^2.9",
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "^3.5"
     }
 }
