@@ -1,26 +1,32 @@
 # Lumen ALA
 
-[![Latest Version](https://img.shields.io/github/v/release/kiwfy/lumen-ala.svg?style=flat-square)](https://github.com/kiwfy/lumen-ala/releases)
-[![codecov](https://codecov.io/gh/kiwfy/lumen-ala/branch/master/graph/badge.svg)](https://codecov.io/gh/kiwfy/lumen-ala)
-[![Build Status](https://img.shields.io/circleci/build/github/kiwfy/lumen-ala/master?label=CI%20Build&token=34d8b3820b7229d742897f0a6982ced5bf6a99c8)](https://github.com/kiwfy/lumen-ala)
+[![Latest Version](https://img.shields.io/github/v/release/kiwfy/ala-microservice.svg?style=flat-square)](https://github.com/kiwfy/ala-microservice/releases)
+[![codecov](https://codecov.io/gh/kiwfy/ala-microservice/branch/master/graph/badge.svg)](https://codecov.io/gh/kiwfy/ala-microservice)
+[![Build Status](https://img.shields.io/circleci/build/github/kiwfy/ala-microservice/master?label=CI%20Build&token=34d8b3820b7229d742897f0a6982ced5bf6a99c8)](https://github.com/kiwfy/ala-microservice)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-API Rest Full created in lumen using query builder that auto generate base code for simple crud (with unit tests and feature tests)
-
-### Installation
+API Rest Full based in lumen using query builder that auto generate base code for simple crud (with unit tests and feature tests)
 
 Requires [PHP](https://php.net) 7.3.
 
-First you need to building a correct environment to install dependences
+### Installation
+
+(optional) Stop all other containers to avoid conflict.
 
 ```sh
-docker build -t kiwfy/lumen-ala -f docker/dev/php-clear/Dockerfile .
+docker stop $(docker ps -qa)
+```
+
+Start project with Docker using compose tool.
+
+```sh
+docker-compose up -d
 ```
 
 Access the container
 
 ```sh
-docker run -v ${PWD}/:/var/www/html -it kiwfy/lumen-ala:latest bash
+docker exec -it ala-microservice-php bash
 ```
 
 Run [Composer](https://getcomposer.org/) to install all dependencies.
@@ -29,12 +35,9 @@ Run [Composer](https://getcomposer.org/) to install all dependencies.
 composer install --no-dev --prefer-dist
 ```
 
-### Sample
-
-Start project with Docker using compose tool.
-
+Ensure the folder ./storage are with all rights to save log and cache
 ```sh
-docker-compose up
+chmod -R 777 ./storage
 ```
 
 To see what is build for this project look at docker -> dev folder.
@@ -51,10 +54,10 @@ Put key value in `APP_KEY` and `JWT_APP_SECRET`.
 
 Using [Postman](https://www.postman.com/downloads/) to consulting the routes created and put the new routes.
 
-`lumen_ala.postman_collection.json` 
-`lumen_ala.postman_environment.json`
+`ala_microservice.postman_collection.json` 
+`ala_microservice.postman_environment.json`
 
-Or you can access [Here](http://localhost:8102).
+Or you can access [Here](http://localhost:8101).
 
 ### Automatic CRUD
 
@@ -101,7 +104,7 @@ public function getRules(): array
 
 ### JWT
 
-In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib. This token will be generate if your secret, token and context is correct. This configuration stay in [Config](https://github.com/kiwfy/lumen-ala/blob/master/config/token.php) folder.
+In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib. This token will be generate if your secret, token and context is correct. This configuration stay in [Config](https://github.com/kiwfy/ala-microservice/blob/master/config/token.php) folder.
 
 ```php
 return [
@@ -204,18 +207,6 @@ In this way you can use all database maturity with as fast as possible.
 
 Use [Clear Linux](https://clearlinux.org/) image in your PHP container to get more 50% speed and 50% less memory.
 
-### Database Cache (Beta)
-
-For more speed you can use this beta function and cache all database results. This feature reduced by an average of 5ms per request (using little database).
-
-To using this feature it's necessary to change de Base repository for `BaseRepositoryCache.php` (`app/Repositories/BaseRepositoryCache.php`)
-
-```
-DB_CACHE=true
-DB_CACHE_HOST=lumen-ala-redis
-DB_CACHE_PORT=6379
-```
-
 ### Production
 
 Don't forget to change `APP_ENV` to `production` value. Don't use that in develop mode because this parameter cache all your project.
@@ -240,7 +231,12 @@ composer install --dev --prefer-dist
 
 Second run all validations
 ```sh
-composer check
+composer checkall
+```
+
+You can run all validations plus test coverage metrics
+```sh
+composer checkallcover
 ```
 
 **Kiwfy - Open your code, open your mind!**

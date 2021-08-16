@@ -4,6 +4,7 @@ namespace App\Http\Middlewares;
 
 use App\Exceptions\Custom\InvalidCredentialsException;
 use Closure;
+use Exception;
 use JwtManager\JwtManager;
 
 class AuthenticateJwt
@@ -32,8 +33,16 @@ class AuthenticateJwt
         $jwt = $this->newJwtToken(
             $context
         );
-        $jwt->isValid($token);
-        $jwt->isOnTime($token);
+
+        try {
+            $jwt->isValid($token);
+            $jwt->isOnTime($token);
+        } catch (Exception $exception) {
+            throw new InvalidCredentialsException(
+                'Invalid token or expired token',
+                401
+            );
+        }
 
         $data = $jwt->decodePayload($token);
         $audience = $data['aud'];

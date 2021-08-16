@@ -36,9 +36,9 @@ class BaseCommand extends Command
      * @param string $config
      * @return array
      */
-	public function getConfig(
-		string $config
-	): array {
-		return config($config) ?? [];
-	}
+    public function getConfig(
+        string $config
+    ): array {
+        return config($config) ?? [];
+    }
 }

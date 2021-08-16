@@ -2,6 +2,7 @@
 
 namespace App\Http\Middlewares;
 
+use Exception;
 use JwtManager\JwtManager;
 use Mockery;
 use PHPUnit\Framework\TestCase;
@@ -32,6 +33,54 @@ class AuthenticateJwtTest extends TestCase
         $this->expectExceptionObject(new \Exception('Missing authorization', 401));
 
         $response = $middleware->handle($requestMock, function () {
+        });
+    }
+
+    /**
+     * @covers \App\Http\Middlewares\AuthenticateJwt::handle
+     */
+    public function testHandleInvalidTokenOrExpiredToken()
+    {
+        $jwt = [
+            'aud' => 'teste',
+            'sub' => 'kairos',
+            'iat' => time(),
+            'exp' => time() + 900,
+        ];
+
+        $jwtManager = Mockery::mock(JwtManager::class)
+            ->shouldReceive('isValid')
+            ->with('123456')
+            ->andReturn(true)
+            ->shouldReceive('isOnTime')
+            ->with('123456')
+            ->andThrow(new Exception())
+            ->getMock();
+
+        $headerBagMock = Mockery::mock(HeaderBag::class)
+            ->shouldReceive('get')
+            ->with('Authorization')
+            ->andReturn('123456')
+            ->shouldReceive('get')
+            ->with('Context')
+            ->andReturn('test')
+            ->getMock();
+
+        $requestMock = (object) [
+            'headers' => $headerBagMock,
+        ];
+
+        $middleware = Mockery::mock(AuthenticateJwt::class)->makePartial();
+        $middleware->shouldReceive('newJwtToken')
+            ->with('test')
+            ->andReturn($jwtManager);
+
+        $this->expectExceptionObject(new \Exception('Invalid token or expired token', 401));
+        $middleware->handle($requestMock, function ($request) use ($jwt) {
+            $this->assertEquals($request->jwtToken, [
+                'token' =>'123456',
+                'valid_until' => date('Y-m-d H:i:s', $jwt['exp']),
+            ]);
         });
     }
 

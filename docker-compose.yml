@@ -1,24 +1,24 @@
 version: '3.7'
 services:
-  lumen-ala-nginx:
+  ala-microservice-nginx:
     build: ./docker/dev/nginx
-    container_name: lumen-ala-nginx
+    container_name: ala-microservice-nginx
     depends_on:
-      - lumen-ala-php
+      - ala-microservice-php
     ports:
-      - 8102:80
+      - 8101:80
     volumes:
       - ./:/var/www/html
 
-  lumen-ala-php:
+  ala-microservice-php:
     build: ./docker/dev/php-clear
-    container_name: lumen-ala-php
+    container_name: ala-microservice-php
     volumes:
       - ./:/var/www/html
 
-  lumen-ala-mysql:
+  ala-microservice-mysql:
     image: mysql:8.0.23
-    container_name: lumen-ala-mysql
+    container_name: ala-microservice-mysql
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - 3306:3306
@@ -30,11 +30,3 @@ services:
       - ./storage/.db:/var/lib/mysql
     security_opt:
       - seccomp:unconfined
-
-  lumen-ala-redis:
-    container_name: lumen-ala-redis
-    image: redis:latest
-    sysctls:
-      net.core.somaxconn: 1024
-    ports:
-      - 6379:6379

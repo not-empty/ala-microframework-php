@@ -9,8 +9,8 @@ use App\Exceptions\Custom\NotAuthorizedException;
 use App\Exceptions\Custom\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use ResponseJson\ResponseJson;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -18,6 +18,9 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    private $response;
+    private $request;
+
     protected $dontReport = [
         AuthorizationException::class,
         DataNotFoundException::class,
@@ -32,12 +35,15 @@ class Handler extends ExceptionHandler
     /**
      * constructor
      * @param ResponseJson $response
+     * @param Request $request
      * @return void
      */
     public function __construct(
-        ResponseJson $response
+        ResponseJson $response,
+        Request $request
     ) {
         $this->response = $response;
+        $this->request = $request;
     }
 
     /**
@@ -53,8 +59,8 @@ class Handler extends ExceptionHandler
             return;
         }
 
-        if (app()->bound('sentry') && env('APP_ENV') == 'production') {
-            app('sentry')->captureException($exception);
+        if (extension_loaded('newrelic') && env('APP_ENV') == 'production') {
+            $this->request->newRelic->noticeError($exception->getMessage(), $exception);
         }
 
         parent::report($exception);
@@ -99,7 +105,7 @@ class Handler extends ExceptionHandler
         }
 
         $code = $exception->getCode() ?? 500;
-        if (!is_int($code) || $code > 505 || $code < 0) {
+        if (!is_int($code) || $code > 505 || $code <= 0) {
             $code = 500;
         }
 

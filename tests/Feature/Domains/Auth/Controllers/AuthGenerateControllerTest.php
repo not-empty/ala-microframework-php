@@ -15,6 +15,7 @@ class AuthGenerateControllerTest extends TestCaseFeature
      * @covers \App\Domains\Auth\Businesses\AuthGenerateBusiness::process
      * @covers \App\Domains\Auth\Businesses\AuthGenerateBusiness::generateToken
      * @covers \App\Domains\Auth\Businesses\AuthGenerateBusiness::getFromToken
+     * @covers \App\Utils\FixPathUtil::fixPath
      */
     public function testAuthenticate()
     {
@@ -38,6 +39,7 @@ class AuthGenerateControllerTest extends TestCaseFeature
      * @covers \App\Domains\Auth\Businesses\AuthGenerateBusiness::process
      * @covers \App\Domains\Auth\Businesses\AuthGenerateBusiness::generateToken
      * @covers \App\Domains\Auth\Businesses\AuthGenerateBusiness::getFromToken
+     * @covers \App\Utils\FixPathUtil::fixPath
      */
     public function testAuthenticateInvalidCredencials()
     {

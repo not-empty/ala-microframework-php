@@ -2,6 +2,8 @@
 
 namespace App\Http\Middlewares;
 
+use App\Utils\FixPathUtil;
+
 class BaseRequest
 {
     /**
@@ -13,7 +15,8 @@ class BaseRequest
         $request
     ): ?array {
         $method = $request->method();
-        $path = $this->fixPath($request->getPathInfo());
+        $fixPathUtil = $this->newFixPathUtil();
+        $path = $fixPathUtil->fixPath($request->getPathInfo());
         $routes = $this->getRoutes();
         return $routes[$method . $path]['action'] ?? null;
     }
@@ -24,7 +27,6 @@ class BaseRequest
      */
     public function getRoutes(): array
     {
-
         $app = $this->newApp();
         $routes = $app->router->getRoutes();
         $newRoutes = [];
@@ -48,21 +50,6 @@ class BaseRequest
             return $key;
         }
         return substr($key, 0, $position - 1);
-    }
-
-    /**
-     * fix routes paths with parameters
-     * @param string $key
-     * @return string
-     */
-    public function fixPath(
-        string $path
-    ): string {
-        if ($path == '/') {
-            return $path;
-        }
-        $arrayPath = explode('/', $path);
-        return '/' . $arrayPath[1] . '/' . $arrayPath[2];
     }
 
     /**
@@ -90,5 +77,15 @@ class BaseRequest
     public function newApp()
     {
         return app();
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * return new FixPathUtil
+     * @return \App\Utils\FixPathUtil
+     */
+    public function newFixPathUtil()
+    {
+        return new FixPathUtil();
     }
 }

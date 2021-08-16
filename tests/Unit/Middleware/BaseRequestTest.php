@@ -149,46 +149,6 @@ class BaseRequestTest extends TestCase
         $this->assertEquals($key, $goodKey);
     }
 
-    /**
-     * @covers \App\Http\Middlewares\BaseRequest::fixPath
-     */
-    public function testFixPathUsingOnlyPipe()
-    {
-        $goodPath = '/';
-
-        $baseRequest = Mockery::mock(BaseRequest::class)->makePartial();
-        $path = $baseRequest->fixPath($goodPath);
-
-        $this->assertEquals($path, $goodPath);
-    }
-
-    /**
-     * @covers \App\Http\Middlewares\BaseRequest::fixPath
-     */
-    public function testFixPath()
-    {
-        $goodPath = '/test/dead_detail';
-
-        $baseRequest = Mockery::mock(BaseRequest::class)->makePartial();
-        $path = $baseRequest->fixPath($goodPath);
-
-        $this->assertEquals($path, $goodPath);
-    }
-
-    /**
-     * @covers \App\Http\Middlewares\BaseRequest::fixPath
-     */
-    public function testFixPathInvalid()
-    {
-        $badPath = '/test/dead_detail/01E492KQX6BW62YEA45SGWRXYQ';
-        $goodPath = '/test/dead_detail';
-
-        $baseRequest = Mockery::mock(BaseRequest::class)->makePartial();
-        $path = $baseRequest->fixPath($badPath);
-
-        $this->assertEquals($path, $goodPath);
-    }
-
     protected function tearDown(): void
     {
         Mockery::close();

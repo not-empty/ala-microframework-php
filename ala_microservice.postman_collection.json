@@ -1,0 +1,641 @@
+{
+	"info": {
+		"_postman_id": "d54b3ea7-b512-4c07-ad66-ce88a444f0c9",
+		"name": "ala-microservice",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health API",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/health",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Health",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}",
+							"host": [
+								"{{Host}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Health Key",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/health/key",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"health",
+								"key"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Generate Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"jwtToken\", response.data.token);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"token\": \"{{token}}\",\n\t\"secret\": \"{{secret}}\"\n}"
+						},
+						"url": {
+							"raw": "{{Host}}/auth/generate",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"auth",
+								"generate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sample",
+			"item": [
+				{
+					"name": "Sample Add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"console.log(response);",
+									"postman.setEnvironmentVariable(\"uuid\", response.data.id);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"field\": \"Dimiers\"\n}"
+						},
+						"url": {
+							"raw": "{{Host}}/sample/add",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample Bulk",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ids\": [\n    \t\"{{uuid}}\"\n\t]\n}"
+						},
+						"url": {
+							"raw": "{{Host}}/sample/bulk",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"bulk"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample Edit",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"field\": \"Dimerson\"\n}"
+						},
+						"url": {
+							"raw": "{{Host}}/sample/edit/{{uuid}}",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"edit",
+								"{{uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/sample/list",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"list"
+							],
+							"query": [
+								{
+									"key": "filter_created",
+									"value": "lt,2019-06-04",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample List With Fields, Order, Page and Filter",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/sample/list?fields=id,field&order=field&class=asc&page=1&filter_field=lik,dim",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"list"
+							],
+							"query": [
+								{
+									"key": "fields",
+									"value": "id,field"
+								},
+								{
+									"key": "order",
+									"value": "field"
+								},
+								{
+									"key": "class",
+									"value": "asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "filter_field",
+									"value": "lik,dim"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/sample/detail/{{uuid}}",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"detail",
+								"{{uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample Delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var uuid  = pm.environment.get(\"uuid\");",
+									"postman.setEnvironmentVariable(\"dead-uuid\", uuid);"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_name\": \"Dimerson\"\n}"
+						},
+						"url": {
+							"raw": "{{Host}}/sample/delete/{{uuid}}",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"delete",
+								"{{uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample Dead Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/sample/dead_detail/{{dead-uuid}}",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"dead_detail",
+								"{{dead-uuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample Dead List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/sample/dead_list",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"dead_list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sample Dead List With Fields, Order, Page and Filters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "{{jwtToken}}"
+							},
+							{
+								"key": "Context",
+								"value": "{{context}}"
+							}
+						],
+						"url": {
+							"raw": "{{Host}}/sample/dead_list?order=deleted&class=asc&page=1&filter_field=lik,dim",
+							"host": [
+								"{{Host}}"
+							],
+							"path": [
+								"sample",
+								"dead_list"
+							],
+							"query": [
+								{
+									"key": "order",
+									"value": "deleted"
+								},
+								{
+									"key": "class",
+									"value": "asc"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "filter_field",
+									"value": "lik,dim"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.sendRequest({",
+							"    url: pm.environment.get(\"Host\") + '/auth/generate',",
+							"    method: 'POST',",
+							"    header: {",
+							"        'content-type': 'application/json',",
+							"        'accept': 'application/json'",
+							"    },",
+							"    body: {",
+							"        mode: 'raw',",
+							"        raw: JSON.stringify({ token: pm.environment.get(\"token\"), secret: pm.environment.get(\"secret\") })",
+							"    }",
+							"}, function (err, res) {",
+							"    var result = res.json();",
+							"    postman.setEnvironmentVariable(\"jwtToken\", result.data.token);",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}

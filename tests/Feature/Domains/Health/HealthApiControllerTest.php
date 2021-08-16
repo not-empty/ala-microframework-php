@@ -8,6 +8,7 @@ class HealthApiControllerTest extends TestCaseFeature
 {
     /**
      * @covers \App\Domains\Health\Http\Controllers\HealthApiController::process
+     * @covers \App\Utils\FixPathUtil::fixPath
      */
     public function testHealthApi()
     {
@@ -20,6 +21,7 @@ class HealthApiControllerTest extends TestCaseFeature
 
     /**
      * @covers \App\Domains\Health\Http\Controllers\HealthApiController::process
+     * @covers \App\Utils\FixPathUtil::fixPath
      */
     public function testHealthApiUsingOtherUri()
     {
