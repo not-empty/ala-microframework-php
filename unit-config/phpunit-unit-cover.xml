@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="../bootstrap/app.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
-    <testsuites>
-        <testsuite name="Unit">
-            <directory suffix="Test.php">../tests/Unit</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../app</directory>
-            <exclude>
-                <directory suffix=".php">../app/Console</directory>
-                <directory suffix=".php">../app/Constants</directory>
-                <directory suffix=".php">../app/Domains/*/Http</directory>
-                <directory suffix=".php">../app/Domains/*/Repositories</directory>
-                <directory suffix=".php">../app/Domains/Doc</directory>
-                <directory suffix=".php">../app/Exceptions</directory>
-                <directory suffix=".php">../app/Http/Controllers</directory>
-                <directory suffix=".php">../app/Http/Requests</directory>
-                <directory suffix=".php">../app/Providers</directory>
-                <directory suffix=".php">../app/Seeds</directory>
-                <directory suffix=".php">../app/Templates</directory>
-                <directory suffix=".php">../app/TestFiles</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-    <php>
-        <env name="APP_ENV" value="testing"/>
-        <env name="CACHE_DRIVER" value="array"/>
-        <env name="QUEUE_CONNECTION" value="sync"/>
-    </php>
-    <logging>
-      <log type="coverage-html" target="../coverage/coverage-unit/" lowUpperBound="35" highLowerBound="70"/>
-      <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70"/>
-      <log type="testdox-text" target="php://stdout" showUncoveredFiles="false"/>
-      <log type="coverage-clover" target="../coverage/coverage-unit/coverage.xml"/>
-      <log type="junit" target="../coverage/coverage-unit/logfile.xml"/>
-    </logging>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false" bootstrap="../bootstrap/app.php" colors="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">../app</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">../app/Console</directory>
+      <directory suffix=".php">../app/Constants</directory>
+      <directory suffix=".php">../app/Domains/*/Http</directory>
+      <directory suffix=".php">../app/Domains/*/Repositories</directory>
+      <directory suffix=".php">../app/Domains/Doc</directory>
+      <directory suffix=".php">../app/Exceptions</directory>
+      <directory suffix=".php">../app/Http/Controllers</directory>
+      <directory suffix=".php">../app/Http/Requests</directory>
+      <directory suffix=".php">../app/Providers</directory>
+      <directory suffix=".php">../app/Seeds</directory>
+      <directory suffix=".php">../app/Templates</directory>
+      <directory suffix=".php">../app/TestFiles</directory>
+    </exclude>
+    <report>
+      <clover outputFile="../coverage/coverage-unit/coverage.xml"/>
+      <html outputDirectory="../coverage/coverage-unit/" lowUpperBound="35" highLowerBound="70"/>
+      <text outputFile="php://stdout"/>
+    </report>
+  </coverage>
+  <testsuites>
+    <testsuite name="Unit">
+      <directory suffix="Test.php">../tests/Unit</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+  </php>
+  <logging>
+    <testdoxText outputFile="php://stdout"/>
+    <junit outputFile="../coverage/coverage-unit/logfile.xml"/>
+  </logging>
 </phpunit>
