@@ -6,12 +6,13 @@ use App\Exceptions\Custom\DataNotFoundException;
 use App\Exceptions\Custom\FilterException;
 use App\Exceptions\Custom\InvalidCredentialsException;
 use App\Exceptions\Custom\NotAuthorizedException;
-use App\Exceptions\Custom\ValidationException;
+use App\Exceptions\Custom\ValidationException as ValidationCustom;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use ResponseJson\ResponseJson;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
@@ -29,6 +30,7 @@ class Handler extends ExceptionHandler
         InvalidCredentialsException::class,
         ModelNotFoundException::class,
         NotAuthorizedException::class,
+        ValidationCustom::class,
         ValidationException::class,
     ];
 
@@ -80,7 +82,7 @@ class Handler extends ExceptionHandler
         $requestId = $request->requestId ?? '';
         $startProfile = $request->startProfile ?? 0;
 
-        if ($exception instanceof ValidationException) {
+        if ($exception instanceof ValidationCustom) {
             $result = $this->response->response(
                 $requestId,
                 $startProfile,
