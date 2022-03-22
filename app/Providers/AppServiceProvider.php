@@ -11,15 +11,6 @@ use Throwable;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * register any application services.
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
      * bootstrap any application services.
      * @return void
      */

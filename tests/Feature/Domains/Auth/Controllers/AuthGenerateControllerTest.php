@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Domains\Auth;
+namespace Tests\Feature\Domains\Auth\Controllers;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\Feature\TestCaseFeature;

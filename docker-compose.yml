@@ -1,7 +1,17 @@
 version: '3.7'
 services:
+  ala-microservice-php:
+    build: ./docker/dev/php-clear
+    container_name: ala-microservice-php
+    depends_on:
+      - ala-microservice-mysql
+    volumes:
+      - ./:/var/www/html
+
   ala-microservice-nginx:
-    build: ./docker/dev/nginx
+    build:
+      context: ./
+      dockerfile: ./docker/dev/nginx/Dockerfile
     container_name: ala-microservice-nginx
     depends_on:
       - ala-microservice-php
@@ -10,14 +20,8 @@ services:
     volumes:
       - ./:/var/www/html
 
-  ala-microservice-php:
-    build: ./docker/dev/php-clear
-    container_name: ala-microservice-php
-    volumes:
-      - ./:/var/www/html
-
   ala-microservice-mysql:
-    image: mysql:8.0.23
+    image: mysql:8.0.28
     container_name: ala-microservice-mysql
     command: --default-authentication-plugin=mysql_native_password
     ports:

@@ -8,11 +8,23 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
+/*
+|--------------------------------------------------------------------------
+| Create The Application
+|--------------------------------------------------------------------------
+*/
+
 $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
 $app->withFacades();
+
+/*
+|--------------------------------------------------------------------------
+| Register Container Bindings
+|--------------------------------------------------------------------------
+*/
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
@@ -24,10 +36,22 @@ $app->singleton(
     App\Console\Kernel::class
 );
 
+/*
+|--------------------------------------------------------------------------
+| Register Config Files
+|--------------------------------------------------------------------------
+*/
+
 $app->configure('app');
 $app->configure('newRelic');
 $app->configure('token');
 $app->configure('version');
+
+/*
+|--------------------------------------------------------------------------
+| Register Middleware
+|--------------------------------------------------------------------------
+*/
 
 $app->routeMiddleware([
     'auth' => App\Http\Middlewares\AuthenticateJwt::class,
@@ -42,17 +66,27 @@ $app->middleware([
     App\Http\Middlewares\NewRelicLumen::class,
 ]);
 
+/*
+|--------------------------------------------------------------------------
+| Register Service Providers
+|--------------------------------------------------------------------------
+*/
+
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\NewRelicServiceProvider::class);
+
+/*
+|--------------------------------------------------------------------------
+| Load The Application Routes
+|--------------------------------------------------------------------------
+*/
 
 require __DIR__ . '/list_config.php';
 
 foreach ($listConfigs as $i => $routeConfig) {
-
     $middleware = $routeConfig['middleware'];
 
     foreach($routeConfig['routes'] as $namespaceRoute => $fileRoute) {
-
         $config = [
             'namespace' => $namespaceRoute,
             'middleware' => $middleware
