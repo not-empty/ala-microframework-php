@@ -17,7 +17,6 @@ class BaseRequest
         $method = $request->method();
         $fixPathUtil = $this->newFixPathUtil();
         $path = $fixPathUtil->fixPath($request->getPathInfo());
-        $path = preg_replace('/[^\\pL\d_]+/u', '/', $path);
         $routes = $this->getRoutes();
         return $routes[$method . $path]['action'] ?? null;
     }

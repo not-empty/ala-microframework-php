@@ -12,12 +12,6 @@ class FixPathUtil
     public function fixPath(
         string $path
     ): string {
-        $arrayPath = explode('/', $path);
-
-        if ($path == '/' || count($arrayPath) == 2) {
-            return $path;
-        }
-
-        return '/' . $arrayPath[1] . '/' . $arrayPath[2];
+        return preg_replace('/[^\\pL\d_]+/u', '/', $path);
     }
 }

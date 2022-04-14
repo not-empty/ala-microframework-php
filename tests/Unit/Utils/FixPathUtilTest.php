@@ -38,8 +38,8 @@ class FixPathUtilTest extends TestCase
     {
         $fixPath = new FixPathUtil();
 
-        $fixedPath = $fixPath->fixPath('/draft/test/01EQDQW71FJZ1WDHDSYHFZDMV1');
+        $fixedPath = $fixPath->fixPath('//draft/test/01EQDQW71FJZ1WDHDSYHFZDMV1');
 
-        $this->assertEquals('/draft/test', $fixedPath);
+        $this->assertEquals('/draft/test/01EQDQW71FJZ1WDHDSYHFZDMV1', $fixedPath);
     }
 }
