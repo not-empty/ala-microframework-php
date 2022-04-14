@@ -2,6 +2,8 @@
 
 namespace App\Businesses;
 
+use App\Repositories\BaseRepository;
+
 abstract class BaseBusiness
 {
     /**
@@ -18,6 +20,20 @@ abstract class BaseBusiness
             $data[$field] = json_decode($data[$field], true) ?? [];
         }
         return $data;
+    }
+
+    /**
+     * setRepositoryTable
+     * @param BaseRepository $repository
+     * @return bool
+     */
+    public function setRepositoryTable(
+        BaseRepository $repository
+    ): bool {
+        $repository->setTable(
+            $repository->getTable() . $this->getConfig('app')['db_suffix']
+        );
+        return true;
     }
 
     /**

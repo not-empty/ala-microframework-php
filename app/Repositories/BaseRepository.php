@@ -325,4 +325,26 @@ abstract class BaseRepository
         $this->db->commit();
         return true;
     }
+
+    /**
+     * @codeCoverageIgnore
+     * get table
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return (string) $this->table;
+    }
+
+    /**
+     * @codeCoverageIgnore
+     * set table
+     * @return bool
+     */
+    public function setTable(
+        string $table
+    ): bool {
+        $this->table = $table;
+        return true;
+    }
 }

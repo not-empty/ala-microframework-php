@@ -18,6 +18,9 @@ class {{domainCaps}}DeadListBusiness extends BaseBusiness
         {{domainCaps}}DeadListRepository ${{domain}}DeadListRepository
     ) {
         $this->{{domain}}DeadListRepository = ${{domain}}DeadListRepository;
+        $this->setRepositoryTable(
+            $this->{{domain}}DeadListRepository
+        );
     }
 
     /**

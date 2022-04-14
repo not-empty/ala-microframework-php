@@ -18,6 +18,9 @@ class {{domainCaps}}BulkBusiness extends BaseBusiness
         {{domainCaps}}BulkRepository ${{domain}}BulkRepository
     ) {
         $this->{{domain}}BulkRepository = ${{domain}}BulkRepository;
+        $this->setRepositoryTable(
+            $this->{{domain}}BulkRepository
+        );
     }
 
     /**

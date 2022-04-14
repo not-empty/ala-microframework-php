@@ -12,20 +12,23 @@ class Create{{domainCaps}}Table extends Migration
      */
     public function up()
     {
-        Schema::create('{{domainOriginal}}', function (Blueprint $table) {
-            $table->char('id', 26);
-            $table->string('field', 150);
-            $table->dateTime('created');
-            $table->dateTime('modified');
-            $table->dateTime('deleted')
-                ->nullable()
-                ->default(null);
-            $table->primary('id');
-            $table->index('field');
-            $table->index('created');
-            $table->index('modified');
-            $table->index('deleted');
-        });
+        $tableList = $this->getTableList('{{domainOriginal}}');
+        foreach ($tableList as $tableName) {
+            Schema::create($tableName, function (Blueprint $table) {
+                $table->char('id', 26);
+                $table->string('field', 150);
+                $table->dateTime('created');
+                $table->dateTime('modified');
+                $table->dateTime('deleted')
+                    ->nullable()
+                    ->default(null);
+                $table->primary('id');
+                $table->index('field');
+                $table->index('created');
+                $table->index('modified');
+                $table->index('deleted');
+            });
+        }
     }
 
     /**
@@ -34,6 +37,60 @@ class Create{{domainCaps}}Table extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('{{domainOriginal}}');
+        $tableList = $this->getTableList('{{domainOriginal}}');
+        foreach ($tableList as $tableName) {
+            Schema::dropIfExists($tableName);
+        }
+    }
+
+    /**
+     * Get table name depends on environment.
+     * @return string $table
+     * @return string
+     */
+    public function getTestOrNot(
+        string $table
+    ) {
+        $environment = env('APP_ENV', 'local');
+        if ($environment == 'testing-feature') {
+            $table .= '_test';
+        }
+        return $table;
+    }
+
+    /**
+     * Get table list.
+     * @param string $table
+     * @return array
+     */
+    public function getTableList(
+        string $table
+    ) {
+        $list = env('DB_SUFFIX_LIST', '');
+        $environment = env('APP_ENV', 'local');
+        $useSuffix = env('DB_USE_SUFFIX', false);
+
+        $table = $this->getTestOrNot($table);
+        $tablesList = [
+            $table
+        ];
+
+        if (!$useSuffix) {
+            return $tablesList;
+        }
+
+        if (
+            !empty($list) &&
+            $environment != 'testing-feature'
+        ) {
+            $suffixList = explode(',', $list);
+
+            $tablesList = [];
+            foreach ($suffixList as $suffix) {
+                $tablesList[] = $table . $suffix;
+            }
+        }
+
+        return $tablesList;
     }
 }

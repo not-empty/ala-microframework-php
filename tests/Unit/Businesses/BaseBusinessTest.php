@@ -3,6 +3,7 @@
 namespace App\Business;
 
 use App\Businesses\BaseBusiness;
+use App\Repositories\BaseRepository;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
@@ -39,6 +40,35 @@ class BaseBusinessTest extends TestCase
         );
 
         $this->assertEquals($result, $expected);
+    }
+
+    /**
+     * @covers \App\Businesses\BaseBusiness::setRepositoryTable
+     */
+    public function testSetRepositoryTable()
+    {
+        $baseRepositoryMock = Mockery::mock(
+            BaseRepository::class
+        )->shouldReceive('getTable')
+            ->once()
+            ->andReturn('table')
+            ->shouldReceive('setTable')
+            ->with('table_test')
+            ->once()
+            ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
+
+        $BaseBusiness = $this->getMockForAbstractClass(
+            BaseBusiness::class
+        );
+
+        $result = $BaseBusiness->setRepositoryTable(
+            $baseRepositoryMock
+        );
+
+        $this->assertEquals($result, true);
     }
 
     protected function tearDown(): void

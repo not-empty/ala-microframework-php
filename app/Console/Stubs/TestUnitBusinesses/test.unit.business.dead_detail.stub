@@ -14,12 +14,22 @@ class {{domainCaps}}DeadDetailBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}DeadDetailRepositorySpy = Mockery::spy(
+        ${{domain}}DeadDetailRepositoryMock = Mockery::mock(
             {{domainCaps}}DeadDetailRepository::class
-        );
+        )->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
+            ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DeadDetailBusiness = new {{domainCaps}}DeadDetailBusiness(
-            ${{domain}}DeadDetailRepositorySpy
+            ${{domain}}DeadDetailRepositoryMock
         );
 
         $this->assertInstanceOf(
@@ -45,7 +55,17 @@ class {{domainCaps}}DeadDetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn($data)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DeadDetailBusiness = new {{domainCaps}}DeadDetailBusiness(
             ${{domain}}DeadDetailRepositoryMock
@@ -71,8 +91,17 @@ class {{domainCaps}}DeadDetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn([])
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
 
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DeadDetailBusiness = new {{domainCaps}}DeadDetailBusiness(
             ${{domain}}DeadDetailRepositoryMock

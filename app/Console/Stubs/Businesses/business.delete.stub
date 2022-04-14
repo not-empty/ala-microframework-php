@@ -19,6 +19,9 @@ class {{domainCaps}}DeleteBusiness extends BaseBusiness
         {{domainCaps}}DeleteRepository ${{domain}}DeleteRepository
     ) {
         $this->{{domain}}DeleteRepository = ${{domain}}DeleteRepository;
+        $this->setRepositoryTable(
+            $this->{{domain}}DeleteRepository
+        );
     }
 
     /**

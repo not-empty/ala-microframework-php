@@ -19,6 +19,9 @@ class {{domainCaps}}DetailBusiness extends BaseBusiness
         {{domainCaps}}DetailRepository ${{domain}}DetailRepository
     ) {
         $this->{{domain}}DetailRepository = ${{domain}}DetailRepository;
+        $this->setRepositoryTable(
+            $this->{{domain}}DetailRepository
+        );
     }
 
     /**

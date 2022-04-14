@@ -31,4 +31,18 @@ class HealthApiControllerTest extends TestCaseFeature
         $this->assertArrayHasKey('status', json_decode($this->response->getContent(), true));
         $this->assertArrayHasKey('version', json_decode($this->response->getContent(), true));
     }
+
+        /**
+     * @covers \App\Domains\Health\Http\Controllers\HealthApiController::process
+     * @covers \App\Utils\FixPathUtil::fixPath
+     */
+    public function testHealthApiUsingInvalidRoute()
+    {
+        $this->json('GET', '//invalid', []);
+
+        $result = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(404, $this->response->getStatusCode());
+        $this->assertEquals('Route not found', $result['message']);
+    }
 }

@@ -22,6 +22,7 @@ $listConfigs = [
         'middleware' => [
             'auth',
             'start',
+            'suffix',
             'validator',
             'filters',
             'parameter',
