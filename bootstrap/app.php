@@ -74,31 +74,6 @@ $app->middleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\NewRelicServiceProvider::class);
-
-/*
-|--------------------------------------------------------------------------
-| Load The Application Routes
-|--------------------------------------------------------------------------
-*/
-
-require __DIR__ . '/list_config.php';
-
-foreach ($listConfigs as $i => $routeConfig) {
-    $middleware = $routeConfig['middleware'];
-
-    foreach($routeConfig['routes'] as $namespaceRoute => $fileRoute) {
-        $config = [
-            'namespace' => $namespaceRoute,
-            'middleware' => $middleware
-        ];
-
-        $app->router->group($config, function($router) use ($fileRoute) {
-            $file = __DIR__ . "/../routes/{$fileRoute}_routes.php";
-            if (file_exists($file)) {
-                require $file;
-            }
-        });
-    }
-}
+$app->register(App\Providers\RouteServiceProvider::class);
 
 return $app;

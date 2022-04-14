@@ -77,7 +77,7 @@ class CreateDomainCommand extends BaseCommand
         'Routes' => [
             'url' => '/routes/',
             'files' => [
-                '{{domainOriginal}}_routes' => 'route',
+                '{{domainOriginal}}' => 'route',
             ],
         ],
         'TestUnitBusinesses' => [
@@ -231,27 +231,6 @@ class CreateDomainCommand extends BaseCommand
     }
 
     /**
-     * add new route to route list file
-     * @param string $domainOriginal
-     * @param string $domainCaps
-     * @return void
-     */
-    private function addRoutes($domainOriginal, $domainCaps)
-    {
-        $lines = file(base_path('app') . '/../bootstrap/list_routes.php');
-        $last = sizeof($lines) - 1;
-        unset($lines[$last]);
-
-        $file = fopen(base_path('app') . '/../bootstrap/list_routes.php', 'w');
-        fwrite($file, implode('', $lines));
-        fclose($file);
-
-        $newLine = "    'App\Domains\\" . $domainCaps . "\Http\Controllers' => '" . $domainOriginal . "',";
-        file_put_contents(base_path('app') . '/../bootstrap/list_routes.php', $newLine . PHP_EOL, FILE_APPEND | LOCK_EX);
-        file_put_contents(base_path('app') . '/../bootstrap/list_routes.php', '];' . PHP_EOL, FILE_APPEND | LOCK_EX);
-    }
-
-    /**
      * execute the console command
      * @return mixed
      */
@@ -269,7 +248,6 @@ class CreateDomainCommand extends BaseCommand
         $domain = $this->prepareDomainName($this->argument('domain'));
         $domainCaps = ucfirst($domain);
 
-        $this->addRoutes($domainOriginal, $domainCaps);
         $this->createMainFolder($domainCaps);
 
         foreach ($this->filesMap as $name => $info) {

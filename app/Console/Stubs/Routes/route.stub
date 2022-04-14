@@ -1,71 +1,129 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
 $patterns = [
     'id' => '[0-9A-Z]{26}',
 ];
 
-$router->delete(
+Route::delete(
     "/{{domainOriginal}}/delete/{id:{$patterns['id']}}",
     [
-        'uses' => '{{domainCaps}}DeleteController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeleteController@process',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
 
-$router->get(
+Route::get(
     '/{{domainOriginal}}/dead_list',
     [
-        'uses' => '{{domainCaps}}DeadListController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadListController@process',
         'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}DeadListValidator',
         'parameters' => 'App\Domains\{{domainCaps}}\Http\Parameters\{{domainCaps}}Parameters',
         'filters' => 'App\Domains\{{domainCaps}}\Http\Filters\{{domainCaps}}Filters',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
 
-$router->get(
+Route::get(
     '/{{domainOriginal}}/list',
     [
-        'uses' => '{{domainCaps}}ListController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}ListController@process',
         'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}ListValidator',
         'parameters' => 'App\Domains\{{domainCaps}}\Http\Parameters\{{domainCaps}}Parameters',
         'filters' => 'App\Domains\{{domainCaps}}\Http\Filters\{{domainCaps}}Filters',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
 
-$router->get(
+Route::get(
     "/{{domainOriginal}}/dead_detail/{id:{$patterns['id']}}",
     [
-        'uses' => '{{domainCaps}}DeadDetailController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DeadDetailController@process',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
 
-$router->get(
+Route::get(
     "/{{domainOriginal}}/detail/{id:{$patterns['id']}}",
     [
-        'uses' => '{{domainCaps}}DetailController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}DetailController@process',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
 
-$router->patch(
+Route::patch(
     "/{{domainOriginal}}/edit/{id:{$patterns['id']}}",
     [
-        'uses' => '{{domainCaps}}EditController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}EditController@process',
         'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}EditValidator',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
 
-$router->post(
+Route::post(
     '/{{domainOriginal}}/add',
     [
-        'uses' => '{{domainCaps}}AddController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}AddController@process',
         'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}AddValidator',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
 
-$router->post(
+Route::post(
     '/{{domainOriginal}}/bulk',
     [
-        'uses' => '{{domainCaps}}BulkController@process',
+        'uses' => 'App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController@process',
         'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}BulkValidator',
         'parameters' => 'App\Domains\{{domainCaps}}\Http\Parameters\{{domainCaps}}Parameters',
+        'middleware' => [
+            'auth',
+            'start',
+            'validator',
+            'filters',
+            'parameter',
+        ]
     ]
 );
