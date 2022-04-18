@@ -14,12 +14,22 @@ class {{domainCaps}}EditBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}EditRepositorySpy = Mockery::spy(
+        ${{domain}}EditRepositoryMock = Mockery::mock(
             {{domainCaps}}EditRepository::class
-        );
+        )->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
+            ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
-            ${{domain}}EditRepositorySpy
+            ${{domain}}EditRepositoryMock
         );
 
         $this->assertInstanceOf({{domainCaps}}EditBusiness::class, ${{domain}}EditBusiness);
@@ -46,7 +56,17 @@ class {{domainCaps}}EditBusinessTest extends TestCase
             ->with($data, $id)
             ->once()
             ->andReturn(true)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
             ${{domain}}EditRepositoryMock
@@ -80,7 +100,17 @@ class {{domainCaps}}EditBusinessTest extends TestCase
             ->shouldReceive('update')
             ->never()
             ->andReturn(true)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}EditElasticRepositorySpy = Mockery::spy(
             {{domainCaps}}EditElasticRepository::class

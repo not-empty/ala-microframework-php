@@ -31,6 +31,7 @@ class TestCaseFeature extends TestCase
         $this->header = [
             'Authorization' => $token,
             'Context' => 'app-test',
+            'Suffix' => '_test',
         ];
     }
 

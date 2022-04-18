@@ -14,12 +14,19 @@ class {{domainCaps}}DeleteBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}DeleteRepositorySpy = Mockery::spy(
+        ${{domain}}DeleteRepositoryMock = Mockery::mock(
             {{domainCaps}}DeleteRepository::class
-        );
+        )->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
+            ->getMock();
 
         ${{domain}}DeleteBusiness = new {{domainCaps}}DeleteBusiness(
-            ${{domain}}DeleteRepositorySpy
+            ${{domain}}DeleteRepositoryMock
         );
 
         $this->assertInstanceOf(
@@ -49,7 +56,17 @@ class {{domainCaps}}DeleteBusinessTest extends TestCase
             ->once()
             ->with($id)
             ->andReturn(true)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DeleteBusiness = new {{domainCaps}}DeleteBusiness(
             ${{domain}}DeleteRepositoryMock
@@ -77,7 +94,17 @@ class {{domainCaps}}DeleteBusinessTest extends TestCase
             ->shouldReceive('delete')
             ->never()
             ->andReturn(true)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DeleteBusiness = new {{domainCaps}}DeleteBusiness(
             ${{domain}}DeleteRepositoryMock

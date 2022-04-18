@@ -13,12 +13,22 @@ class {{domainCaps}}AddBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}AddRepositorySpy = Mockery::spy(
+        ${{domain}}AddRepositoryMock = Mockery::mock(
             {{domainCaps}}AddRepository::class
-        );
+        )->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
+            ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}AddBusiness = new {{domainCaps}}AddBusiness(
-            ${{domain}}AddRepositorySpy
+            ${{domain}}AddRepositoryMock
         );
 
         $this->assertInstanceOf(
@@ -48,7 +58,17 @@ class {{domainCaps}}AddBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn($data)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}AddBusiness = new {{domainCaps}}AddBusiness(
             ${{domain}}AddRepositoryMock

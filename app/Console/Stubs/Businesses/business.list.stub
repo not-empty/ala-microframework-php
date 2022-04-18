@@ -18,6 +18,9 @@ class {{domainCaps}}ListBusiness extends BaseBusiness
         {{domainCaps}}ListRepository ${{domain}}ListRepository
     ) {
         $this->{{domain}}ListRepository = ${{domain}}ListRepository;
+        $this->setRepositoryTable(
+            $this->{{domain}}ListRepository
+        );
     }
 
     /**

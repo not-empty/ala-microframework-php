@@ -107,5 +107,8 @@
     <rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
         <exclude-pattern>/app/Exceptions/*</exclude-pattern>
     </rule>
+    <rule ref="PSR2">
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
+    </rule>
     <exclude-pattern>/Doc/Theme/*.php</exclude-pattern>
 </ruleset>

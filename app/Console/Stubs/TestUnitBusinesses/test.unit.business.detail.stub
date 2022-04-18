@@ -14,12 +14,22 @@ class {{domainCaps}}DetailBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}DetailRepositorySpy = Mockery::spy(
+        ${{domain}}DetailRepositoryMock = Mockery::mock(
             {{domainCaps}}DetailRepository::class
-        );
+        )->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
+            ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DetailBusiness = new {{domainCaps}}DetailBusiness(
-            ${{domain}}DetailRepositorySpy
+            ${{domain}}DetailRepositoryMock
         );
 
         $this->assertInstanceOf(
@@ -45,7 +55,17 @@ class {{domainCaps}}DetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn($data)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DetailBusiness = new {{domainCaps}}DetailBusiness(
             ${{domain}}DetailRepositoryMock
@@ -71,7 +91,17 @@ class {{domainCaps}}DetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn([])
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}DetailBusiness = new {{domainCaps}}DetailBusiness(
             ${{domain}}DetailRepositoryMock

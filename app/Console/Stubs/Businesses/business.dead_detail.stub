@@ -19,6 +19,9 @@ class {{domainCaps}}DeadDetailBusiness extends BaseBusiness
         {{domainCaps}}DeadDetailRepository ${{domain}}DeadDetailRepository
     ) {
         $this->{{domain}}DeadDetailRepository = ${{domain}}DeadDetailRepository;
+        $this->setRepositoryTable(
+            $this->{{domain}}DeadDetailRepository
+        );
     }
 
     /**

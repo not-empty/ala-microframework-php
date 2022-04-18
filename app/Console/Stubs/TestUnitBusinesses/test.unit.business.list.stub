@@ -13,12 +13,22 @@ class {{domainCaps}}ListBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}ListRepositorySpy = Mockery::spy(
+        ${{domain}}ListRepositoryMock = Mockery::mock(
             {{domainCaps}}ListRepository::class
-        );
+        )->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
+            ->getMock();
+
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
 
         ${{domain}}ListBusiness = new {{domainCaps}}ListBusiness(
-            ${{domain}}ListRepositorySpy
+            ${{domain}}ListRepositoryMock
         );
 
         $this->assertInstanceOf(
@@ -37,15 +47,25 @@ class {{domainCaps}}ListBusinessTest extends TestCase
             'field' => 'teste',
         ];
 
-        ${{domain}}DeadDetailRepositoryMock = Mockery::mock(
+        ${{domain}}ListRepositoryMock = Mockery::mock(
             {{domainCaps}}ListRepository::class
         )->shouldReceive('getList')
             ->withAnyArgs()
             ->andReturn($data)
+            ->shouldReceive('getTable')
+            ->once()
+            ->andReturn('test')
+            ->shouldReceive('setTable')
+            ->with('test_test')
+            ->once()
+            ->andReturn(true)
             ->getMock();
 
+        $config = app()->make('config');
+        $config->set('app.db_suffix', '_test');
+
         ${{domain}}ListBusiness = new {{domainCaps}}ListBusiness(
-            ${{domain}}DeadDetailRepositoryMock
+            ${{domain}}ListRepositoryMock
         );
 
         $process = ${{domain}}ListBusiness->process(
