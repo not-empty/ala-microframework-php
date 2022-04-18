@@ -35,6 +35,7 @@ class {{domainCaps}}BulkController extends BaseController
         Request $request
     ) {
         $data = $request->only($request->validFields);
+        $data = $this->clearArrayFields($data);
         $ids = $data['ids'];
 
         $dataResponse = $this->{{domain}}BulkBusiness->process(
