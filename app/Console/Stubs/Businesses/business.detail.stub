@@ -19,9 +19,6 @@ class {{domainCaps}}DetailBusiness extends BaseBusiness
         {{domainCaps}}DetailRepository ${{domain}}DetailRepository
     ) {
         $this->{{domain}}DetailRepository = ${{domain}}DetailRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}DetailRepository
-        );
     }
 
     /**
@@ -33,6 +30,10 @@ class {{domainCaps}}DetailBusiness extends BaseBusiness
     public function process(
         string $id
     ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}DetailRepository
+        );
+
         $result = $this->{{domain}}DetailRepository->getById(
             $id
         );

@@ -14,22 +14,12 @@ class {{domainCaps}}DetailBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}DetailRepositoryMock = Mockery::mock(
+        ${{domain}}DetailRepositorySpy = Mockery::spy(
             {{domainCaps}}DetailRepository::class
-        )->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
-            ->getMock();
-
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        );
 
         ${{domain}}DetailBusiness = new {{domainCaps}}DetailBusiness(
-            ${{domain}}DetailRepositoryMock
+            ${{domain}}DetailRepositorySpy
         );
 
         $this->assertInstanceOf(
@@ -55,21 +45,19 @@ class {{domainCaps}}DetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn($data)
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}DetailBusiness = Mockery::mock(
+            {{domainCaps}}DetailBusiness::class,
+            [
+                ${{domain}}DetailRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}DetailBusiness = new {{domainCaps}}DetailBusiness(
-            ${{domain}}DetailRepositoryMock
-        );
+        ${{domain}}DetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $process = ${{domain}}DetailBusiness->process(
             $id
@@ -91,21 +79,19 @@ class {{domainCaps}}DetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn([])
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}DetailBusiness = Mockery::mock(
+            {{domainCaps}}DetailBusiness::class,
+            [
+                ${{domain}}DetailRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}DetailBusiness = new {{domainCaps}}DetailBusiness(
-            ${{domain}}DetailRepositoryMock
-        );
+        ${{domain}}DetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $this->expectExceptionObject(
             new DataNotFoundException(

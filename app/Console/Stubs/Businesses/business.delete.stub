@@ -19,9 +19,6 @@ class {{domainCaps}}DeleteBusiness extends BaseBusiness
         {{domainCaps}}DeleteRepository ${{domain}}DeleteRepository
     ) {
         $this->{{domain}}DeleteRepository = ${{domain}}DeleteRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}DeleteRepository
-        );
     }
 
     /**
@@ -33,6 +30,10 @@ class {{domainCaps}}DeleteBusiness extends BaseBusiness
     public function process(
         string $id
     ) : bool {
+        $this->setRepositoryTable(
+            $this->{{domain}}DeleteRepository
+        );
+
         $exists = $this->{{domain}}DeleteRepository->getById(
             $id
         );

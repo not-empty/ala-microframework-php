@@ -19,9 +19,6 @@ class {{domainCaps}}EditBusiness extends BaseBusiness
         {{domainCaps}}EditRepository ${{domain}}EditRepository
     ) {
         $this->{{domain}}EditRepository = ${{domain}}EditRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}EditRepository
-        );
     }
 
     /**
@@ -35,6 +32,10 @@ class {{domainCaps}}EditBusiness extends BaseBusiness
         array $data,
         string $id
     ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}EditRepository
+        );
+
         $exists = $this->{{domain}}EditRepository->getById(
             $id
         );

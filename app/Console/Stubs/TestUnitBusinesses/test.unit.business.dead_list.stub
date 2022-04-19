@@ -13,22 +13,12 @@ class {{domainCaps}}DeadListBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}DeadListRepositoryMock = Mockery::mock(
+        ${{domain}}DeadListRepositorySpy = Mockery::spy(
             {{domainCaps}}DeadListRepository::class
-        )->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
-            ->getMock();
-
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        );
 
         ${{domain}}DeadListBusiness = new {{domainCaps}}DeadListBusiness(
-            ${{domain}}DeadListRepositoryMock
+            ${{domain}}DeadListRepositorySpy
         );
 
         $this->assertInstanceOf(
@@ -53,21 +43,19 @@ class {{domainCaps}}DeadListBusinessTest extends TestCase
             ->withAnyArgs()
             ->once()
             ->andReturn($data)
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}DeadListBusiness = Mockery::mock(
+            {{domainCaps}}DeadListBusiness::class,
+            [
+                ${{domain}}DeadListRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}DeadListBusiness = new {{domainCaps}}DeadListBusiness(
-            ${{domain}}DeadListRepositoryMock
-        );
+        ${{domain}}DeadListBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DeadListRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $process = ${{domain}}DeadListBusiness->process(
             ['id', 'field'],

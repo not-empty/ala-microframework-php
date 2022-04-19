@@ -14,22 +14,12 @@ class {{domainCaps}}EditBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}EditRepositoryMock = Mockery::mock(
+        ${{domain}}EditRepositorySpy = Mockery::spy(
             {{domainCaps}}EditRepository::class
-        )->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
-            ->getMock();
-
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        );
 
         ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
-            ${{domain}}EditRepositoryMock
+            ${{domain}}EditRepositorySpy
         );
 
         $this->assertInstanceOf({{domainCaps}}EditBusiness::class, ${{domain}}EditBusiness);
@@ -56,21 +46,19 @@ class {{domainCaps}}EditBusinessTest extends TestCase
             ->with($data, $id)
             ->once()
             ->andReturn(true)
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}EditBusiness = Mockery::mock(
+            {{domainCaps}}EditBusiness::class,
+            [
+                ${{domain}}EditRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
-            ${{domain}}EditRepositoryMock
-        );
+        ${{domain}}EditBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}EditRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $process = ${{domain}}EditBusiness->process(
             $data,
@@ -100,25 +88,19 @@ class {{domainCaps}}EditBusinessTest extends TestCase
             ->shouldReceive('update')
             ->never()
             ->andReturn(true)
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}EditBusiness = Mockery::mock(
+            {{domainCaps}}EditBusiness::class,
+            [
+                ${{domain}}EditRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}EditElasticRepositorySpy = Mockery::spy(
-            {{domainCaps}}EditElasticRepository::class
-        );
-
-        ${{domain}}EditBusiness = new {{domainCaps}}EditBusiness(
-            ${{domain}}EditRepositoryMock
-        );
+        ${{domain}}EditBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}EditRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $this->expectExceptionObject(
             new DataNotFoundException(
