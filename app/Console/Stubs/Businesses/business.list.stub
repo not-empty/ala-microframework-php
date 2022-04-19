@@ -18,9 +18,6 @@ class {{domainCaps}}ListBusiness extends BaseBusiness
         {{domainCaps}}ListRepository ${{domain}}ListRepository
     ) {
         $this->{{domain}}ListRepository = ${{domain}}ListRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}ListRepository
-        );
     }
 
     /**
@@ -39,6 +36,10 @@ class {{domainCaps}}ListBusiness extends BaseBusiness
         ? array $filters,
         array $query
     ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}ListRepository
+        );
+
         return $this->{{domain}}ListRepository->getList(
             $fields,
             $order,

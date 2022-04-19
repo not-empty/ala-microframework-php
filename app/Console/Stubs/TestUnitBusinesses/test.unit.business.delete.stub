@@ -14,19 +14,12 @@ class {{domainCaps}}DeleteBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}DeleteRepositoryMock = Mockery::mock(
+        ${{domain}}DeleteRepositorySpy = Mockery::spy(
             {{domainCaps}}DeleteRepository::class
-        )->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
-            ->getMock();
+        );
 
         ${{domain}}DeleteBusiness = new {{domainCaps}}DeleteBusiness(
-            ${{domain}}DeleteRepositoryMock
+            ${{domain}}DeleteRepositorySpy
         );
 
         $this->assertInstanceOf(
@@ -56,21 +49,20 @@ class {{domainCaps}}DeleteBusinessTest extends TestCase
             ->once()
             ->with($id)
             ->andReturn(true)
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}DeleteBusiness = Mockery::mock(
+            {{domainCaps}}DeleteBusiness::class,
+            [
+                ${{domain}}DeleteRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}DeleteBusiness = new {{domainCaps}}DeleteBusiness(
-            ${{domain}}DeleteRepositoryMock
-        );
+        ${{domain}}DeleteBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DeleteRepositoryMock)
+            ->once()
+            ->andReturn(true);
+
         $process = ${{domain}}DeleteBusiness->process(
             $id
         );
@@ -94,21 +86,19 @@ class {{domainCaps}}DeleteBusinessTest extends TestCase
             ->shouldReceive('delete')
             ->never()
             ->andReturn(true)
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}DeleteBusiness = Mockery::mock(
+            {{domainCaps}}DeleteBusiness::class,
+            [
+                ${{domain}}DeleteRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}DeleteBusiness = new {{domainCaps}}DeleteBusiness(
-            ${{domain}}DeleteRepositoryMock
-        );
+        ${{domain}}DeleteBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DeleteRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $this->expectExceptionObject(
             new DataNotFoundException(

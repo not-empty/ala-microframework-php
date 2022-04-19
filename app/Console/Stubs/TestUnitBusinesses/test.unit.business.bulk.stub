@@ -13,22 +13,12 @@ class {{domainCaps}}BulkBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}BulkRepositoryMock = Mockery::mock(
+        ${{domain}}BulkRepositorySpy = Mockery::spy(
             {{domainCaps}}BulkRepository::class
-        )->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
-            ->getMock();
-
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        );
 
         ${{domain}}BulkBusiness = new {{domainCaps}}BulkBusiness(
-            ${{domain}}BulkRepositoryMock
+            ${{domain}}BulkRepositorySpy
         );
 
         $this->assertInstanceOf(
@@ -58,21 +48,20 @@ class {{domainCaps}}BulkBusinessTest extends TestCase
                 []
             )
             ->andReturn([])
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}BulkBusiness = Mockery::mock(
+            {{domainCaps}}BulkBusiness::class,
+            [
+                ${{domain}}BulkRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}BulkBusiness = new {{domainCaps}}BulkBusiness(
-            ${{domain}}BulkRepositoryMock
-        );
+        ${{domain}}BulkBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}BulkRepositoryMock)
+            ->once()
+            ->andReturn(true);
+
         $business = ${{domain}}BulkBusiness->process(
             [
                 '01E4E622FPAKTD2T7YNNWPPYPN',

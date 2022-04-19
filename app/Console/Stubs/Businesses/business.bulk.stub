@@ -18,9 +18,6 @@ class {{domainCaps}}BulkBusiness extends BaseBusiness
         {{domainCaps}}BulkRepository ${{domain}}BulkRepository
     ) {
         $this->{{domain}}BulkRepository = ${{domain}}BulkRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}BulkRepository
-        );
     }
 
     /**
@@ -39,6 +36,10 @@ class {{domainCaps}}BulkBusiness extends BaseBusiness
         string $class,
         array $query
     ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}BulkRepository
+        );
+
         return $this->{{domain}}BulkRepository->getBulk(
             $ids,
             $fields,

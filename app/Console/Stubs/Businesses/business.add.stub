@@ -18,9 +18,6 @@ class {{domainCaps}}AddBusiness extends BaseBusiness
         {{domainCaps}}AddRepository ${{domain}}AddRepository
     ) {
         $this->{{domain}}AddRepository = ${{domain}}AddRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}AddRepository
-        );
     }
 
     /**
@@ -31,6 +28,10 @@ class {{domainCaps}}AddBusiness extends BaseBusiness
     public function process(
         array $data
     ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}AddRepository
+        );
+
         $id = $this->{{domain}}AddRepository->insert(
             $data
         );

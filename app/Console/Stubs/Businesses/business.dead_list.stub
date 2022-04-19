@@ -18,9 +18,6 @@ class {{domainCaps}}DeadListBusiness extends BaseBusiness
         {{domainCaps}}DeadListRepository ${{domain}}DeadListRepository
     ) {
         $this->{{domain}}DeadListRepository = ${{domain}}DeadListRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}DeadListRepository
-        );
     }
 
     /**
@@ -39,6 +36,10 @@ class {{domainCaps}}DeadListBusiness extends BaseBusiness
         ? array $filters,
         array $query
     ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}DeadListRepository
+        );
+
         return $this->{{domain}}DeadListRepository->getDeadList(
             $fields,
             $order,

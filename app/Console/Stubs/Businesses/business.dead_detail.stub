@@ -19,9 +19,6 @@ class {{domainCaps}}DeadDetailBusiness extends BaseBusiness
         {{domainCaps}}DeadDetailRepository ${{domain}}DeadDetailRepository
     ) {
         $this->{{domain}}DeadDetailRepository = ${{domain}}DeadDetailRepository;
-        $this->setRepositoryTable(
-            $this->{{domain}}DeadDetailRepository
-        );
     }
 
     /**
@@ -33,6 +30,10 @@ class {{domainCaps}}DeadDetailBusiness extends BaseBusiness
     public function process(
         string $id
     ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}DeadDetailRepository
+        );
+
         $result = $this->{{domain}}DeadDetailRepository->getDeadById(
             $id
         );

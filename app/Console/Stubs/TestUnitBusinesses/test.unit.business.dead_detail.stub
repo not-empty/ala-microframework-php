@@ -14,22 +14,12 @@ class {{domainCaps}}DeadDetailBusinessTest extends TestCase
      */
     public function testCreateBusiness()
     {
-        ${{domain}}DeadDetailRepositoryMock = Mockery::mock(
+        ${{domain}}DeadDetailRepositorySpy = Mockery::spy(
             {{domainCaps}}DeadDetailRepository::class
-        )->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
-            ->getMock();
-
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        );
 
         ${{domain}}DeadDetailBusiness = new {{domainCaps}}DeadDetailBusiness(
-            ${{domain}}DeadDetailRepositoryMock
+            ${{domain}}DeadDetailRepositorySpy
         );
 
         $this->assertInstanceOf(
@@ -55,21 +45,19 @@ class {{domainCaps}}DeadDetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn($data)
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}DeadDetailBusiness = Mockery::mock(
+            {{domainCaps}}DeadDetailBusiness::class,
+            [
+                ${{domain}}DeadDetailRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}DeadDetailBusiness = new {{domainCaps}}DeadDetailBusiness(
-            ${{domain}}DeadDetailRepositoryMock
-        );
+        ${{domain}}DeadDetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DeadDetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $process = ${{domain}}DeadDetailBusiness->process(
             $id
@@ -91,21 +79,19 @@ class {{domainCaps}}DeadDetailBusinessTest extends TestCase
             ->with($id)
             ->once()
             ->andReturn([])
-            ->shouldReceive('getTable')
-            ->once()
-            ->andReturn('test')
-            ->shouldReceive('setTable')
-            ->with('test_test')
-            ->once()
-            ->andReturn(true)
             ->getMock();
 
-        $config = app()->make('config');
-        $config->set('app.db_suffix', '_test');
+        ${{domain}}DeadDetailBusiness = Mockery::mock(
+            {{domainCaps}}DeadDetailBusiness::class,
+            [
+                ${{domain}}DeadDetailRepositoryMock,
+            ]
+        )->makePartial();
 
-        ${{domain}}DeadDetailBusiness = new {{domainCaps}}DeadDetailBusiness(
-            ${{domain}}DeadDetailRepositoryMock
-        );
+        ${{domain}}DeadDetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DeadDetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
 
         $this->expectExceptionObject(
             new DataNotFoundException(
