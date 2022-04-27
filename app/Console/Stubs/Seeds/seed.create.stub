@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Seeds;
+
+class {{domainCaps}}Seed
+{
+    /**
+     * return seed
+     * @return array
+     */
+    public function getSeed()
+    {
+        return [
+            'index' => '{{domainOriginal}}',
+            'fields' => [
+                'name' => [
+                    'type' => 'name',
+                ],
+                'age' => [
+                    'type' => 'integer',
+                    'min' => 1,
+                    'max' => 32255,
+                ],
+                'nickname' => [
+                    'type' => 'word',
+                ],
+                'countries' => [
+                    'type' => 'list',
+                    'values' => [
+                        'Brazil',
+                        'USA',
+                        'Canada',
+                        'Japan',
+                        'China',
+                    ]
+                ],
+                'height' => [
+                    'type' => 'float',
+                    'min' => 0,
+                    'max' => 100,
+                ],
+                'users' => [
+                    'type' => 'fixed',
+                    'value' => [
+                        [
+                            'id' => 1,
+                            'user_email' => 'email@user.com',
+                            'user_name' => 'User Name',
+                        ]
+                    ],
+                ],
+                'location_brazil' => [
+                    'type' => 'geobr',
+                ],
+                'location' => [
+                    'type' => 'geo',
+                ],
+                'created' => [
+                    'type' => 'date',
+                    'min_year' => 2016,
+                    'max_year' => 2020,
+                ],
+            ],
+        ];
+    }
+}
