@@ -62,7 +62,7 @@ class RandomSeedCreateCommand extends BaseCommand
         string $nameStub,
         string $contents
     ) {
-        $holePath = base_path('app') . '/Seeds/' . $nameStub;
+        $holePath = base_path('app') . '/Seeds/' . $nameStub . 'Seed';
 
         if (!file_exists($holePath . '.php')) {
             $file = fopen($holePath . '.php', 'wr');
