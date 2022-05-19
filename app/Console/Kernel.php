@@ -9,6 +9,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\CreateDomainCommand',
         'App\Console\Commands\MigrateTemplateCommand',
+        'App\Console\Commands\RandomSeedCreateCommand',
         'App\Console\Commands\RandomSeedIndexCommand',
     ];
 }

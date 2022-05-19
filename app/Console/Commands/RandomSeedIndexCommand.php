@@ -84,7 +84,7 @@ class RandomSeedIndexCommand extends BaseCommand
         $indexName = $seedClass['index'];
         $indexFields = $seedClass['fields'];
 
-        $config = $this->getConfig('tokens');
+        $config = $this->getConfig('token');
         $token = array_key_first($config['data']);
         $secret = $config['data'][$token]['secret'];
         $context = $config['data'][$token]['name'];
