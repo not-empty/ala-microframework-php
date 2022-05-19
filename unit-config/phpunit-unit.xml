@@ -8,7 +8,6 @@
       <directory suffix=".php">../app/Console</directory>
       <directory suffix=".php">../app/Constants</directory>
       <directory suffix=".php">../app/Domains/*/Http</directory>
-      <directory suffix=".php">../app/Domains/*/Repositories</directory>
       <directory suffix=".php">../app/Domains/Doc</directory>
       <directory suffix=".php">../app/Exceptions</directory>
       <directory suffix=".php">../app/Http/Controllers</directory>
