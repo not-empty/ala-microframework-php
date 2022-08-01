@@ -33,7 +33,7 @@ class CorsTest extends TestCase
         $this->assertEquals($headers['access-control-max-age'][0], '86400');
         $this->assertEquals(
             $headers['access-control-allow-headers'][0],
-            'Content-Type, Accept, Accept-Language, Authorization, X-Requested-With, Context'
+            'Content-Type, Accept, Accept-Language, Authorization, X-Requested-With, Context, Suffix'
         );
     }
 
