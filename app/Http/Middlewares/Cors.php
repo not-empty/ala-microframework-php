@@ -17,7 +17,7 @@ class Cors
         Closure $next
     ) {
         $accessMethods = 'POST, GET, OPTIONS, PUT, DELETE, PATCH';
-        $accessHeaders = 'Content-Type, Accept, Accept-Language, Authorization, X-Requested-With, Context';
+        $accessHeaders = 'Content-Type, Accept, Accept-Language, Authorization, X-Requested-With, Context, Suffix';
         $headers = [
             'Access-Control-Allow-Origin' => '*',
             'Access-Control-Allow-Methods' => $accessMethods,
