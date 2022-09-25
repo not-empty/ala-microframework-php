@@ -1,19 +1,26 @@
 #!/bin/sh
 
+container=`docker ps --format "{{.Names}}" --filter "name=-php"`
+
+if [ -z $container ]
+    then
+        echo "Your container name is not valid. Try put -php on the end of container's name."
+fi
+
 echo "Checking PHP Lint in app..."
-find ./app -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+docker exec $container find ./app -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
 echo "Checking PHP Lint in bootstrap..."
-find ./bootstrap -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+docker exec $container find ./bootstrap -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
 echo "Checking PHP Lint in config..."
-find ./config -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+docker exec $container find ./config -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
 echo "Checking PHP Lint in public..."
-find ./public -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+docker exec $container find ./public -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
 echo "Checking PHP Lint in resources..."
-find ./resources -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+docker exec $container find ./resources -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
 echo "Checking PHP Lint in routes..."
-find ./routes -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+docker exec $container find ./routes -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
 echo "Checking PHP Lint in tests..."
-find ./tests -name "*.php" -print0 | xargs -0 -n1 -P8 php -l -d display_errors=0
+docker exec $container find ./tests -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
 
 if [ $? != 0 ]
 then
@@ -22,7 +29,7 @@ then
 fi
 
 echo "Running Code Sniffer..."
-./vendor/bin/phpcs
+docker exec $container ./vendor/bin/phpcs
 
 if [ $? != 0 ]
 then
@@ -31,7 +38,7 @@ then
 fi
 
 echo "Running Mess Detector..."
-./vendor/bin/phpmd ./app text phpmd.xml
+docker exec $container ./vendor/bin/phpmd ./app text phpmd.xml
 
 if [ $? != 0 ]
 then
@@ -39,7 +46,7 @@ then
     exit 1
 fi
 
-./vendor/bin/phpmd ./bootstrap text phpmd.xml
+docker exec $container ./vendor/bin/phpmd ./bootstrap text phpmd.xml
 
 if [ $? != 0 ]
 then
@@ -47,7 +54,7 @@ then
     exit 1
 fi
 
-./vendor/bin/phpmd ./config text phpmd.xml
+docker exec $container ./vendor/bin/phpmd ./config text phpmd.xml
 
 if [ $? != 0 ]
 then
@@ -55,7 +62,7 @@ then
     exit 1
 fi
 
-./vendor/bin/phpmd ./database text phpmd.xml
+docker exec $container ./vendor/bin/phpmd ./database text phpmd.xml
 
 if [ $? != 0 ]
 then
@@ -63,7 +70,7 @@ then
     exit 1
 fi
 
-./vendor/bin/phpmd ./public text phpmd.xml
+docker exec $container ./vendor/bin/phpmd ./public text phpmd.xml
 
 if [ $? != 0 ]
 then
@@ -71,7 +78,7 @@ then
     exit 1
 fi
 
-./vendor/bin/phpmd ./resources text phpmd.xml
+docker exec $container ./vendor/bin/phpmd ./resources text phpmd.xml
 
 if [ $? != 0 ]
 then
@@ -79,7 +86,7 @@ then
     exit 1
 fi
 
-./vendor/bin/phpmd ./routes text phpmd.xml
+docker exec $container ./vendor/bin/phpmd ./routes text phpmd.xml
 
 if [ $? != 0 ]
 then
@@ -88,7 +95,7 @@ then
 fi
 
 echo "Running Unit Tests..."
-phpdbg -qrr vendor/bin/phpunit --configuration unit-config/phpunit-unit-cover.xml -d memory_limit=1024M
+docker exec $container phpdbg -qrr vendor/bin/phpunit --configuration unit-config/phpunit-unit-cover.xml -d memory_limit=1024M
 
 if [ $? != 0 ]
 then
@@ -97,7 +104,7 @@ then
 fi
 
 echo "Running Feature Tests..."
-phpdbg -qrr vendor/bin/phpunit --configuration unit-config/phpunit-feat-cover.xml -d memory_limit=1024M
+docker exec $container phpdbg -qrr vendor/bin/phpunit --configuration unit-config/phpunit-feat-cover.xml -d memory_limit=1024M
 
 if [ $? != 0 ]
 then
@@ -106,7 +113,7 @@ then
 fi
 
 echo "Checking Unit Coverage..."
-php contrib/coverage-checker.php coverage/coverage-unit/coverage.xml 100
+docker exec $container php contrib/coverage-checker.php coverage/coverage-unit/coverage.xml 100
 
 if [ $? != 0 ]
 then
@@ -115,7 +122,7 @@ then
 fi
 
 echo "Checking Feature Coverage..."
-php contrib/coverage-checker.php coverage/coverage-feature/coverage.xml 100
+docker exec $container php contrib/coverage-checker.php coverage/coverage-feature/coverage.xml 100
 
 if [ $? != 0 ]
 then
