@@ -231,6 +231,71 @@ class BaseRepositoryTest extends TestCase
         $this->assertEquals($return['name'], 'teste');
     }
 
+        /**
+     * @covers \App\Repositories\BaseRepository::getList
+     * @covers \App\Repositories\BaseRepository::setFilters
+     */
+    public function testGetListLimit()
+    {
+        $return = [
+            'id' => 'id',
+            'name' => 'teste',
+        ];
+
+        $limit = 1;
+
+        $dbMock = Mockery::mock(DatabaseManager::class)
+            ->shouldReceive('table')
+            ->andReturnSelf()
+            ->shouldReceive('select')
+            ->with(['id', 'user_name'])
+            ->andReturnSelf()
+            ->shouldReceive('whereNull')
+            ->with('deleted')
+            ->andReturnSelf()
+            ->shouldReceive('orderBy')
+            ->withArgs(['id', 'desc'])
+            ->andReturnSelf()
+            ->shouldReceive('paginate')
+            ->with($limit, ['*'], 'page', 1)
+            ->andReturnSelf()
+            ->shouldReceive('toArray')
+            ->withNoArgs()
+            ->andReturn($return)
+            ->shouldReceive('appends')
+            ->andReturnSelf()
+            ->shouldReceive('links')
+            ->andReturnSelf()
+            ->getMock();
+
+        $ulidSpy = Mockery::spy(Ulid::class);
+
+        $baseRepository = $this->getMockForAbstractClass(
+            BaseRepository::class,
+            [
+                $dbMock,
+                $ulidSpy
+            ]
+        );
+
+        $getById = $baseRepository->getList(
+            [
+                'id',
+                'user_name'
+            ],
+            'id',
+            'desc',
+            null,
+            [
+                'limit' => $limit,
+            ]
+        );
+
+        $this->assertEquals($return, $getById);
+        $this->assertEquals($return['id'], 'id');
+        $this->assertEquals($return['name'], 'teste');
+    }
+
     /**
      * @covers \App\Repositories\BaseRepository::getDeadList
      */
@@ -346,6 +411,71 @@ class BaseRepositoryTest extends TestCase
             null,
             [
                 'page' => 4,
+            ]
+        );
+
+        $this->assertEquals($return, $getById);
+        $this->assertEquals($return['id'], 'id');
+        $this->assertEquals($return['name'], 'teste');
+    }
+
+        /**
+     * @covers \App\Repositories\BaseRepository::getDeadList
+     * @covers \App\Repositories\BaseRepository::setWheres
+     */
+    public function testGetDeadListLimit()
+    {
+        $return = [
+            'id' => 'id',
+            'name' => 'teste',
+        ];
+
+        $limit = 1;
+
+        $dbMock = Mockery::mock(DatabaseManager::class)
+            ->shouldReceive('table')
+            ->andReturnSelf()
+            ->shouldReceive('select')
+            ->with(['id', 'user_name'])
+            ->andReturnSelf()
+            ->shouldReceive('whereNotNull')
+            ->with('deleted')
+            ->andReturnSelf()
+            ->shouldReceive('orderBy')
+            ->withArgs(['id', 'desc'])
+            ->andReturnSelf()
+            ->shouldReceive('paginate')
+            ->with($limit, ['*'], 'page', 1)
+            ->andReturnSelf()
+            ->shouldReceive('toArray')
+            ->withNoArgs()
+            ->andReturn($return)
+            ->shouldReceive('appends')
+            ->andReturnSelf()
+            ->shouldReceive('links')
+            ->andReturnSelf()
+            ->getMock();
+
+        $ulidSpy = Mockery::spy(Ulid::class);
+
+        $baseRepository = $this->getMockForAbstractClass(
+            BaseRepository::class,
+            [
+                $dbMock,
+                $ulidSpy
+            ]
+        );
+
+        $getById = $baseRepository->getDeadList(
+            [
+                'id',
+                'user_name'
+            ],
+            'id',
+            'desc',
+            null,
+            [
+                'limit' => 1,
             ]
         );
 
@@ -853,6 +983,75 @@ class BaseRepositoryTest extends TestCase
             'id',
             'desc',
             []
+        );
+
+        $this->assertEquals($return, $getBulk);
+    }
+
+        /**
+     * @covers \App\Repositories\BaseRepository::getBulk
+     */
+    public function testGetBulkLimit()
+    {
+        $return = [
+            'id' => 'id',
+            'name' => 'teste',
+        ];
+
+        $limit = 1;
+
+        $dbMock = Mockery::mock(DatabaseManager::class)
+            ->shouldReceive('table')
+            ->andReturnSelf()
+            ->shouldReceive('select')
+            ->with(['id'])
+            ->andReturnSelf()
+            ->shouldReceive('whereNull')
+            ->with('deleted')
+            ->andReturnSelf()
+            ->shouldReceive('whereIn')
+            ->with('id', [1, 2])
+            ->andReturnSelf()
+            ->shouldReceive('orderBy')
+            ->with('id', 'desc')
+            ->andReturnSelf()
+            ->shouldReceive('paginate')
+            ->with($limit)
+            ->andReturnSelf()
+            ->shouldReceive('appends')
+            ->with(['limit' => $limit])
+            ->andReturnSelf()
+            ->shouldReceive('links')
+            ->withNoArgs()
+            ->andReturnSelf()
+            ->shouldReceive('toArray')
+            ->withNoArgs()
+            ->andReturn($return)
+            ->getMock();
+
+        $ulidSpy = Mockery::spy(Ulid::class);
+
+        $baseRepository = $this->getMockForAbstractClass(
+            BaseRepository::class,
+            [
+                $dbMock,
+                $ulidSpy
+            ]
+        );
+
+        $getBulk = $baseRepository->getBulk(
+            [
+                1,
+                2
+            ],
+            [
+                'id'
+            ],
+            'id',
+            'desc',
+            [
+                'limit' => 1,
+            ]
         );
 
         $this->assertEquals($return, $getBulk);

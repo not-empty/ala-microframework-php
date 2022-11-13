@@ -73,6 +73,11 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
+        $limit = 25;
+        if (isset($query['limit'])) {
+            $limit = $query['limit'];
+        }
+
         $list = $this->db->table($this->table)
             ->select($fields);
 
@@ -86,7 +91,7 @@ abstract class BaseRepository
         $list = $this->setFilters($list, $filters);
 
         $list = $list->orderBy($order, $class)
-            ->paginate(25, ['*'], 'page', $page);
+            ->paginate($limit, ['*'], 'page', $page);
 
         $list->appends($query)
             ->links();
@@ -129,6 +134,11 @@ abstract class BaseRepository
             $page = $query['page'];
         }
 
+        $limit = 25;
+        if (isset($query['limit'])) {
+            $limit = $query['limit'];
+        }
+
         $list = $this->db->table($this->table)
             ->select($fields);
 
@@ -142,7 +152,7 @@ abstract class BaseRepository
         $list = $this->setFilters($list, $filters);
 
         $list = $list->orderBy($order, $class)
-            ->paginate(25, ['*'], 'page', $page);
+            ->paginate($limit, ['*'], 'page', $page);
 
         $list->appends($query)
             ->links();
@@ -166,13 +176,18 @@ abstract class BaseRepository
         string $class,
         array $query
     ): array {
+        $limit = 25;
+        if (isset($query['limit'])) {
+            $limit = $query['limit'];
+        }
+
         $list = $this->db->table($this->table)
             ->select($fields)
             ->whereNull('deleted')
             ->whereIn('id', $ids);
 
         $list = $list->orderBy($order, $class)
-            ->paginate(25);
+            ->paginate($limit);
 
         $list->appends($query)
             ->links();

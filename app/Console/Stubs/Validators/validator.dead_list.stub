@@ -18,6 +18,7 @@ class {{domainCaps}}DeadListValidator extends BaseValidator
             'order' => 'string',
             'page' => 'integer|min:1',
             'filter_field' => 'string|filter',
+            'limit' => 'integer|min:1',
         ];
     }
 }
