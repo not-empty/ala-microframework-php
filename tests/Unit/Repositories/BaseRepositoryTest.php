@@ -421,7 +421,7 @@ class BaseRepositoryTest extends TestCase
         $this->assertEquals($return['name'], 'teste');
     }
 
-        /**
+    /**
      * @covers \App\Repositories\BaseRepository::getDeadList
      * @covers \App\Repositories\BaseRepository::setWheres
      */
@@ -992,7 +992,7 @@ class BaseRepositoryTest extends TestCase
         $this->assertEquals($return, $getBulk);
     }
 
-        /**
+    /**
      * @covers \App\Repositories\BaseRepository::getBulk
      */
     public function testGetBulkLimit()
