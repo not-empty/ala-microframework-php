@@ -231,7 +231,7 @@ class BaseRepositoryTest extends TestCase
         $this->assertEquals($return['name'], 'teste');
     }
 
-        /**
+    /**
      * @covers \App\Repositories\BaseRepository::getList
      * @covers \App\Repositories\BaseRepository::setFilters
      */
@@ -240,9 +240,10 @@ class BaseRepositoryTest extends TestCase
         $return = [
             'id' => 'id',
             'name' => 'teste',
+            'per_page' => 10,
         ];
 
-        $limit = 1;
+        $limit = 10;
 
         $dbMock = Mockery::mock(DatabaseManager::class)
             ->shouldReceive('table')
@@ -278,7 +279,7 @@ class BaseRepositoryTest extends TestCase
             ]
         );
 
-        $getById = $baseRepository->getList(
+        $getList = $baseRepository->getList(
             [
                 'id',
                 'user_name'
@@ -291,8 +292,9 @@ class BaseRepositoryTest extends TestCase
             ]
         );
 
-        $this->assertEquals($return, $getById);
+        $this->assertEquals($return, $getList);
         $this->assertEquals($return['id'], 'id');
+        $this->assertEquals($return['per_page'], $limit);
         $this->assertEquals($return['name'], 'teste');
     }
 
@@ -428,9 +430,10 @@ class BaseRepositoryTest extends TestCase
         $return = [
             'id' => 'id',
             'name' => 'teste',
+            'per_page' => 10,
         ];
 
-        $limit = 1;
+        $limit = 10;
 
         $dbMock = Mockery::mock(DatabaseManager::class)
             ->shouldReceive('table')
@@ -466,7 +469,7 @@ class BaseRepositoryTest extends TestCase
             ]
         );
 
-        $getById = $baseRepository->getDeadList(
+        $getDeadList = $baseRepository->getDeadList(
             [
                 'id',
                 'user_name'
@@ -475,12 +478,13 @@ class BaseRepositoryTest extends TestCase
             'desc',
             null,
             [
-                'limit' => 1,
+                'limit' => $limit,
             ]
         );
 
-        $this->assertEquals($return, $getById);
+        $this->assertEquals($return, $getDeadList);
         $this->assertEquals($return['id'], 'id');
+        $this->assertEquals($return['per_page'], $limit);
         $this->assertEquals($return['name'], 'teste');
     }
 
