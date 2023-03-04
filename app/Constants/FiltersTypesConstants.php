@@ -13,11 +13,15 @@ class FiltersTypesConstants
     const FILTER_NOT_EQUAL = 'neq';
     const FILTER_NOT_NULL = 'nnu';
     const FILTER_NULL = 'nul';
+    const FILTER_IN = 'in';
+    const FILTER_BETWEEN = 'btw';
 
     const ACTION_WHERE = 'where';
     const ACTION_WHERE_LIKE = 'whereLike';
     const ACTION_WHERE_NULL = 'whereNull';
     const ACTION_WHERE_NOT_NULL = 'whereNotNull';
+    const ACTION_WHERE_IN = 'whereIn';
+    const ACTION_WHERE_BETWEEN = 'whereBetween';
 
     const FILTER_TYPE_MAP = [
         self::FILTER_EQUAL => [
@@ -53,6 +57,12 @@ class FiltersTypesConstants
         ],
         self::FILTER_NULL => [
             'action' => self::ACTION_WHERE_NULL,
+        ],
+        self::FILTER_IN => [
+            'action' => self::ACTION_WHERE_IN,
+        ],
+        self::FILTER_BETWEEN => [
+            'action' => self::ACTION_WHERE_BETWEEN,
         ],
     ];
 }

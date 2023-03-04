@@ -794,6 +794,159 @@ class BaseRepositoryTest extends TestCase
     }
 
     /**
+     * @covers \App\Repositories\BaseRepository::getList
+     * @covers \App\Repositories\BaseRepository::setFilters
+     */
+    public function testGetListWhereIn()
+    {
+        $return = [
+            'id' => 'id',
+            'name' => 'test',
+        ];
+
+        $filter = [
+            'user_name' => [
+                'type' => 'in',
+                'data' => 'test',
+            ]
+        ];
+
+        $dbMock = Mockery::mock(DatabaseManager::class)
+            ->shouldReceive('table')
+            ->andReturnSelf()
+            ->shouldReceive('select')
+            ->with(['id', 'user_name'])
+            ->andReturnSelf()
+            ->shouldReceive('whereNull')
+            ->with('deleted')
+            ->andReturnSelf()
+            ->shouldReceive('whereIn')
+            ->with('user_name', [0 => 'test'])
+            ->andReturnSelf()
+            ->shouldReceive('orderBy')
+            ->withArgs(['id', 'desc'])
+            ->andReturnSelf()
+            ->shouldReceive('paginate')
+            ->with(25, ['*'], 'page', 1)
+            ->andReturnSelf()
+            ->shouldReceive('toArray')
+            ->withNoArgs()
+            ->andReturn($return)
+            ->shouldReceive('appends')
+            ->andReturnSelf()
+            ->shouldReceive('links')
+            ->andReturnSelf()
+            ->getMock();
+
+        $ulidSpy = Mockery::spy(Ulid::class);
+
+        $baseRepository = $this->getMockForAbstractClass(
+            BaseRepository::class,
+            [
+                $dbMock,
+                $ulidSpy
+            ]
+        );
+
+        $getById = $baseRepository->getList(
+            [
+                'id',
+                'user_name'
+            ],
+            'id',
+            'desc',
+            $filter,
+            []
+        );
+
+        $this->assertEquals($return, $getById);
+        $this->assertEquals($return['id'], 'id');
+        $this->assertEquals($return['name'], 'test');
+    }
+
+
+    /**
+     * @covers \App\Repositories\BaseRepository::getList
+     * @covers \App\Repositories\BaseRepository::setFilters
+     * @covers \App\Repositories\BaseRepository::applyWhereBetweenFilter
+     */
+    public function testGetListWhereBetween()
+    {
+        $return = [
+            'id' => 'id',
+            'name' => 'test',
+        ];
+
+        $start = date('Y-m-d H:i:s');
+        $end = date('Y-m-d H:i:s', strtotime($start . ' +30 minutes'));
+
+        $filter = [
+            'created' => [
+                'type' => 'btw',
+                'data' => "$start|$end",
+            ]
+        ];
+
+        $dbMock = Mockery::mock(DatabaseManager::class)
+            ->shouldReceive('table')
+            ->andReturnSelf()
+            ->shouldReceive('select')
+            ->with(['id', 'user_name'])
+            ->andReturnSelf()
+            ->shouldReceive('whereNull')
+            ->with('deleted')
+            ->andReturnSelf()
+            ->shouldReceive('whereBetween')
+            ->with(
+                'created',
+                [
+                    $start,
+                    $end,
+                ]
+            )
+            ->andReturnSelf()
+            ->shouldReceive('orderBy')
+            ->withArgs(['id', 'desc'])
+            ->andReturnSelf()
+            ->shouldReceive('paginate')
+            ->with(25, ['*'], 'page', 1)
+            ->andReturnSelf()
+            ->shouldReceive('toArray')
+            ->withNoArgs()
+            ->andReturn($return)
+            ->shouldReceive('appends')
+            ->andReturnSelf()
+            ->shouldReceive('links')
+            ->andReturnSelf()
+            ->getMock();
+
+        $ulidSpy = Mockery::spy(Ulid::class);
+
+        $baseRepository = $this->getMockForAbstractClass(
+            BaseRepository::class,
+            [
+                $dbMock,
+                $ulidSpy
+            ]
+        );
+
+        $getById = $baseRepository->getList(
+            [
+                'id',
+                'user_name'
+            ],
+            'id',
+            'desc',
+            $filter,
+            []
+        );
+
+        $this->assertEquals($return, $getById);
+        $this->assertEquals($return['id'], 'id');
+        $this->assertEquals($return['name'], 'test');
+    }
+
+    /**
      * @covers \App\Repositories\BaseRepository::getBulk
      */
     public function testGetBulk()
