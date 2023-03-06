@@ -16,6 +16,7 @@ class {{domainCaps}}BulkValidator extends BaseValidator
             'ids' => 'required|array',
             'ids.*' => 'required|string|ulid',
             'page' => 'integer|min:1',
+            'limit' => 'integer|min:1|max:25',
         ];
     }
 }
