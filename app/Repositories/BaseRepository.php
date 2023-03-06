@@ -279,25 +279,36 @@ abstract class BaseRepository
                     $list->whereIn($key, explode('|', $filter['data']));
                     break;
                 case FiltersTypesConstants::ACTION_WHERE_BETWEEN:
-                    $this->applyWhereBetweenFilter($list, $key, $filter['data']);
+                    $this->applyWhereBetweenFilter(
+                        $list,
+                        $key,
+                        $filter['data']
+                    );
                     break;
             }
         }
+
         return $list;
     }
 
     /**
      * set whereBetweenFilter
      * @param DatabaseManager $list
-     * @param integer $key
+     * @param string|integer $key
      * @param string $data
+     * @return DatabaseManager $list
      */
-    protected function applyWhereBetweenFilter($list, $key, $data)
-    {
+    protected function applyWhereBetweenFilter(
+        DatabaseManager $list,
+        $key,
+        String $data
+    ) {
         $itens = explode('|', $data);
         if (count($itens) === 2) {
             $list->whereBetween($key, $itens);
         }
+
+        return $list;
     }
 
     /**
