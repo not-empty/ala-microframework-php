@@ -279,7 +279,7 @@ abstract class BaseRepository
                     $list->whereIn($key, explode('|', $filter['data']));
                     break;
                 case FiltersTypesConstants::ACTION_WHERE_BETWEEN:
-                    $this->applyWhereBetweenFilter($list, $key, $filter['data']);
+                    $list = $this->applyWhereBetweenFilter($list, $key, $filter['data']);
                     break;
             }
         }
@@ -298,6 +298,7 @@ abstract class BaseRepository
         if (count($itens) === 2) {
             $list->whereBetween($key, $itens);
         }
+        return $list;
     }
 
     /**
