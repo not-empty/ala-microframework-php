@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "968b085097921f365ec6f2035f3f8f56",
+    "content-hash": "910200d5c02692d265204236ee06cdba",
     "packages": [
         {
             "name": "brick/math",
@@ -2921,20 +2921,20 @@
         },
         {
             "name": "not-empty/jwt-manager-php-lib",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/not-empty/jwt-manager-php-lib.git",
-                "reference": "dea2da5e54409391a3f54824b3bdb6f21204bb95"
+                "reference": "32f0a0c26453237add5e456074d2ec80d487ab5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/not-empty/jwt-manager-php-lib/zipball/dea2da5e54409391a3f54824b3bdb6f21204bb95",
-                "reference": "dea2da5e54409391a3f54824b3bdb6f21204bb95",
+                "url": "https://api.github.com/repos/not-empty/jwt-manager-php-lib/zipball/32f0a0c26453237add5e456074d2ec80d487ab5c",
+                "reference": "32f0a0c26453237add5e456074d2ec80d487ab5c",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "mockery/mockery": "^1.6",
@@ -2961,27 +2961,27 @@
             "description": "PHP library to manage JWT authentication",
             "support": {
                 "issues": "https://github.com/not-empty/jwt-manager-php-lib/issues",
-                "source": "https://github.com/not-empty/jwt-manager-php-lib/tree/5.0.0"
+                "source": "https://github.com/not-empty/jwt-manager-php-lib/tree/6.0.0"
             },
-            "time": "2023-11-03T15:53:09+00:00"
+            "time": "2023-11-03T16:12:30+00:00"
         },
         {
             "name": "not-empty/request-service-php-lib",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/not-empty/request-service-php-lib.git",
-                "reference": "2abe3bc254001fe538aeea3d7b6dfafb9e843e48"
+                "reference": "57fe0c3a8d2f9fb1b3a47195f27d68868ee8f0c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/not-empty/request-service-php-lib/zipball/2abe3bc254001fe538aeea3d7b6dfafb9e843e48",
-                "reference": "2abe3bc254001fe538aeea3d7b6dfafb9e843e48",
+                "url": "https://api.github.com/repos/not-empty/request-service-php-lib/zipball/57fe0c3a8d2f9fb1b3a47195f27d68868ee8f0c6",
+                "reference": "57fe0c3a8d2f9fb1b3a47195f27d68868ee8f0c6",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.8",
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "mockery/mockery": "^1.6",
@@ -3008,26 +3008,26 @@
             "description": "PHP library using Guzzle base to send request to any services. Good to use in microservice architecture",
             "support": {
                 "issues": "https://github.com/not-empty/request-service-php-lib/issues",
-                "source": "https://github.com/not-empty/request-service-php-lib/tree/5.0.0"
+                "source": "https://github.com/not-empty/request-service-php-lib/tree/6.0.0"
             },
-            "time": "2023-11-02T17:00:02+00:00"
+            "time": "2023-11-02T17:41:43+00:00"
         },
         {
             "name": "not-empty/response-json-php-lib",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/not-empty/response-json-php-lib.git",
-                "reference": "6ff44fe4fdbbbcf917b42c7ff8adb846ce4cf95f"
+                "reference": "e3a039f56d587b649324290e81033d06d9d7bd5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/not-empty/response-json-php-lib/zipball/6ff44fe4fdbbbcf917b42c7ff8adb846ce4cf95f",
-                "reference": "6ff44fe4fdbbbcf917b42c7ff8adb846ce4cf95f",
+                "url": "https://api.github.com/repos/not-empty/response-json-php-lib/zipball/e3a039f56d587b649324290e81033d06d9d7bd5e",
+                "reference": "e3a039f56d587b649324290e81033d06d9d7bd5e",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "mockery/mockery": "^1.6",
@@ -3054,26 +3054,26 @@
             "description": "PHP library to create a response json pattern to API's",
             "support": {
                 "issues": "https://github.com/not-empty/response-json-php-lib/issues",
-                "source": "https://github.com/not-empty/response-json-php-lib/tree/5.0.0"
+                "source": "https://github.com/not-empty/response-json-php-lib/tree/6.0.0"
             },
-            "time": "2023-11-09T18:43:46+00:00"
+            "time": "2023-11-09T20:27:35+00:00"
         },
         {
             "name": "not-empty/ulid-php-lib",
-            "version": "5.0.0",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/not-empty/ulid-php-lib.git",
-                "reference": "a351998eef51a9dfbd831fe26611a5ea8bbc7528"
+                "reference": "0a3e5314211910f14a1a0fabc68b5001dcc6d07c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/not-empty/ulid-php-lib/zipball/a351998eef51a9dfbd831fe26611a5ea8bbc7528",
-                "reference": "a351998eef51a9dfbd831fe26611a5ea8bbc7528",
+                "url": "https://api.github.com/repos/not-empty/ulid-php-lib/zipball/0a3e5314211910f14a1a0fabc68b5001dcc6d07c",
+                "reference": "0a3e5314211910f14a1a0fabc68b5001dcc6d07c",
                 "shasum": ""
             },
             "require": {
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "mockery/mockery": "^1.6",
@@ -3100,9 +3100,9 @@
             "description": "PHP Universally Unique Lexicographically Sortable Identifier (ULID)",
             "support": {
                 "issues": "https://github.com/not-empty/ulid-php-lib/issues",
-                "source": "https://github.com/not-empty/ulid-php-lib/tree/5.0.0"
+                "source": "https://github.com/not-empty/ulid-php-lib/tree/6.0.0"
             },
-            "time": "2023-10-25T19:34:14+00:00"
+            "time": "2023-10-25T19:59:05+00:00"
         },
         {
             "name": "nunomaduro/termwind",
@@ -8564,7 +8564,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.2"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"
