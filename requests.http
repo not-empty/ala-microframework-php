@@ -1,0 +1,54 @@
+@token = 32c5a206ee876f4c6e1c483457561dbed02a531a89b380c3298bb131a844ac3c
+@secret = a1c5930d778e632c6684945ca15bcf3c752d17502d4cfbd1184024be6de14540
+@context = app-test
+@domain = sample
+
+# @name health_check
+GET http://localhost:8101/health HTTP/1.1
+Content-type: application/json
+Accept: application/json
+
+###
+
+# @name generate_token
+POST http://localhost:8101/auth/generate HTTP/1.1
+Content-type: application/json
+Accept: application/json
+
+{
+    "token": "{{token}}",
+    "secret": "{{secret}}",
+    "context": "{{context}}"
+}
+
+###
+@jwt = {{generate_token.response.body.$.response.token}}
+
+# @name user_list
+GET http://localhost:8101/{{domain}}/list HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+###
+
+# @name user_dead_list
+GET http://localhost:8101/{{domain}}/dead_list HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+###
+
+@ulid = {{user_list.response.body.data.data[0].id}}
+
+# @name user_detail
+GET http://localhost:8101/{{domain}}/detail/{{ulid}} HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+###

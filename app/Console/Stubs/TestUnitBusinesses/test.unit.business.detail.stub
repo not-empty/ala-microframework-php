@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}DetailRepository;
+use App\Exceptions\Custom\DataNotFoundException;
+use Mockery;
+use PHPUnit\Framework\TestCase;
+
+class {{domainCaps}}DetailBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DetailBusiness::__construct
+     */
+    public function testCreateBusiness()
+    {
+        ${{domain}}DetailRepositorySpy = Mockery::spy(
+            {{domainCaps}}DetailRepository::class
+        );
+
+        ${{domain}}DetailBusiness = new {{domainCaps}}DetailBusiness(
+            ${{domain}}DetailRepositorySpy
+        );
+
+        $this->assertInstanceOf(
+            {{domainCaps}}DetailBusiness::class,
+            ${{domain}}DetailBusiness
+        );
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DetailBusiness::process
+     */
+    public function testProcess()
+    {
+        $id = '01E4E7RTJ3C11B6Z0H0QTJCW04';
+
+        $data = [
+            'field' => 'test',
+        ];
+
+        ${{domain}}DetailRepositoryMock = Mockery::mock(
+            {{domainCaps}}DetailRepository::class
+        )->shouldReceive('getById')
+            ->with($id)
+            ->once()
+            ->andReturn($data)
+            ->getMock();
+
+        ${{domain}}DetailBusiness = Mockery::mock(
+            {{domainCaps}}DetailBusiness::class,
+            [
+                ${{domain}}DetailRepositoryMock,
+            ]
+        )->makePartial();
+
+        ${{domain}}DetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
+
+        $process = ${{domain}}DetailBusiness->process(
+            $id
+        );
+
+        $this->assertEquals($data, $process);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DetailBusiness::process
+     */
+    public function testProcessAndNotFound()
+    {
+        $id = '01E4E7K2Q6697S8SJVVFY5KCQ7';
+
+        ${{domain}}DetailRepositoryMock = Mockery::mock(
+            {{domainCaps}}DetailRepository::class
+        )->shouldReceive('getById')
+            ->with($id)
+            ->once()
+            ->andReturn([])
+            ->getMock();
+
+        ${{domain}}DetailBusiness = Mockery::mock(
+            {{domainCaps}}DetailBusiness::class,
+            [
+                ${{domain}}DetailRepositoryMock,
+            ]
+        )->makePartial();
+
+        ${{domain}}DetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
+
+        $this->expectExceptionObject(
+            new DataNotFoundException(
+                'Data not found',
+                404
+            )
+        );
+
+        ${{domain}}DetailBusiness->process($id);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+}

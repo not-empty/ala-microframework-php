@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Businesses\BaseBusiness;
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}DeadDetailRepository;
+use App\Exceptions\Custom\DataNotFoundException;
+
+class {{domainCaps}}DeadDetailBusiness extends BaseBusiness
+{
+    private ${{domain}}DeadDetailRepository;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}DeadDetailRepository ${{domain}}DeadDetailRepository
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}DeadDetailRepository ${{domain}}DeadDetailRepository
+    ) {
+        $this->{{domain}}DeadDetailRepository = ${{domain}}DeadDetailRepository;
+    }
+
+    /**
+     * process the request with business rules
+     * @param string $id
+     * @throws DataNotFoundException
+     * @return array
+     */
+    public function process(
+        string $id
+    ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}DeadDetailRepository
+        );
+
+        $result = $this->{{domain}}DeadDetailRepository->getDeadById(
+            $id
+        );
+
+        if (empty($result)) {
+            throw new DataNotFoundException;
+        }
+
+        return $result;
+    }
+}

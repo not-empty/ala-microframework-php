@@ -1,0 +1,60 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Http\Controllers;
+
+use App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}ListBusiness;
+use App\Http\Controllers\BaseController;
+use Illuminate\Http\Request;
+use ResponseJson\ResponseJson;
+
+class {{domainCaps}}ListController extends BaseController
+{
+    private ${{domain}}ListBusiness;
+    private $response;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}ListBusiness ${{domain}}ListBusiness
+     * @param ResponseJson $response
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}ListBusiness ${{domain}}ListBusiness,
+        ResponseJson $response
+    ) {
+        $this->{{domain}}ListBusiness = ${{domain}}ListBusiness;
+        $this->response = $response;
+    }
+
+    /**
+     * process the request
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(
+        Request $request
+    ) {
+        $dataResponse = $this->{{domain}}ListBusiness->process(
+            $request->params->fields(),
+            $request->params->order(),
+            $request->params->classification(),
+            $request->filters,
+            $request->query()
+        );
+
+        $result = $this->response->response(
+            $request->requestId,
+            $request->startProfile,
+            $request->jwtToken,
+            $dataResponse
+        );
+
+        return response()->json(
+            $result,
+            200,
+            [],
+            JSON_UNESCAPED_SLASHES |
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+}

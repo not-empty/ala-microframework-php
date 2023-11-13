@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="false"
+  backupStaticAttributes="false"
+  bootstrap="../../bootstrap/app.php"
+  colors="true"
+  convertErrorsToExceptions="true"
+  convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true"
+  processIsolation="false"
+  stopOnFailure="false">
+  <testsuites>
+    <testsuite name="Feature">
+      <directory suffix="Test.php">../Feature</directory>
+    </testsuite>
+  </testsuites>
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">../../app</directory>
+      <exclude>
+        <directory suffix=".php">../../app/Businesses</directory>
+        <directory suffix=".php">../../app/Console</directory>
+        <directory suffix=".php">../../app/Constants</directory>
+        <directory suffix=".php">../../app/Domains/*/Http/Filters</directory>
+        <directory suffix=".php">../../app/Domains/*/Http/Parameters</directory>
+        <directory suffix=".php">../../app/Domains/*/Http/Validators</directory>
+        <directory suffix=".php">../../app/Domains/*/Repositories</directory>
+        <directory suffix=".php">../../app/Domains/Doc</directory>
+        <directory suffix=".php">../../app/Exceptions</directory>
+        <directory suffix=".php">../../app/Helpers</directory>
+        <directory suffix=".php">../../app/Http/Controllers</directory>
+        <directory suffix=".php">../../app/Http/Filters</directory>
+        <directory suffix=".php">../../app/Http/Middlewares</directory>
+        <directory suffix=".php">../../app/Http/Parameters</directory>
+        <directory suffix=".php">../../app/Http/Requests</directory>
+        <directory suffix=".php">../../app/Http/Validators</directory>
+        <directory suffix=".php">../../app/Jobs</directory>
+        <directory suffix=".php">../../app/Providers</directory>
+        <directory suffix=".php">../../app/Repositories</directory>
+        <directory suffix=".php">../../app/Seeds</directory>
+        <directory suffix=".php">../../app/Templates</directory>
+        <directory suffix=".php">../../app/TestFiles</directory>
+      </exclude>
+    </whitelist>
+  </filter>
+  <php>
+    <env name="APP_DEBUG" value="false" />
+    <env name="APP_ENV" value="testing-feature" />
+    <env name="CACHE_DRIVER" value="array" />
+    <env name="DB_CONNECTION" value="sqlite" />
+    <env name="DB_DATABASE" value=":memory:" />
+    <env name="DB_SUFFIX_LIST" value="_test" />
+    <env name="DB_USE_SUFFIX" value="1" />
+    <env name="JWT_APP_SECRET" value="iaFweS8EyzrxvrVc2VQisLKRnGReTrEt" />
+    <env name="QUEUE_CONNECTION" value="sync" />
+  </php>
+  <logging>
+    <log type="coverage-html" target="../coverage/coverage-feature/" lowUpperBound="35" highLowerBound="70" />
+    <log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70" />
+    <log type="testdox-text" target="php://stdout" showUncoveredFiles="false" />
+  </logging>
+</phpunit>

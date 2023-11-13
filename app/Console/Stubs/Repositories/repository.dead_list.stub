@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Repositories;
+
+use App\Repositories\BaseRepository;
+
+class {{domainCaps}}DeadListRepository extends BaseRepository
+{
+    protected $table = '{{domainOriginal}}';
+}

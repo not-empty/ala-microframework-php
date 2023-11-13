@@ -1,0 +1,64 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Http\Controllers;
+
+use App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness;
+use App\Http\Controllers\BaseController;
+use Illuminate\Http\Request;
+use ResponseJson\ResponseJson;
+
+class {{domainCaps}}BulkController extends BaseController
+{
+    private ${{domain}}BulkBusiness;
+    private $response;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}BulkBusiness ${{domain}}BulkBusiness
+     * @param ResponseJson $response
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}BulkBusiness ${{domain}}BulkBusiness,
+        ResponseJson $response
+    ) {
+        $this->{{domain}}BulkBusiness = ${{domain}}BulkBusiness;
+        $this->response = $response;
+    }
+
+    /**
+     * process the request
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(
+        Request $request
+    ) {
+        $data = $request->only($request->validFields);
+        $data = $this->clearArrayFields($data);
+        $ids = $data['ids'];
+
+        $dataResponse = $this->{{domain}}BulkBusiness->process(
+            $ids,
+            $request->params->fields(),
+            $request->params->order(),
+            $request->params->classification(),
+            $request->query()
+        );
+
+        $result = $this->response->response(
+            $request->requestId,
+            $request->startProfile,
+            $request->jwtToken,
+            $dataResponse
+        );
+
+        return response()->json(
+            $result,
+            200,
+            [],
+            JSON_UNESCAPED_SLASHES |
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+}

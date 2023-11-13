@@ -1,0 +1,71 @@
+<?php
+
+$patterns = [
+    'id' => '[0-9A-Z]{26}',
+];
+
+$router->delete(
+    "/{{domainOriginal}}/delete/{id:{$patterns['id']}}",
+    [
+        'uses' => '{{domainCaps}}DeleteController@process',
+    ]
+);
+
+$router->get(
+    '/{{domainOriginal}}/dead_list',
+    [
+        'uses' => '{{domainCaps}}DeadListController@process',
+        'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}DeadListValidator',
+        'parameters' => 'App\Domains\{{domainCaps}}\Http\Parameters\{{domainCaps}}Parameters',
+        'filters' => 'App\Domains\{{domainCaps}}\Http\Filters\{{domainCaps}}Filters',
+    ]
+);
+
+$router->get(
+    '/{{domainOriginal}}/list',
+    [
+        'uses' => '{{domainCaps}}ListController@process',
+        'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}ListValidator',
+        'parameters' => 'App\Domains\{{domainCaps}}\Http\Parameters\{{domainCaps}}Parameters',
+        'filters' => 'App\Domains\{{domainCaps}}\Http\Filters\{{domainCaps}}Filters',
+    ]
+);
+
+$router->get(
+    "/{{domainOriginal}}/dead_detail/{id:{$patterns['id']}}",
+    [
+        'uses' => '{{domainCaps}}DeadDetailController@process',
+    ]
+);
+
+$router->get(
+    "/{{domainOriginal}}/detail/{id:{$patterns['id']}}",
+    [
+        'uses' => '{{domainCaps}}DetailController@process',
+    ]
+);
+
+$router->patch(
+    "/{{domainOriginal}}/edit/{id:{$patterns['id']}}",
+    [
+        'uses' => '{{domainCaps}}EditController@process',
+        'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}EditValidator',
+    ]
+);
+
+$router->post(
+    '/{{domainOriginal}}/add',
+    [
+        'uses' => '{{domainCaps}}AddController@process',
+        'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}AddValidator',
+    ]
+);
+
+$router->post(
+    '/{{domainOriginal}}/bulk',
+    [
+        'uses' => '{{domainCaps}}BulkController@process',
+        'validator' => 'App\Domains\{{domainCaps}}\Http\Validators\{{domainCaps}}BulkValidator',
+        'parameters' => 'App\Domains\{{domainCaps}}\Http\Parameters\{{domainCaps}}Parameters',
+    ]
+);

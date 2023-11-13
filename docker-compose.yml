@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  ala-php:
+    build:
+      context: ./
+      dockerfile: ./ops/docker/dev/php-fpm/Dockerfile 
+    container_name: ala-php
+    depends_on:
+      - ala-mysql
+    volumes:
+      - ./:/var/www/html
+
+  ala-nginx:
+    build:
+      context: ./
+      dockerfile: ./ops/docker/dev/nginx/Dockerfile
+    container_name: ala-nginx
+    depends_on:
+      - ala-php
+    ports:
+      - 8101:80
+    volumes:
+      - ./:/var/www/html
+
+  ala-mysql:
+    image: mysql:8.0.28
+    container_name: ala-mysql
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_DATABASE=ala
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ./ops/mysql-db:/docker-entrypoint-initdb.d
+      - ./storage/.db:/var/lib/mysql
+    security_opt:
+      - seccomp:unconfined

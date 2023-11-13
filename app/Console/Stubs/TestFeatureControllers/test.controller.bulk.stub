@@ -1,0 +1,103 @@
+<?php
+
+namespace Tests\Feature\Domains\{{domainCaps}}\Controllers;
+
+use Laravel\Lumen\Testing\DatabaseMigrations;
+use Tests\Feature\TestCaseFeature;
+
+class {{domainCaps}}BulkControllerTest extends TestCaseFeature
+{
+    use DatabaseMigrations;
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::__construct
+     */
+    public function testRequiredFields()
+    {
+        $this->json('POST', '/{{domainOriginal}}/bulk', [], $this->header);
+
+        $response = [
+            'message' => 'A validation error occurrs',
+            'response' => [
+                'ids' => [
+                    'The ids field is required.'
+                ],
+            ]
+        ];
+
+        $result = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(422, $this->response->getStatusCode());
+        $this->assertEquals('A validation error occurrs', $result['message']);
+        $this->assertEquals($response['response']['ids'], $result['response']['ids']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
+     */
+    public function testBulk()
+    {
+        $data = [
+            'field' => 'test',
+        ];
+        
+        $this->call('options', '/{{domainOriginal}}/add', [], $this->header);
+        $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+        $id = $response['response']['id'];
+        $ids = [
+            $id
+        ];
+
+        sleep(1);
+        $this->json('POST', '/{{domainOriginal}}/bulk', ['ids' => $ids], $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertArrayHasKey(0, $response['response']['data']);
+        $this->assertEquals($id, $response['response']['data'][0]['id']);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::__construct
+     * @covers \App\Domains\{{domainCaps}}\Http\Controllers\{{domainCaps}}BulkController::process
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::__construct
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}BulkBusiness::process
+     */
+    public function testBulkManyIds()
+    {
+        $data = [
+            'field' => 'test',
+        ];
+
+        $ids = [];
+
+        $this->call('options', '/{{domainOriginal}}/add', [], $this->header);
+        $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+        $ids[] = $response['response']['id'];
+
+        $this->json('POST', '/{{domainOriginal}}/add', $data, $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+        $ids[] = $response['response']['id'];
+
+        sleep(1);
+        $this->json('POST', '/{{domainOriginal}}/bulk', ['ids' => $ids], $this->header);
+
+        $response = json_decode($this->response->getContent(), true);
+        $responseIds = array_column($response['response']['data'], 'id');
+
+        $this->assertEquals(200, $this->response->getStatusCode());
+        $this->assertArrayHasKey(0, $response['response']['data']);
+        $this->assertArrayHasKey(1, $response['response']['data']);
+        $this->assertContains($ids[0], $responseIds);
+        $this->assertContains($ids[1], $responseIds);
+    }
+}

@@ -1,0 +1,135 @@
+#!/bin/sh
+
+#if you want to use pre-commit validations copy this file to .git/hooks/ inside your project folder
+
+container=`docker ps --format "{{.Names}}" --filter "name=-php"`
+
+if [ -z $container ]
+    then
+        echo "Your container name is not valid. Try put -php on the end of container's name."
+fi
+
+echo "Checking PHP Lint in app..."
+docker exec $container find ./app -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in bootstrap..."
+docker exec $container find ./bootstrap -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in config..."
+docker exec $container find ./config -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in public..."
+docker exec $container find ./public -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in resources..."
+docker exec $container find ./resources -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in routes..."
+docker exec $container find ./routes -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
+echo "Checking PHP Lint in tests..."
+docker exec $container find ./tests -name "*.php" -print0 | docker exec $container xargs -0 -n1 -P8 php -l -d display_errors=0
+
+if [ $? != 0 ]
+then
+    echo "Fix the PHP sintax errors before commit."
+    exit 1
+fi
+
+echo "Running Code Sniffer..."
+docker exec $container ./vendor/bin/phpcs
+
+if [ $? != 0 ]
+then
+    echo "Fix the Code Sniffers errors before commit."
+    exit 1
+fi
+
+echo "Running Mess Detector..."
+docker exec $container ./vendor/bin/phpmd ./app text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+docker exec $container ./vendor/bin/phpmd ./bootstrap text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+docker exec $container ./vendor/bin/phpmd ./config text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+docker exec $container ./vendor/bin/phpmd ./database text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+docker exec $container ./vendor/bin/phpmd ./public text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+docker exec $container ./vendor/bin/phpmd ./resources text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+docker exec $container ./vendor/bin/phpmd ./routes text phpmd.xml
+
+if [ $? != 0 ]
+then
+    echo "Fix the Mess Detector errors before commit."
+    exit 1
+fi
+
+echo "Running Unit Tests..."
+docker exec $container phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-unit-cover.xml -d memory_limit=1024M
+
+if [ $? != 0 ]
+then
+    echo "Fix the Unit Tests errors before commit."
+    exit 1
+fi
+
+echo "Running Feature Tests..."
+docker exec $container phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-feat-cover.xml -d memory_limit=1024M
+
+if [ $? != 0 ]
+then
+    echo "Fix the Unit Tests errors before commit."
+    exit 1
+fi
+
+echo "Checking Unit Coverage..."
+docker exec $container php ops/contrib/coverage-checker.php tests/coverage/coverage-unit/coverage.xml 100
+
+if [ $? != 0 ]
+then
+    echo "Raise the Unit Coverage to 100% before commit."
+    exit 1
+fi
+
+echo "Checking Feature Coverage..."
+docker exec $container php ops/contrib/coverage-checker.php tests/coverage/coverage-feature/coverage.xml 100
+
+if [ $? != 0 ]
+then
+    echo "Raise the Feature Coverage to 100% before commit."
+    exit 1
+fi
+
+exit $?

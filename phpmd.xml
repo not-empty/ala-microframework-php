@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ruleset name="PHPMD Ruleset"
+         xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                     http://pmd.sf.net/ruleset_xml_schema.xsd"
+         xsi:noNamespaceSchemaLocation="
+                     http://pmd.sf.net/ruleset_xml_schema.xsd">
+    <description>
+        PHPMD Ruleset
+    </description>
+    <rule ref="rulesets/cleancode.xml">
+        <exclude name="StaticAccess" />
+    </rule>
+    <rule ref="rulesets/naming.xml">
+        <exclude name="ShortVariable" />
+        <exclude name="ShortMethodName" />
+        <exclude name="LongVariable" />
+    </rule>
+    <rule ref="rulesets/controversial.xml" />
+    <rule ref="rulesets/codesize.xml" />
+    <rule ref="rulesets/unusedcode.xml" />
+    <rule ref="rulesets/design.xml">
+        <exclude name="CouplingBetweenObjects" />
+        <exclude name="NumberOfChildren" />
+    </rule>
+    <rule ref="rulesets/design.xml/CouplingBetweenObjects">
+        <properties>
+            <property name="minimum" value="14" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortVariable">
+        <properties>
+            <property name="exceptions" value="id,db" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/ShortMethodName">
+        <properties>
+            <property name="exceptions" value="up" />
+        </properties>
+    </rule>
+    <rule ref="rulesets/naming.xml/LongVariable">
+        <properties>
+            <property name="maximum" value="50" />
+        </properties>
+    </rule>
+    <exclude-pattern>app/Exceptions/Handler.php</exclude-pattern>
+    <exclude-pattern>app/Console/Commands/*</exclude-pattern>
+    <exclude-pattern>app/Providers/*</exclude-pattern>
+    <exclude-pattern>app/Seeds/*</exclude-pattern>
+    <exclude-pattern>app/Providers/*</exclude-pattern>
+    <exclude-pattern>app/Templates/*</exclude-pattern>
+</ruleset>

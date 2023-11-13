@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Http\Controllers;
+
+use App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeleteBusiness;
+use App\Http\Controllers\BaseController;
+use ResponseJson\ResponseJson;
+
+class {{domainCaps}}DeleteController extends BaseController
+{
+    private ${{domain}}DeleteBusiness;
+    private $response;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}DeleteBusiness ${{domain}}DeleteBusiness
+     * @param ResponseJson $response
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}DeleteBusiness ${{domain}}DeleteBusiness,
+        ResponseJson $response
+    ) {
+        $this->{{domain}}DeleteBusiness = ${{domain}}DeleteBusiness;
+        $this->response = $response;
+    }
+
+    /**
+     * process the request
+     * @param string $id
+     * @return JsonObject
+     */
+    public function process(
+        string $id
+    ) {
+        $this->{{domain}}DeleteBusiness->process(
+            $id
+        );
+
+        $result = $this->response->responseDelete();
+
+        return response()->json(
+            $result,
+            204,
+            [],
+            JSON_UNESCAPED_SLASHES |
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+}

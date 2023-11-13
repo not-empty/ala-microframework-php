@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Http\Controllers;
+
+use App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}EditBusiness;
+use App\Http\Controllers\BaseController;
+use Illuminate\Http\Request;
+use ResponseJson\ResponseJson;
+
+class {{domainCaps}}EditController extends BaseController
+{
+    private ${{domain}}EditBusiness;
+    private $response;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}EditBusiness ${{domain}}EditBusiness
+     * @param ResponseJson $response
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}EditBusiness ${{domain}}EditBusiness,
+        ResponseJson $response
+    ) {
+        $this->{{domain}}EditBusiness = ${{domain}}EditBusiness;
+        $this->response = $response;
+    }
+
+    /**
+     * process the request
+     * @param string $id
+     * @param Request $request
+     * @return JsonObject
+     */
+    public function process(
+        string $id,
+        Request $request
+    ) {
+        $data = $request->only($request->validFields);
+        $data = $this->clearArrayFields($data);
+        $dataResponse = $this->{{domain}}EditBusiness->process(
+            $data,
+            $id
+        );
+
+        $result = $this->response->response(
+            $request->requestId,
+            $request->startProfile,
+            $request->jwtToken,
+            $dataResponse
+        );
+
+        return response()->json(
+            $result,
+            200,
+            [],
+            JSON_UNESCAPED_SLASHES |
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+}

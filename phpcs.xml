@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Coding Standard">
+    <description>Coding Standard</description>
+
+    <arg value="ps" />
+    <arg name="colors" />
+    <arg name="report" value="full"/>
+
+    <config name="colors" value="1"/>
+    <config name="show_progress" value="1"/>
+    <config name="default_standard" value="phpcs.xml"/>
+
+    <encoding>UTF-8</encoding>
+
+    <file>app/Constants</file>
+    <file>app/Domains</file>
+    <file>app/Exceptions</file>
+    <file>app/Http</file>
+    <file>app/Providers</file>
+    <file>app/Repositories</file>
+    <file>routes</file>
+    <file>tests/Unit</file>
+    <file>tests/Feature</file>
+
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax" />
+    <rule ref="Generic.CodeAnalysis.JumbledIncrementer" />
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement" />
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod" />
+    <rule ref="Generic.Commenting.Fixme" />
+    <rule ref="Generic.ControlStructures.InlineControlStructure" />
+    <rule ref="Generic.Files.LineEndings" />
+    <rule ref="Generic.Formatting.DisallowMultipleStatements" />
+    <rule ref="Generic.Formatting.SpaceAfterCast" />
+    <rule ref="Generic.Functions.CallTimePassByReference" />
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing" />
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10" />
+            <property name="absoluteComplexity" value="11" />
+        </properties>
+    </rule>
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="4" />
+            <property name="absoluteNestingLevel" value="5" />
+        </properties>
+    </rule>
+    <rule ref="Generic.NamingConventions.ConstructorName" />
+    <rule ref="Generic.NamingConventions.UpperCaseConstantName" />
+    <rule ref="Generic.NamingConventions.CamelCapsFunctionName" />
+    <rule ref="Generic.PHP.DeprecatedFunctions" />
+    <rule ref="Generic.PHP.DisallowShortOpenTag" />
+    <rule ref="Generic.PHP.LowerCaseConstant" />
+    <rule ref="Generic.PHP.NoSilencedErrors">
+        <properties>
+            <property name="error" value="false" />
+        </properties>
+    </rule>
+    <rule ref="Generic.Strings.UnnecessaryStringConcat">
+        <properties>
+            <property name="allowMultiline" value="true" />
+            <property name="error" value="false" />
+        </properties>
+    </rule>
+    <rule ref="Generic.WhiteSpace.DisallowTabIndent" />
+    <rule ref="Generic.WhiteSpace.ScopeIndent" />
+    <rule ref="MySource.PHP.EvalObjectFactory" />
+    <rule ref="MySource.PHP.GetRequestData" />
+    <rule ref="PEAR.Commenting.InlineComment" />
+    <rule ref="PSR2" />
+    <rule ref="PSR1.Files.SideEffects.FoundWithSymbols">
+        <exclude-pattern>/tests/config/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.PHP.CommentedOutCode">
+        <properties>
+            <property name="maxPercentage" value="60" />
+        </properties>
+        <exclude-pattern>/tests/config/*</exclude-pattern>
+    </rule>
+    <rule ref="Squiz.PHP.DisallowMultipleAssignments" />
+    <rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops" />
+    <rule ref="Squiz.PHP.Eval" />
+    <rule ref="Squiz.PHP.GlobalKeyword" />
+    <rule ref="Squiz.PHP.InnerFunctions" />
+    <rule ref="Squiz.PHP.LowercasePHPFunctions" />
+    <rule ref="Squiz.PHP.NonExecutableCode" />
+    <rule ref="Squiz.Scope.MemberVarScope" />
+    <rule ref="Squiz.Scope.MethodScope" />
+    <rule ref="Squiz.Scope.StaticThisUsage" />
+    <rule ref="Squiz.WhiteSpace.CastSpacing" />
+    <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing" />
+    <rule ref="Squiz.WhiteSpace.PropertyLabelSpacing" />
+    <rule ref="Squiz.WhiteSpace.ScopeClosingBrace" />
+    <rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing" />
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing" />
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace" />
+    <rule ref="Zend.Files.ClosingTag" />
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120" />
+            <property name="absoluteLineLimit" value="130" />
+        </properties>
+    </rule>
+    <rule ref="PSR1.Classes.ClassDeclaration.MissingNamespace">
+        <exclude-pattern>/ops/*</exclude-pattern>
+        <exclude-pattern>/database/*</exclude-pattern>
+        <exclude-pattern>/tests/*</exclude-pattern>
+    </rule>
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
+        <exclude-pattern>/app/Exceptions/*</exclude-pattern>
+    </rule>
+    <rule ref="PSR2">
+        <exclude name="PSR2.ControlStructures.ControlStructureSpacing.SpacingAfterOpenBrace" />
+    </rule>
+    <exclude-pattern>/Doc/Theme/*.php</exclude-pattern>
+</ruleset>

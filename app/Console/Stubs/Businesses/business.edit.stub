@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Businesses\BaseBusiness;
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}EditRepository;
+use App\Exceptions\Custom\DataNotFoundException;
+
+class {{domainCaps}}EditBusiness extends BaseBusiness
+{
+    private ${{domain}}EditRepository;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}EditRepository ${{domain}}EditRepository
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}EditRepository ${{domain}}EditRepository
+    ) {
+        $this->{{domain}}EditRepository = ${{domain}}EditRepository;
+    }
+
+    /**
+     * process the request with business rules
+     * @param array $data
+     * @param string $id
+     * @throws DataNotFoundException
+     * @return array
+     */
+    public function process(
+        array $data,
+        string $id
+    ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}EditRepository
+        );
+
+        $exists = $this->{{domain}}EditRepository->getById(
+            $id
+        );
+
+        if (empty($exists)) {
+            throw new DataNotFoundException;
+        }
+
+        $this->{{domain}}EditRepository->update(
+            $data,
+            $id
+        );
+
+        return $this->{{domain}}EditRepository->getById(
+            $id
+        );
+    }
+}

@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Businesses\BaseBusiness;
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}BulkRepository;
+
+class {{domainCaps}}BulkBusiness extends BaseBusiness
+{
+    private ${{domain}}BulkRepository;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}BulkRepository ${{domain}}BulkRepository
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}BulkRepository ${{domain}}BulkRepository
+    ) {
+        $this->{{domain}}BulkRepository = ${{domain}}BulkRepository;
+    }
+
+    /**
+     * process the request with business rules
+     * @param array $ids
+     * @param array $fields
+     * @param string $order
+     * @param string $class
+     * @param array $query
+     * @return array
+     */
+    public function process(
+        array $ids,
+        array $fields,
+        string $order,
+        string $class,
+        array $query
+    ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}BulkRepository
+        );
+
+        return $this->{{domain}}BulkRepository->getBulk(
+            $ids,
+            $fields,
+            $order,
+            $class,
+            $query
+        );
+    }
+}

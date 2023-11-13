@@ -1,0 +1,14 @@
+#replace the string {sample} by your domain name
+#replace the string {ulid} by your entity id (from the response of the add endpoint)
+
+#health
+curl -XGET -H 'Accept: application/json' -H "Content-type: application/json" 'http://localhost:8101/health'
+
+#token generation
+curl -XPOST -H 'Accept: application/json' -H "Content-type: application/json" -d '{"token": "32c5a206ee876f4c6e1c483457561dbed02a531a89b380c3298bb131a844ac3c","secret": "a1c5930d778e632c6684945ca15bcf3c752d17502d4cfbd1184024be6de14540","context": "app-test"}' 'http://localhost:8101/auth/generate'
+
+#list
+curl -XGET -H 'Accept: application/json' -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhcHAtdGVzdCIsImV4cCI6MTY5OTYyNDQ0OSwiaWF0IjoxNjk5NjIzNTQ5LCJpc3MiOiJhcHAtdGVzdCIsInN1YiI6ImFwaSJ9.o3JCzlm31CNyWcwLtgVf5w7xnhysCA5pYLUHDvosDhc' -H 'Context: app-test' -H "Content-type: application/json" 'http://localhost:8101/{sample}/list'
+
+#detail
+curl -XGET -H 'Accept: application/json' -H 'Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhcHAtdGVzdCIsImV4cCI6MTY5OTYyNDQ0OSwiaWF0IjoxNjk5NjIzNTQ5LCJpc3MiOiJhcHAtdGVzdCIsInN1YiI6ImFwaSJ9.o3JCzlm31CNyWcwLtgVf5w7xnhysCA5pYLUHDvosDhc' -H 'Context: app-test' -H "Content-type: application/json" 'http://localhost:8101/{sample}/detail/{ulid}'

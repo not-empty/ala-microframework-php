@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Businesses\BaseBusiness;
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}ListRepository;
+
+class {{domainCaps}}ListBusiness extends BaseBusiness
+{
+    private ${{domain}}ListRepository;
+
+    /**
+     * constructor
+     * @param {{domainCaps}}ListRepository ${{domain}}ListRepository
+     * @return void
+     */
+    public function __construct(
+        {{domainCaps}}ListRepository ${{domain}}ListRepository
+    ) {
+        $this->{{domain}}ListRepository = ${{domain}}ListRepository;
+    }
+
+    /**
+     * process the request with business rules
+     * @param array $fields
+     * @param string $order
+     * @param string $class
+     * @param array|null $filters
+     * @param array $query
+     * @return array
+     */
+    public function process(
+        array $fields,
+        string $order,
+        string $class,
+        ? array $filters,
+        array $query
+    ): array {
+        $this->setRepositoryTable(
+            $this->{{domain}}ListRepository
+        );
+
+        return $this->{{domain}}ListRepository->getList(
+            $fields,
+            $order,
+            $class,
+            $filters,
+            $query,
+            'whereNull'
+        );
+    }
+}

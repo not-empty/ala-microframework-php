@@ -1,0 +1,11 @@
+.env
+.phpunit.result.cache
+.scannerwork/*
+/.vscode
+/storage/.db
+/storage/app/*
+/storage/framework/*
+/storage/logs/*
+/tests/coverage/*
+/vendor
+!/**/.gitkeep

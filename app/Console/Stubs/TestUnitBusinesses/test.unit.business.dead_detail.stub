@@ -1,0 +1,110 @@
+<?php
+
+namespace App\Domains\{{domainCaps}}\Businesses;
+
+use App\Domains\{{domainCaps}}\Repositories\{{domainCaps}}DeadDetailRepository;
+use App\Exceptions\Custom\DataNotFoundException;
+use Mockery;
+use PHPUnit\Framework\TestCase;
+
+class {{domainCaps}}DeadDetailBusinessTest extends TestCase
+{
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::__construct
+     */
+    public function testCreateBusiness()
+    {
+        ${{domain}}DeadDetailRepositorySpy = Mockery::spy(
+            {{domainCaps}}DeadDetailRepository::class
+        );
+
+        ${{domain}}DeadDetailBusiness = new {{domainCaps}}DeadDetailBusiness(
+            ${{domain}}DeadDetailRepositorySpy
+        );
+
+        $this->assertInstanceOf(
+            {{domainCaps}}DeadDetailBusiness::class,
+            ${{domain}}DeadDetailBusiness
+        );
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::process
+     */
+    public function testProcess()
+    {
+        $id = '01E4KKE1VK2P2FWYVGPTANVFMM';
+
+        $data = [
+            'field' => 'test',
+        ];
+
+        ${{domain}}DeadDetailRepositoryMock = Mockery::mock(
+            {{domainCaps}}DeadDetailRepository::class
+        )->shouldReceive('getDeadById')
+            ->with($id)
+            ->once()
+            ->andReturn($data)
+            ->getMock();
+
+        ${{domain}}DeadDetailBusiness = Mockery::mock(
+            {{domainCaps}}DeadDetailBusiness::class,
+            [
+                ${{domain}}DeadDetailRepositoryMock,
+            ]
+        )->makePartial();
+
+        ${{domain}}DeadDetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DeadDetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
+
+        $process = ${{domain}}DeadDetailBusiness->process(
+            $id
+        );
+
+        $this->assertEquals($data, $process);
+    }
+
+    /**
+     * @covers \App\Domains\{{domainCaps}}\Businesses\{{domainCaps}}DeadDetailBusiness::process
+     */
+    public function testProcessAndNotFound()
+    {
+        $id = '01E4KKE1VK2P2FWYVGPTANVFMM';
+
+        ${{domain}}DeadDetailRepositoryMock = Mockery::mock(
+            {{domainCaps}}DeadDetailRepository::class
+        )->shouldReceive('getDeadById')
+            ->with($id)
+            ->once()
+            ->andReturn([])
+            ->getMock();
+
+        ${{domain}}DeadDetailBusiness = Mockery::mock(
+            {{domainCaps}}DeadDetailBusiness::class,
+            [
+                ${{domain}}DeadDetailRepositoryMock,
+            ]
+        )->makePartial();
+
+        ${{domain}}DeadDetailBusiness->shouldReceive('setRepositoryTable')
+            ->with(${{domain}}DeadDetailRepositoryMock)
+            ->once()
+            ->andReturn(true);
+
+        $this->expectExceptionObject(
+            new DataNotFoundException(
+                'Data not found',
+                404
+            )
+        );
+
+        ${{domain}}DeadDetailBusiness->process($id);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+}
