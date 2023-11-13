@@ -2,33 +2,28 @@
 
 namespace App\Exceptions;
 
-use App\Exceptions\Custom;
-use App\Exceptions\Custom\DuplicatedDataException;
-use App\Exceptions\Custom\InputValidationException;
-use App\Exceptions\Custom\ValidationException;
-use Exception;
+use App\Exceptions\Custom\DataNotFoundException;
+use App\Exceptions\Custom\FilterException;
+use App\Exceptions\Custom\InvalidCredentialsException;
+use App\Exceptions\Custom\NotAuthorizedException;
+use App\Exceptions\Custom\RouteNotFoundException;
+use App\Exceptions\Custom\SuffixRequiredException;
+use App\Exceptions\Custom\ValidationException as ValidationCustom;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use ResponseJson\ResponseJson;
-use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Ulid\Ulid;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
     private $response;
     private $request;
 
-    /**
-     * A list of the exception types that should not be reported.
-     * @var array
-     */
     protected $dontReport = [
         AuthorizationException::class,
         DataNotFoundException::class,
@@ -64,7 +59,7 @@ class Handler extends ExceptionHandler
      * @throws Exception
      */
     public function report(
-        Exception $exception
+        Throwable $exception
     ) {
         if ($this->shouldntReport($exception)) {
             return;
@@ -77,21 +72,21 @@ class Handler extends ExceptionHandler
         parent::report($exception);
     }
 
-     /**
+    /**
      * render bug and return with json response
      * @param  Request $request
-     * @param  Exception $exception
+     * @param  Throwable $exception
      * @return JsonResponse
-     * @throws Exception
+     * @throws Throwable
      */
     public function render(
         $request,
-        Exception $exception
-    ) {
+        Throwable $exception
+    ): JsonResponse {
         $requestId = $request->requestId ?? '';
         $startProfile = $request->startProfile ?? 0;
 
-        if ($exception instanceof ValidationException) {
+        if ($exception instanceof ValidationCustom) {
             $result = $this->response->response(
                 $requestId,
                 $startProfile,

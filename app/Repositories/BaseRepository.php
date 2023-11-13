@@ -257,8 +257,6 @@ abstract class BaseRepository
                         $filter['data']
                     );
                     break;
-                default:
-                    break;
             }
         }
 
