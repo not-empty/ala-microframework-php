@@ -3,16 +3,16 @@
     "description": "API Rest Full created in lumen using query builder that auto generate base code for simple crud.",
     "keywords": ["php", "laravel", "lumen", "crud", "microframework"],
     "license": "GPL-3.0-only",
-    "version" : "3.0.0",
+    "version" : "4.0.0",
     "type": "project",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "intouch/newrelic": "^2.0",
         "laravel/lumen-framework": "^8.3",
-        "not-empty/jwt-manager-php-lib": "^3.0",
-        "not-empty/request-service-php-lib": "^3.0",
-        "not-empty/response-json-php-lib": "^3.0",
-        "not-empty/ulid-php-lib": "^3.0"
+        "not-empty/jwt-manager-php-lib": "^4.0",
+        "not-empty/request-service-php-lib": "^4.0",
+        "not-empty/response-json-php-lib": "^4.0",
+        "not-empty/ulid-php-lib": "^4.0"
     },
     "autoload": {
         "psr-4": {
@@ -112,7 +112,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "fakerphp/faker": "^1.20",
+        "fakerphp/faker": "^1.23",
         "mockery/mockery": "^1.6",
         "phpmd/phpmd": "^2.14",
         "phpunit/phpunit": "^9.6",
