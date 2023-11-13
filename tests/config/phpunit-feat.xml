@@ -1,47 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-  backupStaticAttributes="false"
-  bootstrap="../../bootstrap/app.php"
-  colors="true"
-  convertErrorsToExceptions="true"
-  convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true"
-  processIsolation="false"
-  stopOnFailure="false">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false"
+  backupStaticAttributes="false" bootstrap="../../bootstrap/app.php" colors="true"
+  convertErrorsToExceptions="true" convertNoticesToExceptions="true"
+  convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="true"
+  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage processUncoveredFiles="true">
+    <include>
+      <directory suffix=".php">../../app</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">../../app/Businesses</directory>
+      <directory suffix=".php">../../app/Console</directory>
+      <directory suffix=".php">../../app/Constants</directory>
+      <directory suffix=".php">../../app/Domains/*/Http/Filters</directory>
+      <directory suffix=".php">../../app/Domains/*/Http/Parameters</directory>
+      <directory suffix=".php">../../app/Domains/*/Http/Validators</directory>
+      <directory suffix=".php">../../app/Domains/*/Repositories</directory>
+      <directory suffix=".php">../../app/Domains/Doc</directory>
+      <directory suffix=".php">../../app/Exceptions</directory>
+      <directory suffix=".php">../../app/Helpers</directory>
+      <directory suffix=".php">../../app/Http/Controllers</directory>
+      <directory suffix=".php">../../app/Http/Filters</directory>
+      <directory suffix=".php">../../app/Http/Middlewares</directory>
+      <directory suffix=".php">../../app/Http/Parameters</directory>
+      <directory suffix=".php">../../app/Http/Requests</directory>
+      <directory suffix=".php">../../app/Http/Validators</directory>
+      <directory suffix=".php">../../app/Jobs</directory>
+      <directory suffix=".php">../../app/Providers</directory>
+      <directory suffix=".php">../../app/Repositories</directory>
+      <directory suffix=".php">../../app/Seeds</directory>
+      <directory suffix=".php">../../app/Templates</directory>
+      <directory suffix=".php">../../app/TestFiles</directory>
+    </exclude>
+  </coverage>
   <testsuites>
     <testsuite name="Feature">
       <directory suffix="Test.php">../Feature</directory>
     </testsuite>
   </testsuites>
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">../../app</directory>
-      <exclude>
-        <directory suffix=".php">../../app/Businesses</directory>
-        <directory suffix=".php">../../app/Console</directory>
-        <directory suffix=".php">../../app/Constants</directory>
-        <directory suffix=".php">../../app/Domains/*/Http/Filters</directory>
-        <directory suffix=".php">../../app/Domains/*/Http/Parameters</directory>
-        <directory suffix=".php">../../app/Domains/*/Http/Validators</directory>
-        <directory suffix=".php">../../app/Domains/*/Repositories</directory>
-        <directory suffix=".php">../../app/Domains/Doc</directory>
-        <directory suffix=".php">../../app/Exceptions</directory>
-        <directory suffix=".php">../../app/Helpers</directory>
-        <directory suffix=".php">../../app/Http/Controllers</directory>
-        <directory suffix=".php">../../app/Http/Filters</directory>
-        <directory suffix=".php">../../app/Http/Middlewares</directory>
-        <directory suffix=".php">../../app/Http/Parameters</directory>
-        <directory suffix=".php">../../app/Http/Requests</directory>
-        <directory suffix=".php">../../app/Http/Validators</directory>
-        <directory suffix=".php">../../app/Jobs</directory>
-        <directory suffix=".php">../../app/Providers</directory>
-        <directory suffix=".php">../../app/Repositories</directory>
-        <directory suffix=".php">../../app/Seeds</directory>
-        <directory suffix=".php">../../app/Templates</directory>
-        <directory suffix=".php">../../app/TestFiles</directory>
-      </exclude>
-    </whitelist>
-  </filter>
   <php>
     <env name="APP_DEBUG" value="false" />
     <env name="APP_ENV" value="testing-feature" />

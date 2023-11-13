@@ -4,7 +4,7 @@
 
 API Rest Full based in lumen using query builder that auto generate base code for simple crud (with unit tests and feature tests)
 
-Requires [PHP](https://php.net) 7.4.
+Requires [PHP](https://php.net) 8.1.
 
 ### Installation
 
