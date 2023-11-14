@@ -3,7 +3,7 @@
 /**
  * https://ulidgenerator.com/
  * https://emn178.github.io/online-tools/sha512_256.html
- * Tokens and secrets are created by encrypting an uuid v4 with SHA512/256
+ * Tokens and secrets are created by encrypting an ulid with SHA512/256
  */
 
 return [

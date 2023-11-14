@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="" tests="5" assertions="13" errors="0" warnings="0" failures="0" skipped="0" time="0.115296">
-    <testsuite name="Feature" tests="5" assertions="13" errors="0" warnings="0" failures="0" skipped="0" time="0.115296">
-      <testsuite name="Tests\Feature\Domains\Auth\Controllers\AuthGenerateControllerTest" file="/var/www/html/tests/Feature/Domains/Auth/Controllers/AuthGenerateControllerTest.php" tests="2" assertions="5" errors="0" warnings="0" failures="0" skipped="0" time="0.103381">
-        <testcase name="testAuthenticate" class="Tests\Feature\Domains\Auth\Controllers\AuthGenerateControllerTest" classname="Tests.Feature.Domains.Auth.Controllers.AuthGenerateControllerTest" file="/var/www/html/tests/Feature/Domains/Auth/Controllers/AuthGenerateControllerTest.php" line="20" assertions="3" time="0.085949"/>
-        <testcase name="testAuthenticateInvalidCredencials" class="Tests\Feature\Domains\Auth\Controllers\AuthGenerateControllerTest" classname="Tests.Feature.Domains.Auth.Controllers.AuthGenerateControllerTest" file="/var/www/html/tests/Feature/Domains/Auth/Controllers/AuthGenerateControllerTest.php" line="44" assertions="2" time="0.017431"/>
+  <testsuite name="" tests="5" assertions="13" errors="0" warnings="0" failures="0" skipped="0" time="0.112307">
+    <testsuite name="Feature" tests="5" assertions="13" errors="0" warnings="0" failures="0" skipped="0" time="0.112307">
+      <testsuite name="Tests\Feature\Domains\Auth\Controllers\AuthGenerateControllerTest" file="/var/www/html/tests/Feature/Domains/Auth/Controllers/AuthGenerateControllerTest.php" tests="2" assertions="5" errors="0" warnings="0" failures="0" skipped="0" time="0.101188">
+        <testcase name="testAuthenticate" class="Tests\Feature\Domains\Auth\Controllers\AuthGenerateControllerTest" classname="Tests.Feature.Domains.Auth.Controllers.AuthGenerateControllerTest" file="/var/www/html/tests/Feature/Domains/Auth/Controllers/AuthGenerateControllerTest.php" line="20" assertions="3" time="0.083725"/>
+        <testcase name="testAuthenticateInvalidCredencials" class="Tests\Feature\Domains\Auth\Controllers\AuthGenerateControllerTest" classname="Tests.Feature.Domains.Auth.Controllers.AuthGenerateControllerTest" file="/var/www/html/tests/Feature/Domains/Auth/Controllers/AuthGenerateControllerTest.php" line="44" assertions="2" time="0.017463"/>
       </testsuite>
-      <testsuite name="Tests\Feature\Domains\Health\HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" tests="3" assertions="8" errors="0" warnings="0" failures="0" skipped="0" time="0.011915">
-        <testcase name="testHealthApi" class="Tests\Feature\Domains\Health\HealthApiControllerTest" classname="Tests.Feature.Domains.Health.HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" line="13" assertions="3" time="0.004182"/>
-        <testcase name="testHealthApiUsingOtherUri" class="Tests\Feature\Domains\Health\HealthApiControllerTest" classname="Tests.Feature.Domains.Health.HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" line="26" assertions="3" time="0.003957"/>
-        <testcase name="testHealthApiUsingInvalidRoute" class="Tests\Feature\Domains\Health\HealthApiControllerTest" classname="Tests.Feature.Domains.Health.HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" line="39" assertions="2" time="0.003776"/>
+      <testsuite name="Tests\Feature\Domains\Health\HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" tests="3" assertions="8" errors="0" warnings="0" failures="0" skipped="0" time="0.011119">
+        <testcase name="testHealthApi" class="Tests\Feature\Domains\Health\HealthApiControllerTest" classname="Tests.Feature.Domains.Health.HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" line="13" assertions="3" time="0.004019"/>
+        <testcase name="testHealthApiUsingOtherUri" class="Tests\Feature\Domains\Health\HealthApiControllerTest" classname="Tests.Feature.Domains.Health.HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" line="26" assertions="3" time="0.003621"/>
+        <testcase name="testHealthApiUsingInvalidRoute" class="Tests\Feature\Domains\Health\HealthApiControllerTest" classname="Tests.Feature.Domains.Health.HealthApiControllerTest" file="/var/www/html/tests/Feature/Domains/Health/HealthApiControllerTest.php" line="39" assertions="2" time="0.003479"/>
       </testsuite>
     </testsuite>
   </testsuite>
