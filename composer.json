@@ -1,7 +1,7 @@
 {
     "name": "not-empty/ala-microservice-php",
-    "description": "API Rest Full created in lumen using query builder that auto generate base code for simple crud.",
-    "keywords": ["php", "laravel", "lumen", "crud", "microframework"],
+    "description": "API Rest based in lumen using query builder that auto generate base code for simple crud (with automatic generated 100% unit and feature tests).",
+    "keywords": ["php", "laravel", "lumen", "crud", "microframework", "code-generation"],
     "license": "GPL-3.0-only",
     "version" : "5.0.0",
     "type": "project",
@@ -13,6 +13,13 @@
         "not-empty/request-service-php-lib": "^5.0",
         "not-empty/response-json-php-lib": "^5.0",
         "not-empty/ulid-php-lib": "^5.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "mockery/mockery": "^1.6",
+        "phpmd/phpmd": "^2.14",
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "^3.7"
     },
     "autoload": {
         "psr-4": {
@@ -110,12 +117,5 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "require-dev": {
-        "fakerphp/faker": "^1.23",
-        "mockery/mockery": "^1.6",
-        "phpmd/phpmd": "^2.14",
-        "phpunit/phpunit": "^9.6",
-        "squizlabs/php_codesniffer": "^3.7"
-    }
+    "prefer-stable": true
 }
