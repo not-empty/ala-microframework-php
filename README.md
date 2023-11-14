@@ -2,13 +2,23 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-API Rest Full based in lumen using query builder that auto generate base code for simple crud (with unit tests and feature tests)
+API Rest based in lumen using query builder that auto generate base code for simple crud (with automatic generated 100% unit and feature tests).
 
-Requires [PHP](https://php.net) 7.4.
+[Release 4.0.0](https://github.com/not-empty/ala-microframework-php/releases/tag/4.0.0) Requires [PHP](https://php.net) 7.4
+
+[Release 3.0.0](https://github.com/not-empty/ala-microframework-php/releases/tag/3.0.0) Requires [PHP](https://php.net) 7.3
+
+[Release 2.0.0](https://github.com/not-empty/ala-microframework-php/releases/tag/2.0.0) Requires [PHP](https://php.net) 7.2
+
+[Release 1.0.0](https://github.com/not-empty/ala-microframework-php/releases/tag/1.0.0) Requires [PHP](https://php.net) 7.1
 
 ### Installation
 
-Clone the repository
+composer create-project and enter in the created folder (you can fork or clone the repository if you want to)
+
+```sh
+composer create-project not-empty/ala-microframework-php your_project_name
+```
 
 (optional) Stop all other containers to avoid conflict.
 
@@ -34,12 +44,12 @@ Run [Composer](https://getcomposer.org/) to install all dependencies.
 composer install --prefer-dist
 ```
 
-Ensure the folder ./storage are with all rights to save log and cache (alread set in composer install, but)
+Ensure the folder ./storage are with all rights to save log and cache (alread set in composer install, but ...)
 ```sh
 chmod -R 777 ./storage
 ```
 
-To see what is build for this project look at ./ops/docker/dev folder.
+To check the build for this project look at ./ops/docker/dev folder.
 
 Copy and modify the .env file
 
@@ -47,7 +57,7 @@ Copy and modify the .env file
 cp .env.example .env
 ```
 
-Include values for `APP_KEY` and `JWT_APP_SECRET`, we strongly recommend a 32 length random string.
+Include values for `APP_KEY` and `JWT_APP_SECRET`, we strongly recommend a 26 to 32 length random string (can be a ulid)
 
 **You can use `/health/key` uri to generate this keys.**
 
@@ -61,14 +71,15 @@ Now you can access the health-check [http://localhost:8101](http://localhost:810
 }
 ```
 
-### Requests Samples
+### Requests samples
 
-You can find a sample of all requests you can do in the file `requests.http` (for the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension on VSCode) or using curl commands listed in the file `requests.curl`
+You can find a sample of requests you can do in the file `requests.http` (for the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension on VSCode) or using curl commands listed in the file `requests.curl`.
 
+Not all requests are documented yet (Work in progress)
 
-### Creating you Automatic Crud Domain
+### Creating your automatic crud domain
 
-For create your brand new domain with a complete Crud use the command:
+For create your brand new domain with a complete crud use the command:
 
 ```sh
 php artisan create:domain {your_domain}
@@ -80,9 +91,9 @@ This command will create a folder in `app/Domains`, new files in `routes`, `data
 
 ### Configuring your new Domain
 
-- Configure your migration file in `database/migrations`
-- Open your domain and configure your fields and the ordenations in `app/Domains/{your_domain}/Http/Parameters`
-- Your validator rules in `app/Domains/{your_domain}/Http/Validators`
+- Configure your migration file in `database/migrations` with all your fields and indexes
+- Open your domain and configure your fields and the order in `app/Domains/{your_domain}/Http/Parameters`
+- Your validator rules can be configured in `app/Domains/{your_domain}/Http/Validators`
 - You can modify or add more business rule in `app/Domains/{your_domain}/Businesses`
 - Or your routes in `bootstrap/{your_domain}_routes` folder
 
@@ -109,17 +120,20 @@ public function getRules(): array
 
 ### JWT
 
-In auth route this projet use [JWT](https://github.com/kiwfy/jwt-manager-php) lib. This token will be generate if your secret, token and context is correct. This configuration stay in [Config](https://github.com/kiwfy/ala-microservice/blob/master/config/token.php) folder.
+In auth route this projet use [JWT](https://github.com/not-empty/jwt-manager-php-lib) lib. This token will be generate if your secret, token and context is correct. This configuration is the `token.php` file in `app/config/` folder.
+
+We strongly advise you to change these values, they can be either random strings, ulids or any string that you like.
+
+We use to generate then by encrypting an ulid v4 with SHA512/256.
+
+We recommend creating diferents tokens from diferents sources.
 
 ```php
 return [
     'data' => [
-        //Token
-        '32c5a206ee876f4c6e1c483457561dbed02a531a89b380c3298bb131a844ac3c' => [
-            // Context
-            'name' => 'app-test',
-            // Secret
-            'secret' => 'a1c5930d778e632c6684945ca15bcf3c752d17502d4cfbd1184024be6de14540',
+        '32c5a206ee876f4c6e1c483457561dbed02a531a89b380c3298bb131a844ac3c' => [ // default token
+            'name' => 'app-test', // default context
+            'secret' => 'a1c5930d778e632c6684945ca15bcf3c752d17502d4cfbd1184024be6de14540', // default secret
         ],
     ],
 ];
@@ -323,13 +337,18 @@ composer check
 
 This project is also validated with Sonarqube, has a `sonar-project.properties` file to support sonarqube execution.
 
-To do that, edit the `sonar-project.properties` with your sonar url (maybe something like http://192.168.0.69:9900 if you running sonar in your machine), and execute sonar scan.
+To do that, edit the `sonar-project.properties` with your sonar url (maybe something like http://192.168.0.2:9900 if you running sonar in your machine), and then execute sonar scan.
 
 ![Sonarqube results](https://github.com/not-empty/ala-microframework-php/blob/master/ops/sonar.png)
 
 ### Automatic Validation Before Commit
 
-If you want to force the checkallcover in your project before commit, you can just copy the file `ops/contrib/pre-commit` to your `.git/hook`. Be aware your development environment will need to have PHP with xdebug installed in order to commit.
+If you want to force the `checkallcover` in your project before commit, you can just copy the file `ops/contrib/pre-commit` to your `.git/hook`. Be aware your development environment will need to have PHP with xdebug installed in order to commit.
+
+```sh
+    cp ops/contrib/pre-commit .git/hooks/pre-commit
+    chmod +x .git/hooks/pre-commit
+```
 
 ### Random Seed Data
 
@@ -347,9 +366,11 @@ You may change to fullfill your needs (and your domain validations)
 Now you may configure on `.env` the `SEED_URL`and `SEED_PORT` environments. (if you want to run inside docker don't change at all).
 
 And run your seed with the domain name and the amount to records to generate.
+
 ```sh
 php artisan random:seed {domain_name} {number_of_records}
 ```
 
+Then use the list endpoint, or make a select in database to see the results.
 
 **Not Empty Foundation - Free codes, full minds**
