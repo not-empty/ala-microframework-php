@@ -3,7 +3,7 @@
 [![Latest Version](https://img.shields.io/github/v/release/not-empty/ala-microframework-php.svg?style=flat-square)](https://github.com/not-empty/ala-microframework-php/releases)
 [![codecov](https://codecov.io/gh/not-empty/ala-microframework-php/graph/badge.svg?token=AEMV163UW6)](https://codecov.io/gh/not-empty/ala-microframework-php)
 [![CI Build](https://img.shields.io/github/actions/workflow/status/not-empty/ala-microframework-php/php.yml)](https://github.com/not-empty/ala-microframework-php/actions/workflows/php.yml)
-[![Downloads](https://img.shields.io/packagist/dt/not-empty/ala-microframework-php?logo=old&label=downloads)](https://packagist.org/packages/not-empty/ala-microframework-php)
+[![Downloads](https://img.shields.io/packagist/dt/not-empty/ala-microframework-php)](https://packagist.org/packages/not-empty/ala-microframework-php)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![Packagist License (custom server)](https://img.shields.io/packagist/l/not-empty/ala-microframework-php)](https://github.com/not-empty/ala-microframework-php/blob/master/LICENSE)
 
