@@ -147,7 +147,7 @@ To make request between two or more services, this project use [Request Service]
 
 ### Response
 
-The pattern used to return all request is json and the layout is configure in your [Response](https://github.com/not-empty/response-json-php-lib) lib.
+The pattern used to return all request is json and the layout is configure in your [Response](https://github.com/not-empty/ala-microframework-php) lib.
 
 ### Filters
 
