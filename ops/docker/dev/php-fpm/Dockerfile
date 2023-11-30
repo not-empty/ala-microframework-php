@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.2-fpm
+ARG PHP_VERSION=8.3-rc-fpm
 
 FROM php:${PHP_VERSION}
 
@@ -6,7 +6,7 @@ RUN apt update \
     && apt upgrade -y \
     && apt install zip unzip git -y
 
-RUN pecl install xdebug \
+RUN pecl install xdebug-3.3.0alpha3 \
     && docker-php-ext-install mysqli pdo pdo_mysql \
     && docker-php-ext-enable pdo_mysql xdebug
 
