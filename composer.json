@@ -88,14 +88,14 @@
             "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-unit.xml -d memory_limit=1024M"
         ],
         "test-unit-cover": [
-            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-unit-cover.xml --coverage-clover tests/coverage/coverage-unit/coverage.xml --log-junit tests/config/junit.xml -d memory_limit=1024M",
+            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-unit-cover.xml --coverage-clover tests/coverage/coverage-unit/coverage.xml --log-junit tests/coverage/junit.xml -d memory_limit=1024M",
             "sed -i 's+/var/www/html/++g' tests/coverage/coverage-unit/coverage.xml"
         ],
         "test-feat": [
             "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-feat.xml -d memory_limit=1024M"
         ],
         "test-feat-cover": [
-            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-feat-cover.xml --coverage-clover tests/coverage/coverage-feature/coverage.xml --log-junit tests/config/junit.xml -d memory_limit=1024M",
+            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-feat-cover.xml --coverage-clover tests/coverage/coverage-feature/coverage.xml --log-junit tests/coverage/junit.xml -d memory_limit=1024M",
             "sed -i 's+/var/www/html/++g' tests/coverage/coverage-feature/coverage.xml"
         ],
         "test": [
@@ -103,9 +103,9 @@
             "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-feat.xml -d memory_limit=1024M"
         ],
         "test-cover": [
-            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-unit-cover.xml --coverage-clover tests/coverage/coverage-unit/coverage.xml --log-junit tests/config/junit.xml -d memory_limit=1024M",
+            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-unit-cover.xml --coverage-clover tests/coverage/coverage-unit/coverage.xml --log-junit tests/coverage/junit.xml -d memory_limit=1024M",
             "sed -i 's+/var/www/html/++g' tests/coverage/coverage-unit/coverage.xml",
-            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-feat-cover.xml --coverage-clover tests/coverage/coverage-feature/coverage.xml --log-junit tests/config/junit.xml -d memory_limit=1024M",
+            "phpdbg -qrr vendor/bin/phpunit --configuration tests/config/phpunit-feat-cover.xml --coverage-clover tests/coverage/coverage-feature/coverage.xml --log-junit tests/coverage/junit.xml -d memory_limit=1024M",
             "sed -i 's+/var/www/html/++g' tests/coverage/coverage-feature/coverage.xml"
         ],
         "ccu" : "php ops/contrib/coverage-checker.php tests/coverage/coverage-unit/coverage.xml 100",
