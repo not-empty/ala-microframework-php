@@ -7,5 +7,6 @@
 /storage/framework/*
 /storage/logs/*
 /tests/coverage/*
+/tests/config/.phpunit.cache
 /vendor
 !/**/.gitkeep
