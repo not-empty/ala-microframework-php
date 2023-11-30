@@ -12,42 +12,15 @@
         "not-empty/jwt-manager-php-lib": "^6.0",
         "not-empty/request-service-php-lib": "^6.0",
         "not-empty/response-json-php-lib": "^6.0",
-        "not-empty/ulid-php-lib": "^6.0",
-        "pdepend/pdepend": "2.16.1"
+        "not-empty/ulid-php-lib": "^6.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "mockery/mockery": "^1.6",
         "phpmd/phpmd": "^2.14",
         "phpunit/phpunit": "^10.4",
-        "squizlabs/php_codesniffer": "^3.7"
-    },
-    "repositories": {
-        "pdepend/pdepend": {
-            "type": "package",
-            "package": {
-                "name": "pdepend/pdepend",
-                "version": "2.16.1",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/symfonyaml/pdepend.git",
-                    "reference": "patch-1"
-                },
-                "require": {
-                    "php": ">=5.3.7",
-                    "symfony/dependency-injection": "^7.0",
-                    "symfony/filesystem": "^7.0",
-                    "symfony/config": "^7.0",
-                    "symfony/polyfill-mbstring": "^1.19"
-                },
-                "autoload": {
-                    "psr-4": {
-                        "PDepend\\": "src/main/php/PDepend"
-                    }
-                }
-            },
-            "comment": "TODO: Remove this once the next stable version of pdepend is released"
-        }
+        "squizlabs/php_codesniffer": "^3.7",
+        "pdepend/pdepend": "2.15.*"
     },
     "autoload": {
         "psr-4": {
