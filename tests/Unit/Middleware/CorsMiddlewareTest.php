@@ -5,7 +5,7 @@ namespace App\Http\Middlewares;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class CorsTest extends TestCase
+class CorsMiddlewareTest extends TestCase
 {
     /**
      * @covers \App\Http\Middlewares\Cors::handle
