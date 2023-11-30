@@ -3,51 +3,25 @@
     "description": "API Rest based in lumen using query builder that auto generate base code for simple crud (with automatic generated 100% unit and feature tests). To be used as a simple and fast way to implement microservices architecture",
     "keywords": ["php", "laravel", "lumen", "crud", "microframework", "microservices", "code-generation"],
     "license": "GPL-3.0-only",
-    "version" : "6.0.0",
+    "version" : "7.0.0",
     "type": "project",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "intouch/newrelic": "^2.0",
         "laravel/lumen-framework": "^10.0",
-        "not-empty/jwt-manager-php-lib": "^6.0",
-        "not-empty/request-service-php-lib": "^6.0",
-        "not-empty/response-json-php-lib": "^6.0",
-        "not-empty/ulid-php-lib": "^6.0",
-        "pdepend/pdepend": "2.16.1"
+        "not-empty/jwt-manager-php-lib": "^7.0",
+        "not-empty/request-service-php-lib": "^7.0",
+        "not-empty/response-json-php-lib": "^7.0",
+        "not-empty/ulid-php-lib": "^7.0"
+        
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
         "mockery/mockery": "^1.6",
         "phpmd/phpmd": "^2.14",
         "phpunit/phpunit": "^10.4",
-        "squizlabs/php_codesniffer": "^3.7"
-    },
-    "repositories": {
-        "pdepend/pdepend": {
-            "type": "package",
-            "package": {
-                "name": "pdepend/pdepend",
-                "version": "2.16.1",
-                "source": {
-                    "type": "git",
-                    "url": "https://github.com/symfonyaml/pdepend.git",
-                    "reference": "patch-1"
-                },
-                "require": {
-                    "php": ">=5.3.7",
-                    "symfony/dependency-injection": "^7.0",
-                    "symfony/filesystem": "^7.0",
-                    "symfony/config": "^7.0",
-                    "symfony/polyfill-mbstring": "^1.19"
-                },
-                "autoload": {
-                    "psr-4": {
-                        "PDepend\\": "src/main/php/PDepend"
-                    }
-                }
-            },
-            "comment": "TODO: Remove this once the next stable version of pdepend is released"
-        }
+        "squizlabs/php_codesniffer": "^3.7",
+        "pdepend/pdepend": "2.15.*"
     },
     "autoload": {
         "psr-4": {
