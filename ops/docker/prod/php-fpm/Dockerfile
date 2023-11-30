@@ -7,9 +7,12 @@ RUN apt update \
     && apt upgrade -y \
     && apt install zip unzip git -y
 
+RUN docker-php-ext-install mysqli pdo pdo_mysql \
+    && docker-php-ext-enable pdo_mysql
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-COPY ./ops/docker/prod/php-clear/newrelic-php5-9.21.0.311-linux.tar.gz /usr/src
+COPY ./ops/docker/prod/php-fpm/newrelic-php5-9.21.0.311-linux.tar.gz /usr/src
 
 RUN tar -xvf /usr/src/newrelic-php5-9.21.0.311-linux.tar.gz -C /usr/src && \
     mkdir /etc/init.d && \
