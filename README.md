@@ -1,6 +1,11 @@
 # Lumen ALA
 
+[![Latest Version](https://img.shields.io/github/v/release/not-empty/ala-microframework-php.svg?style=flat-square)](https://github.com/not-empty/ala-microframework-php/releases)
+[![codecov](https://codecov.io/gh/not-empty/ala-microframework-php/graph/badge.svg?token=AEMV163UW6)](https://codecov.io/gh/not-empty/ala-microframework-php)
+[![CI Build](https://img.shields.io/github/actions/workflow/status/not-empty/ala-microframework-php/php.yml)](https://github.com/not-empty/ala-microframework-php/actions/workflows/php.yml)
+[![Downloads](https://img.shields.io/packagist/dt/not-empty/ala-microframework-php)](https://packagist.org/packages/not-empty/ala-microframework-php)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+[![Packagist License (custom server)](https://img.shields.io/packagist/l/not-empty/ala-microframework-php)](https://github.com/not-empty/ala-microframework-php/blob/master/LICENSE)
 
 API Rest based in lumen using query builder that auto generate base code for simple crud (with automatic generated 100% unit and feature tests).
 
@@ -97,26 +102,18 @@ This command will create a folder in `app/Domains`, new files in `routes`, `data
 - You can modify or add more business rule in `app/Domains/{your_domain}/Businesses`
 - Or your routes in `bootstrap/{your_domain}_routes` folder
 
+### Running your Migration
+
+- Once you have configured your migration file in `database/migrations`;
+- Run the migration
+
+```sh
+php artisan migration
+```
+
 ### Ulid
 
 For primary key value, this project using [Ulid](https://github.com/not-empty/ulid-php-lib) value, but you can pass other pattern in insert route if you prefer.
-
-You can use the validate reserved word `ulid` in `app/Domains/{your_domain}/Http/Validators` folder. Config in `app/Providers/AppServiceProvider.php`
-
-For example:
-
-```php
-/**
- * get rules for this request
- * @return array
- */
-public function getRules(): array
-{
-    return [
-        'another_id' => 'required|ulid',
-    ];
-}
-```
 
 ### JWT
 
@@ -145,7 +142,15 @@ To make request between two or more services, this project use [Request Service]
 
 ### Response
 
-The pattern used to return all request is json and the layout is configure in your [Response](https://github.com/not-empty/response-json-php-lib) lib.
+The pattern used to return all request is json and the layout is configure in your [Response](https://github.com/not-empty/ala-microframework-php) lib.
+
+### Custom Validators
+
+I you want to implement custom validators you can use the regex function and add you regex to the patterns file `/app/Constants/PatternsConstants.php` and then just use anywhere but dont forget to declare the class for use:
+
+```php
+use App\Constants\PatternsConstants;
+```
 
 ### Filters
 
@@ -167,8 +172,15 @@ public function getRules() : array
         'fields' => 'string',
         'order' => 'string',
         'page' => 'integer|min:1',
-        'filter_name' => 'string|filter',
-        'filter_age' => 'string|filter', /* here your new filter */
+        'filter_name' => [
+            'string',
+            'regex:'.PatternsConstants::FILTER,
+        ],
+        // here your new filter
+        'filter_age' => [
+            'string',
+            'regex:'.PatternsConstants::FILTER,
+        ],
     ];
 }
 ```
