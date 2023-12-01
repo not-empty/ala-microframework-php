@@ -24,7 +24,20 @@ Accept: application/json
 ###
 @jwt = {{generate_token.response.body.$.response.token}}
 
-# @name user_list
+# @name add
+POST http://localhost:8101/{{domain}}/add HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+{
+    "field": "test"
+}
+
+###
+
+# @name list
 GET http://localhost:8101/{{domain}}/list HTTP/1.1
 Content-type: application/json
 Accept: application/json
@@ -33,7 +46,7 @@ Context: app-test
 
 ###
 
-# @name user_dead_list
+# @name dead_list
 GET http://localhost:8101/{{domain}}/dead_list HTTP/1.1
 Content-type: application/json
 Accept: application/json
@@ -42,13 +55,27 @@ Context: app-test
 
 ###
 
-@ulid = {{user_list.response.body.data.data[0].id}}
+@ulid = {{list.response.body.response.data[0].id}}
 
-# @name user_detail
+# @name detail
 GET http://localhost:8101/{{domain}}/detail/{{ulid}} HTTP/1.1
 Content-type: application/json
 Accept: application/json
 Authorization: {{jwt}}
 Context: app-test
 
+###
+
+# @name bulk
+POST http://localhost:8101/{{domain}}/bulk HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+{
+    "ids" : [
+        "{{ulid}}"
+    ]
+}
 ###
