@@ -119,23 +119,6 @@ php artisan migration
 
 For primary key value, this project using [Ulid](https://github.com/not-empty/ulid-php-lib) value, but you can pass other pattern in insert route if you prefer.
 
-You can use the validate reserved word `ulid` in `app/Domains/{your_domain}/Http/Validators` folder. Config in `app/Providers/AppServiceProvider.php`
-
-For example:
-
-```php
-/**
- * get rules for this request
- * @return array
- */
-public function getRules(): array
-{
-    return [
-        'another_id' => 'required|ulid',
-    ];
-}
-```
-
 ### JWT
 
 In auth route this projet use [JWT](https://github.com/not-empty/jwt-manager-php-lib) lib. This token will be generate if your secret, token and context is correct. This configuration is the `token.php` file in `app/config/` folder.
@@ -165,6 +148,14 @@ To make request between two or more services, this project use [Request Service]
 
 The pattern used to return all request is json and the layout is configure in your [Response](https://github.com/not-empty/ala-microframework-php) lib.
 
+### Custom Validators
+
+I you want to implement custom validators you can use the regex function and add you regex to the patterns file `/app/Constants/PatternsConstants.php` and then just use anywhere but dont forget to declare the class for use:
+
+```php
+use App\Constants\PatternsConstants;
+```
+
 ### Filters
 
 Follow this steps to configure a new field to accepted a filter in list route
@@ -185,8 +176,15 @@ public function getRules() : array
         'fields' => 'string',
         'order' => 'string',
         'page' => 'integer|min:1',
-        'filter_name' => 'string|filter',
-        'filter_age' => 'string|filter', /* here your new filter */
+        'filter_name' => [
+            'string',
+            'regex:'.PatternsConstants::FILTER,
+        ],
+        // here your new filter
+        'filter_age' => [
+            'string',
+            'regex:'.PatternsConstants::FILTER,
+        ],
     ];
 }
 ```
