@@ -1,7 +1,7 @@
-ARG PHP_VERSION=7.2.33-fpm
+ARG PHP_VERSION=7.1.33-fpm
 
 FROM php:${PHP_VERSION}
-COPY --from=php:7.2.33-cli /usr/local/bin/phpdbg /usr/local/bin/
+COPY --from=php:7.1.33-cli /usr/local/bin/phpdbg /usr/local/bin/
 
 RUN apt update \
     && apt upgrade -y \

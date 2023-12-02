@@ -9,8 +9,6 @@
 
 API Rest based in lumen using query builder that auto generate base code for simple crud (with automatic generated 100% unit and feature tests).
 
-[Release 2.0.0](https://github.com/not-empty/ala-microframework-php/releases/tag/2.0.0) Requires [PHP](https://php.net) 7.2
-
 [Release 1.0.0](https://github.com/not-empty/ala-microframework-php/releases/tag/1.0.0) Requires [PHP](https://php.net) 7.1
 
 ### Installation
