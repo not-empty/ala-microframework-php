@@ -23,7 +23,6 @@ RUN tar -xvf /usr/src/newrelic-php5-9.21.0.311-linux.tar.gz -C /usr/src && \
 
 COPY . /var/www/html
 
-
 WORKDIR /var/www/html
 
 EXPOSE 9000
