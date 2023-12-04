@@ -1,0 +1,120 @@
+@token = 32c5a206ee876f4c6e1c483457561dbed02a531a89b380c3298bb131a844ac3c
+@secret = a1c5930d778e632c6684945ca15bcf3c752d17502d4cfbd1184024be6de14540
+@context = app-test
+@domain = sample
+
+@ulid = {{add.response.body.response.id}}
+@ulid = {{list.response.body.response.data[0].id}}
+@jwt = {{generate_token.response.body.$.response.token}}
+
+# @name health_check
+GET http://localhost:8101/health HTTP/1.1
+Content-type: application/json
+Accept: application/json
+###
+
+# @name generate_token
+POST http://localhost:8101/auth/generate HTTP/1.1
+Content-type: application/json
+Accept: application/json
+
+{
+    "token": "{{token}}",
+    "secret": "{{secret}}",
+    "context": "{{context}}"
+}
+###
+
+# @name add
+POST http://localhost:8101/{{domain}}/add HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+{
+    "field": "test"
+}
+###
+
+# @name bulk
+POST http://localhost:8101/{{domain}}/bulk HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+{
+    "ids" : [
+        "{{ulid}}"
+    ]
+}
+###
+
+# @name bulk
+PATCH http://localhost:8101/{{domain}}/edit/{{ulid}} HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+
+{
+    "field": "edited test"
+}
+###
+
+# @name list
+GET http://localhost:8101/{{domain}}/list HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+###
+
+# @name list_with_fields
+GET http://localhost:8101/{{domain}}/list?fields=id,field&order=field&class=asc&page=1&filter_field=lik,test HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+###
+
+# @name detail
+GET http://localhost:8101/{{domain}}/detail/{{ulid}} HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+###
+
+# @name delete
+DELETE http://localhost:8101/{{domain}}/delete/{{ulid}} HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+###
+
+# @name dead_detail
+GET http://localhost:8101/{{domain}}/dead_detail/{{ulid}} HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+###
+
+# @name dead_list
+GET http://localhost:8101/{{domain}}/dead_list HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+###
+
+# @name dead_list_with_fields
+GET http://localhost:8101/{{domain}}/dead_list?order=deleted&class=asc&page=1&filter_field=lik,test HTTP/1.1
+Content-type: application/json
+Accept: application/json
+Authorization: {{jwt}}
+Context: app-test
+###
