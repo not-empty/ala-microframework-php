@@ -43,9 +43,14 @@ Run [Composer](https://getcomposer.org/) to install all dependencies.
 composer install --prefer-dist
 ```
 
-Ensure the folder ./storage are with all rights to save log and cache (alread set in composer install, but ...)
+Ensure the composer install create the cache folders and give then permissions in ./storage, if don't you'll have to create and give permitions yourself:
 ```sh
-chmod -R 777 ./storage
+mkdir storage/framework \
+&& mkdir storage/framework/cache \
+&& mkdir storage/framework/cache/data \
+&& mkdir storage/framework/sessions \
+&& mkdir storage/framework/views \
+&& chmod -R 777 ./storage
 ```
 
 To check the build for this project look at ./ops/docker/dev folder.
@@ -69,12 +74,6 @@ Now you can access the health-check [http://localhost:8101](http://localhost:810
     "version": "0.0.1"
 }
 ```
-
-### Requests samples
-
-You can find a sample of requests you can do in the file `requests.http` (for the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) extension on VSCode) or using curl commands listed in the file `requests.curl`.
-
-Not all requests are documented yet (Work in progress)
 
 ### Creating your automatic crud domain
 
@@ -104,6 +103,38 @@ This command will create a folder in `app/Domains`, new files in `routes`, `data
 ```sh
 php artisan migration
 ```
+
+### Requests samples
+
+Within the `/ops/requests` folder, you'll discover a collection of sample requests showcasing.
+
+Requests have been meticulously documented in three different formats for your convenience:
+
+1. Postman Collections
+
+Files: `postman_collection.json` and `postman_environments.json`
+
+Tool: Postman
+
+These collections provide a comprehensive overview of the available API requests. Import them into Postman to explore and execute requests seamlessly.
+
+
+2. Visual Studio Code (VSCode) REST Client Extension:
+
+File: `requests.http`
+
+Extension: [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
+
+With the extension installed in VSCode open the `requests.http` file. This extension allows you to send HTTP requests directly from your code editor, making it easy to interact with the API.
+
+
+3. CURL Commands:
+
+File: `requests.curl`
+
+For those who prefer the command line, CURL commands are provided in the `requests.curl` file. Execute these commands in your terminal to interact with the API using the widely-used CURL tool.
+
+Choose the documentation format that aligns with your preferred workflow and start seamlessly interacting with the API.
 
 ### Ulid
 
