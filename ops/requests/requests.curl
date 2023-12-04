@@ -1,0 +1,87 @@
+#replace the string {{sample}} by your domain name
+#replace the string {{authorization}} by the token generated from token generation response
+#replace the string {{ulid}} by your entity id (from the response of the add endpoint)
+
+#health
+curl -XGET -H 'Accept: application/json' -H "Content-type: application/json" 'http://localhost:8101/health'
+
+#token generation
+curl -XPOST -H 'Accept: application/json' -H "Content-type: application/json" -d '{"token": "32c5a206ee876f4c6e1c483457561dbed02a531a89b380c3298bb131a844ac3c","secret": "a1c5930d778e632c6684945ca15bcf3c752d17502d4cfbd1184024be6de14540","context": "app-test"}' 'http://localhost:8101/auth/generate'
+
+#add
+curl --location --request POST 'http://localhost:8101/{{sample}}/add' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test' \
+--data-raw '{
+    "field": "test"
+}'
+
+
+#bulk
+curl --location --request POST 'http://localhost:8101/{{sample}}/bulk' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test' \
+--data-raw '{
+    "ids": [
+        "{{ulid}}"
+    ]
+}'
+
+
+#edit
+curl --location -g --request PATCH 'http://localhost:8101/{{sample}}/edit/{{ulid}}' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test' \
+--data-raw '{
+    "field": "Dimerson"
+}'
+
+
+#list
+#you can also add params at request to filter your data
+#example: ..?fields=id,field&order=field&class=asc&page=1&filter_field=lik,test
+curl --location --request GET 'http://localhost:8101/{{sample}}/list' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test'
+
+
+#detail
+curl --location -g --request GET 'http://localhost:8101/{{sample}}/detail/{{ulid}}' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test'
+
+
+#delete
+curl --location -g --request DELETE 'http://localhost:8101/{{sample}}/delete/{{ulid}}' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test'
+
+
+#dead detail
+curl --location -g --request GET 'http://localhost:8101/{{sample}}/dead_detail/{{ulid}}' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test'
+
+
+#dead list
+#you can also add params at request to filter your data
+#example: ..?order=deleted&class=asc&page=1&filter_field=lik,dim
+curl --location --request GET 'http://localhost:8101/{{sample}}/dead_list' \
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: {{authorization}}' \
+--header 'Context: app-test'

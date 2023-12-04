@@ -28,7 +28,7 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "chmod -R 777 storage"
+            "./ops/folders.sh"
         ],
         "checkall" : [
             "@lint",
