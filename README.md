@@ -123,17 +123,27 @@ Within the `/ops/requests` folder, you'll discover a collection of sample reques
 Requests have been meticulously documented in three different formats for your convenience:
 
 1. Postman Collections
+
 Files: `postman_collection.json` and `postman_environments.json`
+
 Tool: Postman
+
 These collections provide a comprehensive overview of the available API requests. Import them into Postman to explore and execute requests seamlessly.
-<br>
+
+
 2. Visual Studio Code (VSCode) REST Client Extension:
+
 File: `requests.http`
+
 Extension: [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
-Utilize the power of the [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) Client extension in VSCode by opening the `requests.http` file. This extension allows you to send HTTP requests directly from your code editor, making it easy to interact with the API.
-<br>
+
+With the extension installed in VSCode open the `requests.http` file. This extension allows you to send HTTP requests directly from your code editor, making it easy to interact with the API.
+
+
 3. CURL Commands:
+
 File: `requests.curl`
+
 For those who prefer the command line, CURL commands are provided in the `requests.curl` file. Execute these commands in your terminal to interact with the API using the widely-used CURL tool.
 
 Choose the documentation format that aligns with your preferred workflow and start seamlessly interacting with the API.
