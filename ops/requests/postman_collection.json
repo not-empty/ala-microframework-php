@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ec52dac6-9b32-429e-aad5-3a527a3026ea",
+		"_postman_id": "a004e6c2-2b93-4370-a757-3bee61b20a65",
 		"name": "ala-microservice",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19996998"
+		"_exporter_id": "31578858"
 	},
 	"item": [
 		{
@@ -96,11 +96,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
 									"var response = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"jwtToken\", response.data.token);"
-								]
+									"postman.setEnvironmentVariable(\"jwtToken\", response.token);"
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
@@ -144,12 +144,11 @@
 						{
 							"listen": "test",
 							"script": {
-								"type": "text/javascript",
 								"exec": [
-									"var response = JSON.parse(responseBody);",
-									"console.log(response);",
-									"postman.setEnvironmentVariable(\"uuid\", response.data.id);"
-								]
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"uuid\", data.response.id);"
+								],
+								"type": "text/javascript"
 							}
 						}
 					],
