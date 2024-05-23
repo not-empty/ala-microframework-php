@@ -1,6 +1,7 @@
 FROM nginx:1.25.3-alpine3.18-slim
 
 COPY ./ops/docker/prod/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./ops/docker/prod/nginx/nginx.conf /etc/nginx/nginx.conf
 
 COPY . /var/www/html
 

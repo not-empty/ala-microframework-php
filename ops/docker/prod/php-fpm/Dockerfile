@@ -25,6 +25,8 @@ COPY . /var/www/html
 
 WORKDIR /var/www/html
 
+RUN composer install --no-interaction --no-dev --prefer-dist
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
