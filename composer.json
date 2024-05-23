@@ -3,7 +3,7 @@
     "description": "API Rest based in lumen using query builder that auto generate base code for simple crud (with automatic generated 100% unit and feature tests). To be used as a simple and fast way to implement microservices architecture",
     "keywords": ["php", "laravel", "lumen", "crud", "microframework", "microservices", "code-generation"],
     "license": "GPL-3.0-only",
-    "version" : "7.0.0",
+    "version" : "7.0.1",
     "type": "project",
     "require": {
         "php": "^8.3",
