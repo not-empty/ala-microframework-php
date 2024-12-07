@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false"
-  backupStaticAttributes="false" bootstrap="../../bootstrap/app.php" colors="true"
-  convertErrorsToExceptions="true" convertNoticesToExceptions="true"
-  convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="true"
-  xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
-  <coverage processUncoveredFiles="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" bootstrap="../../bootstrap/app.php" colors="true" processIsolation="false" stopOnFailure="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache" backupStaticProperties="false">
+  <testsuites>
+    <testsuite name="Feature">
+      <directory suffix="Test.php">../Feature</directory>
+    </testsuite>
+  </testsuites>
+  <php>
+    <env name="APP_DEBUG" value="false"/>
+    <env name="APP_ENV" value="testing-feature"/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="DB_CONNECTION" value="sqlite"/>
+    <env name="DB_DATABASE" value=":memory:"/>
+    <env name="DB_SUFFIX_LIST" value="_test"/>
+    <env name="DB_USE_SUFFIX" value="1"/>
+    <env name="JWT_APP_SECRET" value="iaFweS8EyzrxvrVc2VQisLKRnGReTrEt"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+  </php>
+  <source>
     <include>
       <directory suffix=".php">../../app</directory>
     </include>
@@ -32,21 +44,5 @@
       <directory suffix=".php">../../app/Templates</directory>
       <directory suffix=".php">../../app/TestFiles</directory>
     </exclude>
-  </coverage>
-  <testsuites>
-    <testsuite name="Feature">
-      <directory suffix="Test.php">../Feature</directory>
-    </testsuite>
-  </testsuites>
-  <php>
-    <env name="APP_DEBUG" value="false" />
-    <env name="APP_ENV" value="testing-feature" />
-    <env name="CACHE_DRIVER" value="array" />
-    <env name="DB_CONNECTION" value="sqlite" />
-    <env name="DB_DATABASE" value=":memory:" />
-    <env name="DB_SUFFIX_LIST" value="_test" />
-    <env name="DB_USE_SUFFIX" value="1" />
-    <env name="JWT_APP_SECRET" value="iaFweS8EyzrxvrVc2VQisLKRnGReTrEt" />
-    <env name="QUEUE_CONNECTION" value="sync" />
-  </php>
+  </source>
 </phpunit>
