@@ -97,7 +97,7 @@ then
 fi
 
 echo "Running Unit Tests..."
-docker exec $container vendor/bin/phpunit --configuration tests/config/phpunit-unit.xml -d memory_limit=1024M
+docker exec $container vendor/bin/phpunit --configuration tests/config/phpunit-unit-cover.xml -d memory_limit=1024M
 
 if [ $? != 0 ]
 then
@@ -106,7 +106,7 @@ then
 fi
 
 echo "Running Feature Tests..."
-docker exec $container vendor/bin/phpunit --configuration tests/config/phpunit-feat.xml -d memory_limit=1024M
+docker exec $container vendor/bin/phpunit --configuration tests/config/phpunit-feat-cover.xml -d memory_limit=1024M
 
 if [ $? != 0 ]
 then
