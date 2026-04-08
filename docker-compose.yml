@@ -7,6 +7,8 @@ services:
     container_name: ala-php
     depends_on:
       - ala-mysql
+    environment:
+      - XDEBUG_MODE=${XDEBUG_MODE:-debug,coverage}
     volumes:
       - ./:/var/www/html
 

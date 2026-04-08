@@ -8,7 +8,7 @@ RUN apt update \
 
 RUN pecl install xdebug-3.3.0alpha3 \
     && docker-php-ext-install mysqli pdo pdo_mysql \
-    && docker-php-ext-enable pdo_mysql xdebug
+    && docker-php-ext-enable xdebug
 
 RUN echo "xdebug.start_with_request=yes" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.mode=debug,coverage" >> /usr/local/etc/php/conf.d/xdebug.ini \
