@@ -32,8 +32,11 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
-        }
+            "Tests\\Feature\\": "tests/Feature/"
+        },
+        "classmap": [
+            "tests/Unit/"
+        ]
     },
     "scripts": {
         "post-install-cmd": [
